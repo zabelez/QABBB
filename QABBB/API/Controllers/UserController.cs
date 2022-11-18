@@ -1,0 +1,185 @@
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using QABBB.API.Assemblers;
+using QABBB.API.Models.User;
+using QABBB.Data;
+using QABBB.Domain.Services;
+using QABBB.Models;
+
+namespace QABBB.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
+    public class UserController : ControllerBase
+    {
+        private readonly QABBBContext _context;
+        private readonly UserAssembler _userAssembler;
+        private readonly UserServices _userServices;
+        private readonly AdminServices _adminServices;
+        private readonly AuthServices _authServices;
+
+        public UserController(QABBBContext context)
+        {
+            _context = context;
+            _userAssembler = new UserAssembler();
+            _authServices = new AuthServices(_context);
+            _adminServices = new AdminServices(_context);
+            _userServices = new UserServices(_context);
+        }
+
+        // GET: api/User
+        [HttpGet]
+        public ActionResult<IEnumerable<UserDTO>> GetUsers()
+        {
+          if (_context.Users == null)
+          {
+              return NotFound();
+          }
+            List<User> users =  _userServices.userList();
+
+            return _userAssembler.toUserDTO(users);
+        }
+
+        // GET: api/User/5x
+        [HttpGet("{id}")]
+        public ActionResult<UserDTO> GetUser(int id)
+        {
+          if (_context.Users == null)
+              return NotFound();
+
+            User? user = _userServices.findById(id);
+
+            if (user == null)
+                return NotFound();
+
+            return _userAssembler.toUserDTO(user);
+        }
+
+        [HttpPost("resetPassword")]
+        public ActionResult ResetPassword([FromBody] ResetPasswordDTO resetPasswordDTO)
+        {
+            string? idPerson = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if(idPerson == null)
+                return Unauthorized();
+
+            User? user = _userServices.findById(int.Parse(idPerson));
+
+            if (user == null)
+                return NotFound();
+
+            if (user.Password != resetPasswordDTO.OldPassword)
+                return NotFound("Incorrect Old Password. Try again.");
+
+            _userServices.resetPassword(user, resetPasswordDTO.NewPassword);
+
+            return NoContent();
+
+        }
+
+        [HttpPost("inactivate/{id}")]
+        public ActionResult Inactivate(int id)
+        {
+            User? user = _userServices.findById(id);
+
+            if (user == null)
+                return NotFound();
+
+            _userServices.inactivate(user);
+
+            return NoContent();
+
+        }
+
+        // PUT: api/User/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> PutUser(int id, User user)
+        // {
+        //     if (id != user.IdPerson)
+        //     {
+        //         return BadRequest();
+        //     }
+
+        //     _context.Entry(user).State = EntityState.Modified;
+
+        //     try
+        //     {
+        //         await _context.SaveChangesAsync();
+        //     }
+        //     catch (DbUpdateConcurrencyException)
+        //     {
+        //         if (!UserExists(id))
+        //         {
+        //             return NotFound();
+        //         }
+        //         else
+        //         {
+        //             throw;
+        //         }
+        //     }
+
+        //     return NoContent();
+        // }
+
+        // POST: api/User
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult PostUser(NewUserDTO user) {
+            if (_context.Users == null)
+                return Problem("Entity set 'QABBBContext.Users'  is null.");
+
+            List<string> error = _userServices.newUserValidation(user);
+            if (error.Count > 0)
+                return BadRequest(error);
+
+            User newUser = _userAssembler.toUser(user);
+
+            _userServices.add(newUser);
+
+            if (user.IsAdmin)
+                _adminServices.add(newUser, int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
+
+            UserDTO userDTO = _userAssembler.toUserDTO(newUser);
+
+            return CreatedAtAction("GetUser", new {
+                id = userDTO.IdPerson
+            }, userDTO);
+
+        }
+
+        //// DELETE: api/User/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteUser(int id)
+        //{
+        //    if (_context.Users == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var user = await _context.Users.FindAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    _context.Users.Remove(user);
+        //    await _context.SaveChangesAsync();
+
+        //    return NoContent();
+        //}
+
+        private bool UserExists(int id)
+        {
+            return (_context.Users?.Any(e => e.IdPerson == id)).GetValueOrDefault();
+        }
+    }
+}

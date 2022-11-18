@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{EAE9D91C-E2C6-4010-AE1D-C74AF4CC5291}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QABBB/Program.cs">
+    <Files>
+      <File FileName="QABBB/Program.cs" Line="82" Column="1" />
+      <File FileName="QABBB/appsettings.json" Line="1" Column="1" />
+      <File FileName="QABBB/Properties/launchSettings.json" Line="14" Column="29" />
+      <File FileName="QABBB/API/Controllers/UserController.cs" Line="18" Column="14" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="QABBB" expanded="True">
+            <Node name="QABBB" expanded="True">
+              <Node name="API" expanded="True">
+                <Node name="Controllers" expanded="True" />
+              </Node>
+              <Node name="Properties" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.QABBB PreferredExecutionTarget="/Applications/Google Chrome.app" />
+</Properties>
