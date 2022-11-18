@@ -35,10 +35,6 @@ namespace QABBB.Domain.Services
             return _companyRepository.add(company) ? true : false;
         }
 
-        public bool save(Company company) {
-            return _companyRepository.save(company);
-        }
-
         public bool edit(Company company){
             return _companyRepository.edit(company);
         }

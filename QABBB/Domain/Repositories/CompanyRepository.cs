@@ -36,12 +36,6 @@ namespace QABBB.Domain.Repositories
                 .FirstOrDefault();
         }
 
-        public Company? findByName(string companyName) {
-            return _context.Companies
-                .Where(u => u.Name == companyName)
-                .FirstOrDefault();
-        }
-
         public bool edit(Company company){
             _context.Entry(company).State = EntityState.Modified;
             _context.SaveChanges();

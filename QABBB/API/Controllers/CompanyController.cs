@@ -95,29 +95,5 @@ namespace QABBB.API.Controllers
             return CreatedAtAction("GetCompany", new { id = companyDTO.IdCompany }, companyDTO);
         }
 
-        // // DELETE: api/Company/5
-        // [HttpDelete("{id}")]
-        // public async Task<IActionResult> DeleteCompany(int id)
-        // {
-        //     if (_context.Companies == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     var company = await _context.Companies.FindAsync(id);
-        //     if (company == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     _context.Companies.Remove(company);
-        //     await _context.SaveChangesAsync();
-
-        //     return NoContent();
-        // }
-
-        private bool CompanyExists(int id)
-        {
-            return (_context.Companies?.Any(e => e.IdCompany == id)).GetValueOrDefault();
-        }
     }
 }
