@@ -115,10 +115,11 @@ namespace QABBB.Controllers
         [HttpPut()]
         public IActionResult PutUser(EditUserDTO editUserDTO)
         {
-            if(_userServices.findById(editUserDTO.IdPerson) == null)
+            User? user = _userServices.findById(editUserDTO.IdPerson);
+            if(user == null)
                 return NotFound();
 
-            User user = _userAssembler.toUser(editUserDTO);
+            _userAssembler.toUser(user, editUserDTO);
 
             _userServices.edit(user);
 

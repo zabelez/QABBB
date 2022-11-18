@@ -19,11 +19,12 @@ namespace QABBB.API.Assemblers
             return newUser;
         }
 
-        public User toUser(EditUserDTO editUserDTO){
-            User user = new User();
-            user.IdPerson = editUserDTO.IdPerson;
+        public User toUser(User user, EditUserDTO editUserDTO){
             user.UserName = editUserDTO.PersonName;
+            user.IsDarkMode = editUserDTO.IsDarkMode;
             user.Status = editUserDTO.Status;
+            user.IdPersonNavigation.PersonName = editUserDTO.PersonName;
+            user.IdPersonNavigation.Email = editUserDTO.Email;
             return user;
         }
 
