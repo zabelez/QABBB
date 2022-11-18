@@ -71,6 +71,10 @@ namespace QABBB.Domain.Services
             user.Status = "Inactive";
             return _userRepository.save(user);
         }
+
+        public bool edit(User user){
+            return _userRepository.edit(user);
+        }
     }
 }
 

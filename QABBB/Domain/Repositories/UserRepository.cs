@@ -60,6 +60,12 @@ namespace QABBB.Domain.Repositories
                 .Where(u => u.IdPersonNavigation.Email == email)
                 .FirstOrDefault();
         }
+
+        public bool edit(User user){
+            _context.Entry(user).State = EntityState.Modified;
+            _context.SaveChanges();
+            return true;
+        }
     }
 }
 

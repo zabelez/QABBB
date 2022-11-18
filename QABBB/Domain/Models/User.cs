@@ -20,6 +20,7 @@ namespace QABBB.Models
         public string UserName { get; set; } = null!;
         public string Password { get; set; } = null!;
         public bool IsPasswordResetRequired { get; set; }
+        public bool IsDarkMode { get; set; }
         public string Status { get; set; } = null!;
 
         public virtual Person IdPersonNavigation { get; set; } = null!;

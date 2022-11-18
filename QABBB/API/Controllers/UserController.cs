@@ -112,34 +112,18 @@ namespace QABBB.Controllers
 
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> PutUser(int id, User user)
-        // {
-        //     if (id != user.IdPerson)
-        //     {
-        //         return BadRequest();
-        //     }
+        [HttpPut()]
+        public IActionResult PutUser(EditUserDTO editUserDTO)
+        {
+            if(_userServices.findById(editUserDTO.IdPerson) == null)
+                return NotFound();
 
-        //     _context.Entry(user).State = EntityState.Modified;
+            User user = _userAssembler.toUser(editUserDTO);
 
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!UserExists(id))
-        //         {
-        //             return NotFound();
-        //         }
-        //         else
-        //         {
-        //             throw;
-        //         }
-        //     }
+            _userServices.edit(user);
 
-        //     return NoContent();
-        // }
+            return NoContent();
+        }
 
         // POST: api/User
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

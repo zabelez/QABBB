@@ -378,8 +378,6 @@ namespace QABBB.Data
                     .HasMaxLength(200)
                     .HasColumnName("email");
 
-                entity.Property(e => e.IsDarkMode).HasColumnName("isDarkMode");
-
                 entity.Property(e => e.PersonName)
                     .HasMaxLength(200)
                     .HasColumnName("personName");
@@ -650,6 +648,8 @@ namespace QABBB.Data
                 entity.Property(e => e.IdPerson)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("idPerson");
+
+                entity.Property(e => e.IsDarkMode).HasColumnName("isDarkMode");
 
                 entity.Property(e => e.IsPasswordResetRequired).HasColumnName("isPasswordResetRequired");
 

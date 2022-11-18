@@ -8,7 +8,6 @@ namespace QABBB.Models
         public int IdPerson { get; set; }
         public string PersonName { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public bool IsDarkMode { get; set; }
 
         public virtual User? User { get; set; }
     }

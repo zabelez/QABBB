@@ -13,10 +13,18 @@ namespace QABBB.API.Assemblers
             newUser.IdPerson = user.IdPerson;
             newUser.UserName = user.UserName;
             newUser.PersonName = user.IdPersonNavigation.PersonName;
-            newUser.IsDarkMode = user.IdPersonNavigation.IsDarkMode;
+            newUser.IsDarkMode = user.IsDarkMode;
             newUser.Status = user.Status;
 
             return newUser;
+        }
+
+        public User toUser(EditUserDTO editUserDTO){
+            User user = new User();
+            user.IdPerson = editUserDTO.IdPerson;
+            user.UserName = editUserDTO.PersonName;
+            user.Status = editUserDTO.Status;
+            return user;
         }
 
         public List<UserDTO> toUserDTO(IEnumerable<User> users) {
@@ -35,7 +43,7 @@ namespace QABBB.API.Assemblers
             LoginOUTDTO newUser = new LoginOUTDTO();
             newUser.IdUser = user.IdPerson;
             newUser.UserName = user.UserName;
-            newUser.IsDarkMode = user.IdPersonNavigation.IsDarkMode;
+            newUser.IsDarkMode = user.IsDarkMode;
             newUser.Token = token;
 
             return newUser;
@@ -46,7 +54,7 @@ namespace QABBB.API.Assemblers
             User newUser = new User();
             newUser.UserName = user.UserName;
             newUser.IdPersonNavigation = new Person();
-            newUser.IdPersonNavigation.IsDarkMode = user.IsDarkMode;
+            newUser.IsDarkMode = user.IsDarkMode;
             newUser.IdPersonNavigation.PersonName = user.PersonName;
             newUser.IdPersonNavigation.Email = user.Email;
 
