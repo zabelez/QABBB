@@ -47,66 +47,67 @@ namespace QABBB.API.Controllers
 
         // GET: api/Company/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Company>> GetCompany(int id)
+        public ActionResult GetCompany(int id)
         {
           if (_context.Companies == null)
-          {
               return NotFound();
-          }
-            var company = await _context.Companies.FindAsync(id);
+
+            var company = _companyServices.findById(id);
 
             if (company == null)
-            {
                 return NotFound();
-            }
 
-            return company;
+            CompanyDTO companyDTO = _companyAssembler.toCompanyDTO(company);
+
+            return Ok(companyDTO);
         }
 
-        // PUT: api/Company/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompany(int id, Company company)
-        {
-            if (id != company.IdCompany)
-            {
-                return BadRequest();
-            }
+        // // PUT: api/Company/5
+        // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> PutCompany(int id, Company company)
+        // {
+        //     if (id != company.IdCompany)
+        //     {
+        //         return BadRequest();
+        //     }
 
-            _context.Entry(company).State = EntityState.Modified;
+        //     _context.Entry(company).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CompanyExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //     try
+        //     {
+        //         await _context.SaveChangesAsync();
+        //     }
+        //     catch (DbUpdateConcurrencyException)
+        //     {
+        //         if (!CompanyExists(id))
+        //         {
+        //             return NotFound();
+        //         }
+        //         else
+        //         {
+        //             throw;
+        //         }
+        //     }
 
-            return NoContent();
-        }
+        //     return NoContent();
+        // }
 
         // POST: api/Company
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Company>> PostCompany(Company company)
+        public ActionResult PostCompany(CompanyInputDTO companyInputDTO)
         {
-          if (_context.Companies == null)
-          {
-              return Problem("Entity set 'QABBBContext.Companies'  is null.");
-          }
-            _context.Companies.Add(company);
-            await _context.SaveChangesAsync();
+            if (_context.Companies == null)
+                return Problem("Entity set 'QABBBContext.Companies'  is null.");
 
-            return CreatedAtAction("GetCompany", new { id = company.IdCompany }, company);
+            Company company = _companyAssembler.toCompany(companyInputDTO);
+            
+            _companyServices.add(company);
+
+            CompanyDTO companyDTO = _companyAssembler.toCompanyDTO(company);
+
+            return CreatedAtAction("GetCompany", new { id = companyDTO.IdCompany }, companyDTO);
         }
 
         // // DELETE: api/Company/5

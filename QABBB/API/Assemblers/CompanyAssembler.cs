@@ -8,7 +8,7 @@ namespace QABBB.API.Assemblers
     public class CompanyAssembler
     {
 
-        public CompanyDTO CompanyDTO(Company company) {
+        public CompanyDTO toCompanyDTO(Company company) {
 
             CompanyDTO companyDTO = new CompanyDTO();
             companyDTO.IdCompany = company.IdCompany;
@@ -32,7 +32,7 @@ namespace QABBB.API.Assemblers
             List<CompanyDTO> companyDTO = new List<CompanyDTO>();
 
             foreach (Company company in companies) {
-                companyDTO.Add(this.CompanyDTO(company));
+                companyDTO.Add(toCompanyDTO(company));
             }
 
             return companyDTO;
@@ -49,17 +49,14 @@ namespace QABBB.API.Assemblers
         //     return newUser;
         // }
 
-        // public User toUser(NewUserDTO user) {
+        public Company toCompany(CompanyInputDTO companyInputDTO) {
 
-        //     User newUser = new User();
-        //     newUser.UserName = user.UserName;
-        //     newUser.IdPersonNavigation = new Person();
-        //     newUser.IsDarkMode = user.IsDarkMode;
-        //     newUser.IdPersonNavigation.PersonName = user.PersonName;
-        //     newUser.IdPersonNavigation.Email = user.Email;
+            Company company = new Company();
+            company.Name = companyInputDTO.Name;
+            company.Logo = companyInputDTO.Logo;
 
-        //     return newUser;
-        // }
+            return company;
+        }
     }
 }
 
