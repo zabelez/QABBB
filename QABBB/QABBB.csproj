@@ -58,7 +58,4 @@
     <Folder Include="Models\" />
     <Folder Include="API\Models\Admin\" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Domain\Services\AuthServices.cs" />
-  </ItemGroup>
 </Project>
