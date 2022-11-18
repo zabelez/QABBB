@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QABBB.API.Assemblers;
+using QABBB.API.Models.Company;
 using QABBB.Data;
+using QABBB.Domain.Services;
 using QABBB.Models;
 
 namespace QABBB.API.Controllers
@@ -18,21 +21,28 @@ namespace QABBB.API.Controllers
     public class CompanyController : ControllerBase
     {
         private readonly QABBBContext _context;
+        private readonly CompanyServices _companyServices;
+        private readonly CompanyAssembler _companyAssembler;
 
         public CompanyController(QABBBContext context)
         {
             _context = context;
+            _companyServices = new CompanyServices(_context);
+            _companyAssembler = new CompanyAssembler();
         }
 
         // GET: api/Company
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Company>>> GetCompanies()
+        public ActionResult GetCompanies()
         {
-          if (_context.Companies == null)
-          {
-              return NotFound();
-          }
-            return await _context.Companies.ToListAsync();
+            if (_context.Companies == null)
+                return NotFound();
+
+            List<Company>? _companies = _companyServices.list();
+
+            List<CompanyDTO> _companiesDTO = _companyAssembler.toCompanyDTO(_companies);
+
+            return Ok(_companiesDTO);
         }
 
         // GET: api/Company/5
@@ -99,25 +109,25 @@ namespace QABBB.API.Controllers
             return CreatedAtAction("GetCompany", new { id = company.IdCompany }, company);
         }
 
-        // DELETE: api/Company/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCompany(int id)
-        {
-            if (_context.Companies == null)
-            {
-                return NotFound();
-            }
-            var company = await _context.Companies.FindAsync(id);
-            if (company == null)
-            {
-                return NotFound();
-            }
+        // // DELETE: api/Company/5
+        // [HttpDelete("{id}")]
+        // public async Task<IActionResult> DeleteCompany(int id)
+        // {
+        //     if (_context.Companies == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     var company = await _context.Companies.FindAsync(id);
+        //     if (company == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            _context.Companies.Remove(company);
-            await _context.SaveChangesAsync();
+        //     _context.Companies.Remove(company);
+        //     await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //     return NoContent();
+        // }
 
         private bool CompanyExists(int id)
         {
