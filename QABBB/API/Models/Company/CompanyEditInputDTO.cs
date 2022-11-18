@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-
 namespace QABBB.API.Models.Company
 {
     public class CompanyEditInputDTO

@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QABBB.API.Assemblers;
+using QABBB.API.Models.Developer;
 using QABBB.Data;
+using QABBB.Domain.Services;
 using QABBB.Models;
 
 namespace QABBB.API.Controllers
@@ -17,124 +20,62 @@ namespace QABBB.API.Controllers
     public class DeveloperController : ControllerBase
     {
         private readonly QABBBContext _context;
+        private readonly DeveloperServices _developerServices;
+        private readonly DeveloperAssembler _developerAssembler;
 
         public DeveloperController(QABBBContext context)
         {
             _context = context;
+            _developerServices = new DeveloperServices(_context);
+            _developerAssembler = new DeveloperAssembler();
         }
 
         // GET: api/Developer
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Developer>>> GetDevelopers()
+        public ActionResult GetDevelopers()
         {
-          if (_context.Developers == null)
-          {
-              return NotFound();
-          }
-            return await _context.Developers.ToListAsync();
+            if (_context.Developers == null)
+                return NotFound();
+
+            List<Developer> developers = _developerServices.list();
+
+            List<DeveloperDTO> developerDTOs = _developerAssembler.toDeveloperDTO(developers);
+
+            return Ok(developerDTOs);
         }
 
         // GET: api/Developer/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Developer>> GetDeveloper(int id)
+        public ActionResult GetDeveloper(int id)
         {
-          if (_context.Developers == null)
-          {
-              return NotFound();
-          }
-            var developer = await _context.Developers.FindAsync(id);
+            if (_context.Developers == null)
+                return NotFound();
+
+            Developer? developer = _developerServices.findById(id);
 
             if (developer == null)
-            {
                 return NotFound();
-            }
 
-            return developer;
-        }
+            DeveloperDTO developerDTO = _developerAssembler.toDeveloperDTO(developer);
 
-        // PUT: api/Developer/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDeveloper(int id, Developer developer)
-        {
-            if (id != developer.IdDeveloper)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(developer).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DeveloperExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(developerDTO);
         }
 
         // POST: api/Developer
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Developer>> PostDeveloper(Developer developer)
+        public ActionResult PostDeveloper(DeveloperInputDTO developerInputDTO)
         {
-          if (_context.Developers == null)
-          {
-              return Problem("Entity set 'QABBBContext.Developers'  is null.");
-          }
-            _context.Developers.Add(developer);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (DeveloperExists(developer.IdDeveloper))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            if (_context.Developers == null)
+                return Problem("Entity set 'QABBBContext.Developers'  is null.");
+            
+            Developer developer = _developerAssembler.toDeveloper(developerInputDTO);
 
-            return CreatedAtAction("GetDeveloper", new { id = developer.IdDeveloper }, developer);
-        }
+            _developerServices.add(developer);
 
-        // // DELETE: api/Developer/5
-        // [HttpDelete("{id}")]
-        // public async Task<IActionResult> DeleteDeveloper(int id)
-        // {
-        //     if (_context.Developers == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     var developer = await _context.Developers.FindAsync(id);
-        //     if (developer == null)
-        //     {
-        //         return NotFound();
-        //     }
+            DeveloperDTO developerDTO = _developerAssembler.toDeveloperDTO(developer);
 
-        //     _context.Developers.Remove(developer);
-        //     await _context.SaveChangesAsync();
-
-        //     return NoContent();
-        // }
-
-        private bool DeveloperExists(int id)
-        {
-            return (_context.Developers?.Any(e => e.IdDeveloper == id)).GetValueOrDefault();
+            return CreatedAtAction("GetDeveloper", new { id = developerDTO.IdDeveloper }, developerDTO);
         }
     }
 }

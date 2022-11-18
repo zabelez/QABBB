@@ -1,11 +1,11 @@
 using System;
-namespace QABBB.API.Models.Developer
+namespace QABBB.API.Models.Company
 {
-    public class DeveloperDTO
+    public class CompanyDTO
     {
-        public int IdDeveloper {get; set;}
         public int IdCompany { get; set; }
         public string Name { get; set; }
+        public string? Logo {get; set;}
 
     }
 }

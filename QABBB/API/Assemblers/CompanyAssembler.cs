@@ -35,17 +35,6 @@ namespace QABBB.API.Assemblers
             return companyDTO;
         }
 
-        // public LoginOUTDTO toLoginOUTDTO(User user, string token) {
-
-        //     LoginOUTDTO newUser = new LoginOUTDTO();
-        //     newUser.IdUser = user.IdPerson;
-        //     newUser.UserName = user.UserName;
-        //     newUser.IsDarkMode = user.IsDarkMode;
-        //     newUser.Token = token;
-
-        //     return newUser;
-        // }
-
         public Company toCompany(CompanyInputDTO companyInputDTO) {
 
             Company company = new Company();

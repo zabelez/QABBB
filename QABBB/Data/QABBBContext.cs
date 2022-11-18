@@ -119,9 +119,7 @@ namespace QABBB.Data
 
                 entity.HasIndex(e => e.IdCompany, "publisher_fk1_idx");
 
-                entity.Property(e => e.IdDeveloper)
-                    .ValueGeneratedNever()
-                    .HasColumnName("idDeveloper");
+                entity.Property(e => e.IdDeveloper).HasColumnName("idDeveloper");
 
                 entity.Property(e => e.IdCompany).HasColumnName("idCompany");
 
