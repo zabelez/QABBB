@@ -62,36 +62,21 @@ namespace QABBB.API.Controllers
             return Ok(companyDTO);
         }
 
-        // // PUT: api/Company/5
-        // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> PutCompany(int id, Company company)
-        // {
-        //     if (id != company.IdCompany)
-        //     {
-        //         return BadRequest();
-        //     }
+        // PUT: api/User/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut()]
+        public IActionResult PutUser(CompanyEditInputDTO companyEditInputDTO)
+        {
+            Company? company = _companyServices.findById(companyEditInputDTO.IdCompany);
+            if(company == null)
+                return NotFound();
 
-        //     _context.Entry(company).State = EntityState.Modified;
+            _companyAssembler.toCompany(company, companyEditInputDTO);
 
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!CompanyExists(id))
-        //         {
-        //             return NotFound();
-        //         }
-        //         else
-        //         {
-        //             throw;
-        //         }
-        //     }
+            _companyServices.edit(company);
 
-        //     return NoContent();
-        // }
+            return NoContent();
+        }
 
         // POST: api/Company
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

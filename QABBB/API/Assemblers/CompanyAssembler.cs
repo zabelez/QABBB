@@ -18,14 +18,11 @@ namespace QABBB.API.Assemblers
             return companyDTO;
         }
 
-        // public User toUser(User user, EditUserDTO editUserDTO){
-        //     user.UserName = editUserDTO.PersonName;
-        //     user.IsDarkMode = editUserDTO.IsDarkMode;
-        //     user.Status = editUserDTO.Status;
-        //     user.IdPersonNavigation.PersonName = editUserDTO.PersonName;
-        //     user.IdPersonNavigation.Email = editUserDTO.Email;
-        //     return user;
-        // }
+        public Company toCompany(Company company, CompanyEditInputDTO companyEditInputDTO){
+            company.Name = companyEditInputDTO.Name;
+            company.Logo = companyEditInputDTO.Logo;
+            return company;
+        }
 
         public List<CompanyDTO> toCompanyDTO(IEnumerable<Company> companies) {
 
