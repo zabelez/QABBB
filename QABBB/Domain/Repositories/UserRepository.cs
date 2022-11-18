@@ -13,11 +13,11 @@ namespace QABBB.Domain.Repositories
             _context = context;
         }
 
-        public User? Login(string userName, string password) {
+        public User? findByUserNameAndPassword(string userName, string password) {
 
             return _context.Users
                 .Include(u => u.IdPersonNavigation)
-                .Where(u => u.UserName == userName && u.Password == password)
+                .Where(u => u.UserName == userName && u.Password == password && u.Status == "Active")
                 .FirstOrDefault();
         }
         public List<User> userList(){

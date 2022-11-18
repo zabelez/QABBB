@@ -24,7 +24,7 @@ namespace QABBB.Domain.Services
         }
 
         public User? login(string userName, string password){
-            return _userRepository.Login(userName, password);
+            return _userRepository.findByUserNameAndPassword(userName, password);
         }
 
         public List<User> userList() {
@@ -68,7 +68,7 @@ namespace QABBB.Domain.Services
         }
 
         public bool inactivate(User user){
-            user.Status = "Inactivate";
+            user.Status = "Inactive";
             return _userRepository.save(user);
         }
     }

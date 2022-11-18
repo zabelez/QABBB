@@ -21,6 +21,7 @@ namespace QABBB.API.Models.User
 
         public bool? IsDarkMode { get; set; }
 
+        public string Status {get; set;}
 
     }
 }

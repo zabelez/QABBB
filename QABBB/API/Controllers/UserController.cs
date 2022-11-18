@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QABBB.API.Assemblers;
@@ -93,11 +94,21 @@ namespace QABBB.Controllers
             if (user == null)
                 return NotFound();
 
+            string? idPerson = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if(idPerson == null)
+                return Unauthorized();
+
             _userServices.inactivate(user);
+
+            Admin? admin = _adminServices.findByIdUser(id);
+            if(admin != null)
+                _adminServices.inactivate(admin, int.Parse(idPerson));
 
             return NoContent();
 
         }
+
+        
 
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
