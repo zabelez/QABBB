@@ -35,7 +35,7 @@ namespace QABBB.Domain.Services
 
             var tokenOptions = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(5),
+                expires: DateTime.Now.AddMinutes(5000),
                 signingCredentials: signingCredentials
             );
 
