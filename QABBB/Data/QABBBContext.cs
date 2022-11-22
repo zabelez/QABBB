@@ -260,18 +260,6 @@ namespace QABBB.Data
                 entity.Property(e => e.IdGame).HasColumnName("idGame");
 
                 entity.Property(e => e.IdPlatform).HasColumnName("idPlatform");
-
-                entity.HasOne(d => d.IdGameNavigation)
-                    .WithMany(p => p.GamePlatforms)
-                    .HasForeignKey(d => d.IdGame)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("gamePlatformFK1");
-
-                entity.HasOne(d => d.IdPlatformNavigation)
-                    .WithMany(p => p.GamePlatforms)
-                    .HasForeignKey(d => d.IdPlatform)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("gamePlatformFK2");
             });
 
             modelBuilder.Entity<Heatmap>(entity =>
@@ -439,12 +427,6 @@ namespace QABBB.Data
                     .HasColumnName("name");
 
                 entity.Property(e => e.Url).HasColumnName("url");
-
-                entity.HasOne(d => d.IdProjectNavigation)
-                    .WithMany(p => p.ProjectFiles)
-                    .HasForeignKey(d => d.IdProject)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("projectFile_FK1");
             });
 
             modelBuilder.Entity<ProjectForm>(entity =>
@@ -640,9 +622,6 @@ namespace QABBB.Data
 
                 entity.ToTable("user");
 
-                entity.HasIndex(e => e.UserName, "userName_UNIQUE")
-                    .IsUnique();
-
                 entity.Property(e => e.IdPerson)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("idPerson");
@@ -658,10 +637,6 @@ namespace QABBB.Data
                 entity.Property(e => e.Status)
                     .HasColumnType("enum('Active','Inactive')")
                     .HasColumnName("status");
-
-                entity.Property(e => e.UserName)
-                    .HasMaxLength(45)
-                    .HasColumnName("userName");
 
                 entity.HasOne(d => d.IdPersonNavigation)
                     .WithOne(p => p.User)
@@ -694,12 +669,6 @@ namespace QABBB.Data
                 entity.Property(e => e.RemovedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("removedAt");
-
-                entity.HasOne(d => d.IdPlatformNavigation)
-                    .WithMany(p => p.UserPlatforms)
-                    .HasForeignKey(d => d.IdPlatform)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("userPlatform_FK2");
 
                 entity.HasOne(d => d.IdUserNavigation)
                     .WithMany(p => p.UserPlatforms)

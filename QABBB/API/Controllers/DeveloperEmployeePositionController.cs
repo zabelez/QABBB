@@ -92,30 +92,5 @@ namespace QABBB.API.Controllers
 
             return CreatedAtAction("GetDeveloperEmployeePosition", new { id = _depPositionDTO.IdPosition }, _depPositionDTO);
         }
-
-        // // DELETE: api/DeveloperEmployeePosition/5
-        // [HttpDelete("{id}")]
-        // public async Task<IActionResult> DeleteDeveloperEmployeePosition(int id)
-        // {
-        //     if (_context.DeveloperEmployeePositions == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     var developerEmployeePosition = await _context.DeveloperEmployeePositions.FindAsync(id);
-        //     if (developerEmployeePosition == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     _context.DeveloperEmployeePositions.Remove(developerEmployeePosition);
-        //     await _context.SaveChangesAsync();
-
-        //     return NoContent();
-        // }
-
-        // private bool DeveloperEmployeePositionExists(int id)
-        // {
-        //     return (_context.DeveloperEmployeePositions?.Any(e => e.IdDeveloperEmployeePosition == id)).GetValueOrDefault();
-        // }
     }
 }

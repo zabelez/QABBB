@@ -1,5 +1,6 @@
 ﻿using System;
 using QABBB.API.Models.User;
+using QABBB.Domain.Services;
 using QABBB.Models;
 
 namespace QABBB.API.Assemblers
@@ -11,16 +12,15 @@ namespace QABBB.API.Assemblers
 
             UserDTO newUser = new UserDTO();
             newUser.IdPerson = user.IdPerson;
-            newUser.UserName = user.UserName;
-            newUser.PersonName = user.IdPersonNavigation.PersonName;
             newUser.IsDarkMode = user.IsDarkMode;
             newUser.Status = user.Status;
+            newUser.PersonName = user.IdPersonNavigation.PersonName;
+            newUser.Email = user.IdPersonNavigation.Email;
 
             return newUser;
         }
 
         public User toUser(User user, EditUserDTO editUserDTO){
-            user.UserName = editUserDTO.PersonName;
             user.IsDarkMode = editUserDTO.IsDarkMode;
             user.Status = editUserDTO.Status;
             user.IdPersonNavigation.PersonName = editUserDTO.PersonName;
@@ -43,7 +43,6 @@ namespace QABBB.API.Assemblers
 
             LoginOUTDTO newUser = new LoginOUTDTO();
             newUser.IdUser = user.IdPerson;
-            newUser.UserName = user.UserName;
             newUser.IsDarkMode = user.IsDarkMode;
             newUser.Token = token;
 
@@ -53,7 +52,6 @@ namespace QABBB.API.Assemblers
         public User toUser(NewUserDTO user) {
 
             User newUser = new User();
-            newUser.UserName = user.UserName;
             newUser.IdPersonNavigation = new Person();
             newUser.IsDarkMode = user.IsDarkMode;
             newUser.IdPersonNavigation.PersonName = user.PersonName;

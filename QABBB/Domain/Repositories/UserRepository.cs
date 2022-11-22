@@ -13,11 +13,11 @@ namespace QABBB.Domain.Repositories
             _context = context;
         }
 
-        public User? findByUserNameAndPassword(string userName, string password) {
+        public User? findByUserNameAndPassword(string email, string password) {
 
             return _context.Users
                 .Include(u => u.IdPersonNavigation)
-                .Where(u => u.UserName == userName && u.Password == password && u.Status == "Active")
+                .Where(u => u.IdPersonNavigation.Email == email && u.Password == password && u.Status == "Active")
                 .FirstOrDefault();
         }
         public List<User> userList(){
@@ -44,13 +44,6 @@ namespace QABBB.Domain.Repositories
             return _context.Users
                 .Include(u => u.IdPersonNavigation)
                 .Where(u => u.IdPerson == id)
-                .FirstOrDefault();
-        }
-
-        public User? findByUserName(string userName) {
-            return _context.Users
-                .Include(u => u.IdPersonNavigation)
-                .Where(u => u.UserName == userName)
                 .FirstOrDefault();
         }
 

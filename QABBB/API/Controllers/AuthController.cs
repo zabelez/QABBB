@@ -36,9 +36,9 @@ namespace QABBB.API.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult CheckLoginAndPasswordAsync([FromBody] LoginINDTO inLoginDTO)
+        public IActionResult Login([FromBody] LoginINDTO inLoginDTO)
         {
-            User? user = _userServices.login(inLoginDTO.UserName, inLoginDTO.Password);
+            User? user = _userServices.login(inLoginDTO.Email, inLoginDTO.Password);
 
             if (user == null)
                 return NotFound();
@@ -47,7 +47,7 @@ namespace QABBB.API.Controllers
                 return Unauthorized("Password change required");
 
             LoginOUTDTO userDTO = _userAssembler.toLoginOUTDTO(user, _authServices.BuildToken(user));
-            userDTO.Roles = getClaims(user);
+            userDTO.Roles = _authServices.getClaims(user);
 
             return Ok(userDTO);
 
@@ -70,18 +70,6 @@ namespace QABBB.API.Controllers
             LoginOUTDTO userDTO = _userAssembler.toLoginOUTDTO(user, _authServices.BuildToken(user));
 
             return Ok(userDTO);
-        }
-
-        private List<string>? getClaims(User user)
-        {
-            List<string> claims = new List<string>();
-
-            Admin? admin = _adminServices.findByIdUser(user.IdPerson);
-            
-            if (admin != null)
-                claims.Add("Admin");
-
-            return claims;
         }
     }
 }

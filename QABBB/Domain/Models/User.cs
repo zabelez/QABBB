@@ -17,7 +17,6 @@ namespace QABBB.Models
         }
 
         public int IdPerson { get; set; }
-        public string UserName { get; set; } = null!;
         public string Password { get; set; } = null!;
         public bool IsPasswordResetRequired { get; set; }
         public bool IsDarkMode { get; set; }

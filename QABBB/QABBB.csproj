@@ -46,6 +46,7 @@
     <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
     <None Remove="Models\" />
     <None Remove="API\Models\Admin\" />
+    <None Remove="API\Models\Developer\Employee\Position\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\" />
@@ -57,5 +58,6 @@
     <Folder Include="API\Assemblers\" />
     <Folder Include="Models\" />
     <Folder Include="API\Models\Admin\" />
+    <Folder Include="API\Models\Developer\Employee\Position\" />
   </ItemGroup>
 </Project>

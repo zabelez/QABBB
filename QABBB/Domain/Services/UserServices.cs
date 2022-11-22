@@ -56,10 +56,6 @@ namespace QABBB.Domain.Services
         public List<string> newUserValidation(NewUserDTO newUserDTO){
             List<string> errors = new List<string>();
 
-            User? username = _userRepository.findByUserName(newUserDTO.UserName);
-            if (username != null)
-                errors.Add("Username already exists.");
-
             User? email = _userRepository.findByEmail(newUserDTO.Email);
             if (email != null)
                 errors.Add("Email already exists.");

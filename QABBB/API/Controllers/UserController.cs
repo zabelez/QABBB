@@ -47,7 +47,13 @@ namespace QABBB.Controllers
           }
             List<User> users =  _userServices.userList();
 
-            return _userAssembler.toUserDTO(users);
+            List<UserDTO> userDTOs = _userAssembler.toUserDTO(users);
+
+            userDTOs.ForEach(user =>{
+                user.Roles = _authServices.getClaims(user);
+            });
+
+            return Ok(userDTOs);
         }
 
         // GET: api/User/5x

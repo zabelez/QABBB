@@ -5,13 +5,15 @@ namespace QABBB.API.Models.User
     {
         public int IdPerson { get; set; }
 
-        public string UserName { get; set; }
-
         public string PersonName { get; set; }
+
+        public string Email { get; set; }
 
         public bool? IsDarkMode { get; set; }
 
         public string Status {get; set;}
+
+        public List<String>? Roles { get; set; }
 
     }
 }
