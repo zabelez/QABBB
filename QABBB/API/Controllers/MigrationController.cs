@@ -43,13 +43,13 @@ namespace QABBB.API.Controllers
             {
                 if(user.Value.email != null)
                     continue;
-                    
+
                 string text = user.Value.text + " - ";
                 text += user.Value.email;
                 users.Add(text);
             }
 
-            return Ok(users);
+            return Ok(migration.__collections__.tests);
         }
     }
 
@@ -61,8 +61,45 @@ namespace QABBB.API.Controllers
         // public Publishers publishers { get; set; }
         // public TesterGroups testerGroups { get; set; }
         // public Testers testers { get; set; }
-        // public Tests tests { get; set; }
+        public Dictionary<string, MigrationTests> tests { get; set; }
         public Dictionary<string, MigrationUser> users { get; set; }
+    }
+
+    public class MigrationTests{
+        public string developer { get; set; }
+        public string id { get; set; }
+        public List<UploadedFile> uploadedFiles { get; set; }
+        public string duration { get; set; }
+        public string name { get; set; }
+        public List<Form> forms { get; set; }
+        public string powerBiURL { get; set; }
+        public string spreadsheetURL { get; set; }
+        public string publisher { get; set; }
+        public string date { get; set; }
+        public string time { get; set; }
+        public List<string> platforms { get; set; }
+        public string cohortSize { get; set; }
+        public List<SummaryDoc> summaryDocs { get; set; }
+        public string logoURL { get; set; }
+        public MigrationCollections __collections__ { get; set; }
+    }
+
+    public class UploadedFile
+    {
+        public string url { get; set; }
+        public string name { get; set; }
+    }
+
+    public class Form
+    {
+        public string url { get; set; }
+        public string label { get; set; }
+    }
+
+    public class SummaryDoc
+    {
+        public string label { get; set; }
+        public string url { get; set; }
     }
 
     public class MigrationUser {
