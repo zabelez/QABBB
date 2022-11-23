@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using QABBB.Data;
+using QABBB.Domain.Services;
+using QABBB.Models;
 
 namespace QABBB.API.Controllers
 {
@@ -14,27 +11,76 @@ namespace QABBB.API.Controllers
     [ApiController]
     public class MigrationController : ControllerBase
     {
+
+        private readonly QABBBContext _context;
+
+        public MigrationController(QABBBContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         [Route("migration")]
         public ActionResult Migration()
         {
-            string? text = System.IO.File.ReadAllText("backup.json");
-            JsonNode json = JsonNode.Parse(text)!;
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            var migration = json!.ToJsonString(options);
+            string? jsonString = System.IO.File.ReadAllText("backup.json");
+            MigrationRoot migration = JsonSerializer.Deserialize<MigrationRoot>(jsonString)!;
+            
+            foreach (KeyValuePair<string, MigrationEmail> item in migration.__collections__.emailTemplates)
+            {
+                EmailTemplate email = new EmailTemplate();
+                email.Html = item.Value.html;
+                email.Subject = item.Value.subject;
+                email.Text = item.Value.text;
 
-            return Ok(migration);
+                EmailTemplateServices emailTemplateServices = new EmailTemplateServices(_context);
+                // emailTemplateServices.add(email);
+            }
+
+            
+            List<string> users = new List<string>();
+            foreach (KeyValuePair<string, MigrationUser> user in migration.__collections__.users)
+            {
+                if(user.Value.email != null)
+                    continue;
+                    
+                string text = user.Value.text + " - ";
+                text += user.Value.email;
+                users.Add(text);
+            }
+
+            return Ok(users);
         }
     }
 
-    public class MigrationModel
-    {
-        List<String>? emailTemplates { get; set; }
-        List<String>? publishers { get; set; }
-        List<String>? testerGroups { get; set; }
-        List<String>? testers { get; set; }
-        List<String>? tests { get; set; }
-        List<String>? users { get; set; }
+    public class MigrationRoot {
+        public MigrationCollections? __collections__ { get; set; }
+    }
+    public class MigrationCollections {
+        public Dictionary<string, MigrationEmail> emailTemplates { get; set; }
+        // public Publishers publishers { get; set; }
+        // public TesterGroups testerGroups { get; set; }
+        // public Testers testers { get; set; }
+        // public Tests tests { get; set; }
+        public Dictionary<string, MigrationUser> users { get; set; }
     }
 
+    public class MigrationUser {
+        public bool? isAdmin { get; set; }
+        public bool? isPasswordResetRequired { get; set; }
+        public string email { get; set; }
+        public List<string> publishers { get; set; }
+        public string id { get; set; }
+        public string text { get; set; }
+        public MigrationCollections __collections__ { get; set; }
+    }
+
+    public class MigrationEmail
+    {
+        public string html { get; set; }
+        public string text { get; set; }
+        public string id { get; set; }
+        public string subject { get; set; }
+        public MigrationCollections __collections__ { get; set; }
+    }
 }

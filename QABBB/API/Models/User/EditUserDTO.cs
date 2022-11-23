@@ -9,9 +9,6 @@ namespace QABBB.API.Models.User
         public int IdPerson { get; set;}
 
         [Required]
-        public string UserName { get; set; }
-
-        [Required]
         public string PersonName { get; set; }
 
         [Required]

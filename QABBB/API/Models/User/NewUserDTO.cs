@@ -6,9 +6,6 @@ namespace QABBB.API.Models.User
     public class NewUserDTO
     {
         [Required]
-        public string UserName { get; set; }
-
-        [Required]
         public string PersonName { get; set; }
 
         [Required]
