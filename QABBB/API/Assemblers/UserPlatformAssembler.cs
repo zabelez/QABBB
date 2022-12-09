@@ -21,6 +21,9 @@ namespace QABBB.API.Assemblers
 
         public List<UserPlatformDTO> toUserPlatformDTO(IEnumerable<UserPlatform> userPlatforms) {
 
+            if(userPlatforms == null)
+                return new List<UserPlatformDTO>();
+
             List<UserPlatformDTO> userPlatformDTOs = new List<UserPlatformDTO>();
 
             foreach (UserPlatform userPlatform in userPlatforms) {
@@ -28,6 +31,15 @@ namespace QABBB.API.Assemblers
             }
 
             return userPlatformDTOs;
+        }
+
+        internal UserPlatform toUserPlatform(UserPlatformInputDTO userPlatformInputDTO)
+        {
+            UserPlatform userPlatform = new UserPlatform();
+            userPlatform.IdUser = userPlatformInputDTO.IdUser;
+            userPlatform.IdPlatform = userPlatformInputDTO.IdPlatform;
+
+            return userPlatform;
         }
     }
 }

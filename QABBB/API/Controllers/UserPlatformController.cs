@@ -1,124 +1,96 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QABBB.API.Assemblers;
+using QABBB.API.Models.User.Platform;
 using QABBB.Data;
+using QABBB.Domain.Services;
 using QABBB.Models;
 
 namespace QABBB.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserPlatformController : ControllerBase
     {
         private readonly QABBBContext _context;
+        private readonly UserPlatformServices _upServices;
+        private readonly UserServices _uServices;
+        private readonly PlatformServices _pServices;
+        private readonly UserPlatformAssembler _upAssembler;
 
         public UserPlatformController(QABBBContext context)
         {
             _context = context;
-        }
-
-        // GET: api/UserPlatform
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserPlatform>>> GetUserPlatforms()
-        {
-          if (_context.UserPlatforms == null)
-          {
-              return NotFound();
-          }
-            return await _context.UserPlatforms.ToListAsync();
+            _upAssembler = new UserPlatformAssembler();
+            _upServices = new UserPlatformServices(_context);
+            _uServices = new UserServices(_context);
+            _pServices = new PlatformServices(_context);
         }
 
         // GET: api/UserPlatform/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserPlatform>> GetUserPlatform(int id)
+        [HttpGet("{idUser}")]
+        public ActionResult GetUserPlatform(int idUser)
         {
           if (_context.UserPlatforms == null)
-          {
               return NotFound();
-          }
-            var userPlatform = await _context.UserPlatforms.FindAsync(id);
+          
+            List<UserPlatform>? userPlatforms = _upServices.findByIdUser(idUser);
 
-            if (userPlatform == null)
-            {
-                return NotFound();
-            }
+            List<UserPlatformDTO>? userPlatformDTOs = _upAssembler.toUserPlatformDTO(userPlatforms);
 
-            return userPlatform;
-        }
-
-        // PUT: api/UserPlatform/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserPlatform(int id, UserPlatform userPlatform)
-        {
-            if (id != userPlatform.IdUserPlatform)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(userPlatform).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserPlatformExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(userPlatformDTOs);
         }
 
         // POST: api/UserPlatform
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserPlatform>> PostUserPlatform(UserPlatform userPlatform)
+        public ActionResult PostUserPlatform(UserPlatformInputDTO userPlatformInputDTO)
         {
-          if (_context.UserPlatforms == null)
-          {
-              return Problem("Entity set 'QABBBContext.UserPlatforms'  is null.");
-          }
-            _context.UserPlatforms.Add(userPlatform);
-            await _context.SaveChangesAsync();
+            if (_context.UserPlatforms == null)
+                return Problem("Entity set 'QABBBContext.UserPlatforms'  is null.");
 
-            return CreatedAtAction("GetUserPlatform", new { id = userPlatform.IdUserPlatform }, userPlatform);
+            string? idPerson = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (idPerson == null)
+                return Unauthorized();
+
+            User? user = _uServices.findById(userPlatformInputDTO.IdUser);
+            if(user == null)
+                return NotFound("Invalid IdUser");
+
+            Platform? platform = _pServices.findById(userPlatformInputDTO.IdPlatform);
+            if(platform == null)
+                return NotFound("Invalid IdPlatform");
+          
+            UserPlatform userPlatform = _upAssembler.toUserPlatform(userPlatformInputDTO);
+
+            _upServices.add(userPlatform, int.Parse(idPerson));
+
+            UserPlatformDTO userPlatformDTO = _upAssembler.toUserPlatformDTO(userPlatform);
+
+            return CreatedAtAction("GetUserPlatform", new { idUser = userPlatformDTO.IdUserPlatform }, userPlatformDTO);
         }
 
         // DELETE: api/UserPlatform/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserPlatform(int id)
+        public IActionResult DeleteUserPlatform(int id)
         {
             if (_context.UserPlatforms == null)
-            {
                 return NotFound();
-            }
-            var userPlatform = await _context.UserPlatforms.FindAsync(id);
-            if (userPlatform == null)
-            {
-                return NotFound();
-            }
 
-            _context.UserPlatforms.Remove(userPlatform);
-            await _context.SaveChangesAsync();
+            UserPlatform? userPlatform = _upServices.findById(id);
+            if(userPlatform == null)
+                return NotFound("Invalid Id");
 
+            string? idPerson = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (idPerson == null)
+                return Unauthorized();
+
+            _upServices.inactivate(userPlatform, int.Parse(idPerson));
+            
             return NoContent();
-        }
-
-        private bool UserPlatformExists(int id)
-        {
-            return (_context.UserPlatforms?.Any(e => e.IdUserPlatform == id)).GetValueOrDefault();
         }
     }
 }
