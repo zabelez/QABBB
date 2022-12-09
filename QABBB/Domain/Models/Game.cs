@@ -16,8 +16,8 @@ namespace QABBB.Models
         public string Name { get; set; } = null!;
         public string? Gamelogo { get; set; }
 
-        public virtual Developer IdDeveloperNavigation { get; set; } = null!;
-        public virtual Publisher IdPublisherNavigation { get; set; } = null!;
+        public virtual Company IdDeveloperNavigation { get; set; } = null!;
+        public virtual Company IdPublisherNavigation { get; set; } = null!;
         public virtual ICollection<GamePlatform> GamePlatforms { get; set; }
     }
 }

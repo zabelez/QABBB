@@ -10,9 +10,10 @@ namespace QABBB.Models
             AdminCreatedByNavigations = new HashSet<Admin>();
             AdminIdUserNavigations = new HashSet<Admin>();
             AdminRemovedByNavigations = new HashSet<Admin>();
-            DeveloperEmployees = new HashSet<DeveloperEmployee>();
+            CompanyEmployeeCreatedByNavigations = new HashSet<CompanyEmployee>();
+            CompanyEmployeeIdPersonNavigations = new HashSet<CompanyEmployee>();
+            CompanyEmployeeRemovedByNavigations = new HashSet<CompanyEmployee>();
             Logs = new HashSet<Log>();
-            PublisherEmployees = new HashSet<PublisherEmployee>();
             UserPlatforms = new HashSet<UserPlatform>();
         }
 
@@ -26,9 +27,10 @@ namespace QABBB.Models
         public virtual ICollection<Admin> AdminCreatedByNavigations { get; set; }
         public virtual ICollection<Admin> AdminIdUserNavigations { get; set; }
         public virtual ICollection<Admin> AdminRemovedByNavigations { get; set; }
-        public virtual ICollection<DeveloperEmployee> DeveloperEmployees { get; set; }
+        public virtual ICollection<CompanyEmployee> CompanyEmployeeCreatedByNavigations { get; set; }
+        public virtual ICollection<CompanyEmployee> CompanyEmployeeIdPersonNavigations { get; set; }
+        public virtual ICollection<CompanyEmployee> CompanyEmployeeRemovedByNavigations { get; set; }
         public virtual ICollection<Log> Logs { get; set; }
-        public virtual ICollection<PublisherEmployee> PublisherEmployees { get; set; }
         public virtual ICollection<UserPlatform> UserPlatforms { get; set; }
     }
 }

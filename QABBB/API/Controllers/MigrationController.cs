@@ -41,15 +41,17 @@ namespace QABBB.API.Controllers
             List<string> users = new List<string>();
             foreach (KeyValuePair<string, MigrationUser> user in migration.__collections__.users)
             {
-                if(user.Value.email != null)
-                    continue;
+                // if(user.Value.email != null)
+                //     continue;
 
                 string text = user.Value.text + " - ";
                 text += user.Value.email;
                 users.Add(text);
             }
 
-            return Ok(migration.__collections__.tests);
+            users.Sort();
+
+            return Ok(users);
         }
     }
 

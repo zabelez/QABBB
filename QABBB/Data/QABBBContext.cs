@@ -19,9 +19,8 @@ namespace QABBB.Data
 
         public virtual DbSet<Admin> Admins { get; set; } = null!;
         public virtual DbSet<Company> Companies { get; set; } = null!;
-        public virtual DbSet<Developer> Developers { get; set; } = null!;
-        public virtual DbSet<DeveloperEmployee> DeveloperEmployees { get; set; } = null!;
-        public virtual DbSet<DeveloperEmployeePosition> DeveloperEmployeePositions { get; set; } = null!;
+        public virtual DbSet<CompanyEmployee> CompanyEmployees { get; set; } = null!;
+        public virtual DbSet<CompanyEmployeePosition> CompanyEmployeePositions { get; set; } = null!;
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; } = null!;
         public virtual DbSet<Game> Games { get; set; } = null!;
         public virtual DbSet<GamePlatform> GamePlatforms { get; set; } = null!;
@@ -35,9 +34,6 @@ namespace QABBB.Data
         public virtual DbSet<ProjectForm> ProjectForms { get; set; } = null!;
         public virtual DbSet<ProjectPlatform> ProjectPlatforms { get; set; } = null!;
         public virtual DbSet<ProjectSummaryDoc> ProjectSummaryDocs { get; set; } = null!;
-        public virtual DbSet<PublishEmloyeePosition> PublishEmloyeePositions { get; set; } = null!;
-        public virtual DbSet<Publisher> Publishers { get; set; } = null!;
-        public virtual DbSet<PublisherEmployee> PublisherEmployees { get; set; } = null!;
         public virtual DbSet<TesterUploadedFile> TesterUploadedFiles { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserPlatform> UserPlatforms { get; set; } = null!;
@@ -110,78 +106,81 @@ namespace QABBB.Data
                     .HasColumnName("name");
             });
 
-            modelBuilder.Entity<Developer>(entity =>
+            modelBuilder.Entity<CompanyEmployee>(entity =>
             {
-                entity.HasKey(e => e.IdDeveloper)
+                entity.HasKey(e => e.IdCompanyEmployee)
                     .HasName("PRIMARY");
 
-                entity.ToTable("developer");
+                entity.ToTable("companyEmployee");
 
-                entity.HasIndex(e => e.IdCompany, "publisher_fk1_idx");
+                entity.HasIndex(e => e.IdCompany, "companyEmployee_FK1_idx");
 
-                entity.Property(e => e.IdDeveloper).HasColumnName("idDeveloper");
+                entity.HasIndex(e => e.IdPerson, "companyEmployee_FK2_idx");
+
+                entity.HasIndex(e => e.CreatedBy, "companyEmployee_FK3_idx");
+
+                entity.HasIndex(e => e.RemovedBy, "companyEmployee_FK4_idx");
+
+                entity.HasIndex(e => e.IdPosition, "companyEmployee_FK5_idx");
+
+                entity.Property(e => e.IdCompanyEmployee).HasColumnName("idCompanyEmployee");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("createdAt");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("createdBy");
 
                 entity.Property(e => e.IdCompany).HasColumnName("idCompany");
 
-                entity.HasOne(d => d.IdCompanyNavigation)
-                    .WithMany(p => p.Developers)
-                    .HasForeignKey(d => d.IdCompany)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("developer_FK1");
-            });
-
-            modelBuilder.Entity<DeveloperEmployee>(entity =>
-            {
-                entity.HasKey(e => e.IdDeveloperEmployee)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("developerEmployee");
-
-                entity.HasIndex(e => e.IdDeveloper, "developerEmployee_FK1_idx");
-
-                entity.HasIndex(e => e.IdUser, "developerEmployee_FK2_idx");
-
-                entity.HasIndex(e => e.IdPosition, "developerEmployee_FK3_idx");
-
-                entity.Property(e => e.IdDeveloperEmployee).HasColumnName("idDeveloperEmployee");
-
-                entity.Property(e => e.IdDeveloper).HasColumnName("idDeveloper");
+                entity.Property(e => e.IdPerson).HasColumnName("idPerson");
 
                 entity.Property(e => e.IdPosition).HasColumnName("idPosition");
 
-                entity.Property(e => e.IdUser).HasColumnName("idUser");
+                entity.Property(e => e.RemovedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("removedAt");
 
-                entity.Property(e => e.Status)
-                    .HasMaxLength(45)
-                    .HasColumnName("status");
+                entity.Property(e => e.RemovedBy).HasColumnName("removedBy");
 
-                entity.HasOne(d => d.IdDeveloperNavigation)
-                    .WithMany(p => p.DeveloperEmployees)
-                    .HasForeignKey(d => d.IdDeveloper)
+                entity.HasOne(d => d.CreatedByNavigation)
+                    .WithMany(p => p.CompanyEmployeeCreatedByNavigations)
+                    .HasForeignKey(d => d.CreatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("developerEmployee_FK1");
+                    .HasConstraintName("companyEmployee_FK3");
+
+                entity.HasOne(d => d.IdCompanyNavigation)
+                    .WithMany(p => p.CompanyEmployees)
+                    .HasForeignKey(d => d.IdCompany)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("companyEmployee_FK1");
+
+                entity.HasOne(d => d.IdPersonNavigation)
+                    .WithMany(p => p.CompanyEmployeeIdPersonNavigations)
+                    .HasForeignKey(d => d.IdPerson)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("companyEmployee_FK2");
 
                 entity.HasOne(d => d.IdPositionNavigation)
-                    .WithMany(p => p.DeveloperEmployees)
+                    .WithMany(p => p.CompanyEmployees)
                     .HasForeignKey(d => d.IdPosition)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("developerEmployee_FK3");
+                    .HasConstraintName("companyEmployee_FK5");
 
-                entity.HasOne(d => d.IdUserNavigation)
-                    .WithMany(p => p.DeveloperEmployees)
-                    .HasForeignKey(d => d.IdUser)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("developerEmployee_FK2");
+                entity.HasOne(d => d.RemovedByNavigation)
+                    .WithMany(p => p.CompanyEmployeeRemovedByNavigations)
+                    .HasForeignKey(d => d.RemovedBy)
+                    .HasConstraintName("companyEmployee_FK4");
             });
 
-            modelBuilder.Entity<DeveloperEmployeePosition>(entity =>
+            modelBuilder.Entity<CompanyEmployeePosition>(entity =>
             {
-                entity.HasKey(e => e.IdDeveloperEmployeePosition)
+                entity.HasKey(e => e.IdCompanyEmployeePosition)
                     .HasName("PRIMARY");
 
-                entity.ToTable("developerEmployeePosition");
+                entity.ToTable("companyEmployeePosition");
 
-                entity.Property(e => e.IdDeveloperEmployeePosition).HasColumnName("idDeveloperEmployeePosition");
+                entity.Property(e => e.IdCompanyEmployeePosition).HasColumnName("idCompanyEmployeePosition");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(45)
@@ -232,13 +231,13 @@ namespace QABBB.Data
                     .HasColumnName("name");
 
                 entity.HasOne(d => d.IdDeveloperNavigation)
-                    .WithMany(p => p.Games)
+                    .WithMany(p => p.GameIdDeveloperNavigations)
                     .HasForeignKey(d => d.IdDeveloper)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("gameFK2");
 
                 entity.HasOne(d => d.IdPublisherNavigation)
-                    .WithMany(p => p.Games)
+                    .WithMany(p => p.GameIdPublisherNavigations)
                     .HasForeignKey(d => d.IdPublisher)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("gameFK1");
@@ -260,6 +259,18 @@ namespace QABBB.Data
                 entity.Property(e => e.IdGame).HasColumnName("idGame");
 
                 entity.Property(e => e.IdPlatform).HasColumnName("idPlatform");
+
+                entity.HasOne(d => d.IdGameNavigation)
+                    .WithMany(p => p.GamePlatforms)
+                    .HasForeignKey(d => d.IdGame)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("gamePlatformFK1");
+
+                entity.HasOne(d => d.IdPlatformNavigation)
+                    .WithMany(p => p.GamePlatforms)
+                    .HasForeignKey(d => d.IdPlatform)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("gamePlatformFK2");
             });
 
             modelBuilder.Entity<Heatmap>(entity =>
@@ -427,6 +438,12 @@ namespace QABBB.Data
                     .HasColumnName("name");
 
                 entity.Property(e => e.Url).HasColumnName("url");
+
+                entity.HasOne(d => d.IdProjectNavigation)
+                    .WithMany(p => p.ProjectFiles)
+                    .HasForeignKey(d => d.IdProject)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("projectFile_FK1");
             });
 
             modelBuilder.Entity<ProjectForm>(entity =>
@@ -511,84 +528,6 @@ namespace QABBB.Data
                     .HasConstraintName("projectSummaryDocs_FK1");
             });
 
-            modelBuilder.Entity<PublishEmloyeePosition>(entity =>
-            {
-                entity.HasKey(e => e.IdPublishEmloyeePosition)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("publishEmloyeePosition");
-
-                entity.Property(e => e.IdPublishEmloyeePosition).HasColumnName("idPublishEmloyeePosition");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(45)
-                    .HasColumnName("name");
-            });
-
-            modelBuilder.Entity<Publisher>(entity =>
-            {
-                entity.HasKey(e => e.IdPublisher)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("publisher");
-
-                entity.HasIndex(e => e.IdCompany, "publisher_FK1_idx");
-
-                entity.Property(e => e.IdPublisher).HasColumnName("idPublisher");
-
-                entity.Property(e => e.IdCompany).HasColumnName("idCompany");
-
-                entity.HasOne(d => d.IdCompanyNavigation)
-                    .WithMany(p => p.Publishers)
-                    .HasForeignKey(d => d.IdCompany)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("publisher_FK1");
-            });
-
-            modelBuilder.Entity<PublisherEmployee>(entity =>
-            {
-                entity.HasKey(e => e.IdPublisherEmployee)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("publisherEmployee");
-
-                entity.HasIndex(e => e.IdPublisher, "publisherEmployee_FK1");
-
-                entity.HasIndex(e => e.IdUser, "publisherEmployee_FK2_idx");
-
-                entity.HasIndex(e => e.IdPosition, "publisherEmployee_FK2_idx1");
-
-                entity.Property(e => e.IdPublisherEmployee).HasColumnName("idPublisherEmployee");
-
-                entity.Property(e => e.IdPosition).HasColumnName("idPosition");
-
-                entity.Property(e => e.IdPublisher).HasColumnName("idPublisher");
-
-                entity.Property(e => e.IdUser).HasColumnName("idUser");
-
-                entity.Property(e => e.Status)
-                    .HasMaxLength(45)
-                    .HasColumnName("status");
-
-                entity.HasOne(d => d.IdPositionNavigation)
-                    .WithMany(p => p.PublisherEmployees)
-                    .HasForeignKey(d => d.IdPosition)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("publisherEmployee_FK3");
-
-                entity.HasOne(d => d.IdPublisherNavigation)
-                    .WithMany(p => p.PublisherEmployees)
-                    .HasForeignKey(d => d.IdPublisher)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("publisherEmployee_FK1");
-
-                entity.HasOne(d => d.IdUserNavigation)
-                    .WithMany(p => p.PublisherEmployees)
-                    .HasForeignKey(d => d.IdUser)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("publisherEmployee_FK2");
-            });
-
             modelBuilder.Entity<TesterUploadedFile>(entity =>
             {
                 entity.HasKey(e => e.IdTesterUploadedFiles)
@@ -669,6 +608,12 @@ namespace QABBB.Data
                 entity.Property(e => e.RemovedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("removedAt");
+
+                entity.HasOne(d => d.IdPlatformNavigation)
+                    .WithMany(p => p.UserPlatforms)
+                    .HasForeignKey(d => d.IdPlatform)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("userPlatform_FK2");
 
                 entity.HasOne(d => d.IdUserNavigation)
                     .WithMany(p => p.UserPlatforms)

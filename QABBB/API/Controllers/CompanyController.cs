@@ -64,7 +64,7 @@ namespace QABBB.API.Controllers
 
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut()]
+        [HttpPut]
         public IActionResult PutUser(CompanyEditInputDTO companyEditInputDTO)
         {
             Company? company = _companyServices.findById(companyEditInputDTO.IdCompany);

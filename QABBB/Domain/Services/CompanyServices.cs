@@ -16,27 +16,28 @@ namespace QABBB.Domain.Services
     public class CompanyServices
     {
         private readonly QABBBContext _context;
-        private readonly CompanyRepository _companyRepository;
+        private readonly CompanyRepository _ceRepository;
 
-        public CompanyServices(QABBBContext context) {
+        public CompanyServices(QABBBContext context)
+        {
             _context = context;
-            _companyRepository = new CompanyRepository(_context);
+            _ceRepository = new CompanyRepository(_context);
         }
 
         public List<Company> list() {
-            return _companyRepository.list();
+            return _ceRepository.list();
         }
 
         public Company? findById(int id) {
-            return _companyRepository.findById(id);
+            return _ceRepository.findById(id);
         }
 
         public bool add(Company company) {
-            return _companyRepository.add(company) ? true : false;
+            return _ceRepository.add(company) ? true : false;
         }
 
         public bool edit(Company company){
-            return _companyRepository.edit(company);
+            return _ceRepository.edit(company);
         }
     }
 }

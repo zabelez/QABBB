@@ -7,15 +7,17 @@ namespace QABBB.Models
     {
         public Company()
         {
-            Developers = new HashSet<Developer>();
-            Publishers = new HashSet<Publisher>();
+            CompanyEmployees = new HashSet<CompanyEmployee>();
+            GameIdDeveloperNavigations = new HashSet<Game>();
+            GameIdPublisherNavigations = new HashSet<Game>();
         }
 
         public int IdCompany { get; set; }
         public string Name { get; set; } = null!;
         public string? Logo { get; set; }
 
-        public virtual ICollection<Developer> Developers { get; set; }
-        public virtual ICollection<Publisher> Publishers { get; set; }
+        public virtual ICollection<CompanyEmployee> CompanyEmployees { get; set; }
+        public virtual ICollection<Game> GameIdDeveloperNavigations { get; set; }
+        public virtual ICollection<Game> GameIdPublisherNavigations { get; set; }
     }
 }
