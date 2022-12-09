@@ -20,6 +20,7 @@ namespace QABBB.Domain.Repositories
                 .Where(u => u.IdPersonNavigation.Email == email && u.Password == password && u.Status == "Active")
                 .FirstOrDefault();
         }
+
         public List<User> userList(){
             return _context.Users
                 .Include(u => u.IdPersonNavigation)
@@ -43,6 +44,10 @@ namespace QABBB.Domain.Repositories
         public User? findById(int id) {
             return _context.Users
                 .Include(u => u.IdPersonNavigation)
+                .Include(u => u.UserPlatformIdUserNavigations)
+                .ThenInclude(u => u.CreatedByNavigation.IdPersonNavigation)
+                .Include(u => u.UserPlatformIdUserNavigations)
+                .ThenInclude(u => u.IdPlatformNavigation)
                 .Where(u => u.IdPerson == id)
                 .FirstOrDefault();
         }

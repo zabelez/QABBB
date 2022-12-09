@@ -14,7 +14,9 @@ namespace QABBB.Models
             CompanyEmployeeIdPersonNavigations = new HashSet<CompanyEmployee>();
             CompanyEmployeeRemovedByNavigations = new HashSet<CompanyEmployee>();
             Logs = new HashSet<Log>();
-            UserPlatforms = new HashSet<UserPlatform>();
+            UserPlatformCreatedByNavigations = new HashSet<UserPlatform>();
+            UserPlatformIdUserNavigations = new HashSet<UserPlatform>();
+            UserPlatformRemovedByNavigations = new HashSet<UserPlatform>();
         }
 
         public int IdPerson { get; set; }
@@ -31,6 +33,8 @@ namespace QABBB.Models
         public virtual ICollection<CompanyEmployee> CompanyEmployeeIdPersonNavigations { get; set; }
         public virtual ICollection<CompanyEmployee> CompanyEmployeeRemovedByNavigations { get; set; }
         public virtual ICollection<Log> Logs { get; set; }
-        public virtual ICollection<UserPlatform> UserPlatforms { get; set; }
+        public virtual ICollection<UserPlatform> UserPlatformCreatedByNavigations { get; set; }
+        public virtual ICollection<UserPlatform> UserPlatformIdUserNavigations { get; set; }
+        public virtual ICollection<UserPlatform> UserPlatformRemovedByNavigations { get; set; }
     }
 }

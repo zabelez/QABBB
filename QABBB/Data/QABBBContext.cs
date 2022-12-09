@@ -595,11 +595,17 @@ namespace QABBB.Data
 
                 entity.HasIndex(e => e.IdPlatform, "userPlatform_FK2_idx");
 
+                entity.HasIndex(e => e.CreatedBy, "userPlatform_FK3_idx");
+
+                entity.HasIndex(e => e.RemovedBy, "userPlatform_FK4_idx");
+
                 entity.Property(e => e.IdUserPlatform).HasColumnName("idUserPlatform");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("createdAt");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("createdBy");
 
                 entity.Property(e => e.IdPlatform).HasColumnName("idPlatform");
 
@@ -609,6 +615,14 @@ namespace QABBB.Data
                     .HasColumnType("datetime")
                     .HasColumnName("removedAt");
 
+                entity.Property(e => e.RemovedBy).HasColumnName("removedBy");
+
+                entity.HasOne(d => d.CreatedByNavigation)
+                    .WithMany(p => p.UserPlatformCreatedByNavigations)
+                    .HasForeignKey(d => d.CreatedBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("userPlatform_FK3");
+
                 entity.HasOne(d => d.IdPlatformNavigation)
                     .WithMany(p => p.UserPlatforms)
                     .HasForeignKey(d => d.IdPlatform)
@@ -616,10 +630,15 @@ namespace QABBB.Data
                     .HasConstraintName("userPlatform_FK2");
 
                 entity.HasOne(d => d.IdUserNavigation)
-                    .WithMany(p => p.UserPlatforms)
+                    .WithMany(p => p.UserPlatformIdUserNavigations)
                     .HasForeignKey(d => d.IdUser)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("userPlatform_FK1");
+
+                entity.HasOne(d => d.RemovedByNavigation)
+                    .WithMany(p => p.UserPlatformRemovedByNavigations)
+                    .HasForeignKey(d => d.RemovedBy)
+                    .HasConstraintName("userPlatform_FK4");
             });
 
             OnModelCreatingPartial(modelBuilder);

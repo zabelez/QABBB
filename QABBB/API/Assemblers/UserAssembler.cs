@@ -1,5 +1,6 @@
 ﻿using System;
 using QABBB.API.Models.User;
+using QABBB.API.Models.User.Platform;
 using QABBB.Domain.Services;
 using QABBB.Models;
 
@@ -7,6 +8,8 @@ namespace QABBB.API.Assemblers
 {
     public class UserAssembler
     {
+        
+        UserPlatformAssembler userPlatformAssembler = new UserPlatformAssembler();
 
         public UserDTO toUserDTO(User user) {
 
@@ -20,6 +23,20 @@ namespace QABBB.API.Assemblers
             return newUser;
         }
 
+        public UserAndPlatformsDTO toUserAndPlatformsDTO(User user) {
+
+            UserAndPlatformsDTO newUser = new UserAndPlatformsDTO();
+            newUser.IdPerson = user.IdPerson;
+            newUser.IsDarkMode = user.IsDarkMode;
+            newUser.Status = user.Status;
+            newUser.PersonName = user.IdPersonNavigation.PersonName;
+            newUser.Email = user.IdPersonNavigation.Email;
+
+            newUser.Platforms = userPlatformAssembler.toUserPlatformDTO(user.UserPlatformIdUserNavigations);
+
+            return newUser;
+        }
+
         public User toUser(User user, EditUserDTO editUserDTO){
             user.IsDarkMode = editUserDTO.IsDarkMode;
             user.Status = editUserDTO.Status;
@@ -29,6 +46,7 @@ namespace QABBB.API.Assemblers
         }
 
         public List<UserDTO> toUserDTO(IEnumerable<User> users) {
+
 
             List<UserDTO> newUsers = new List<UserDTO>();
 

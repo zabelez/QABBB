@@ -58,7 +58,7 @@ namespace QABBB.Controllers
 
         // GET: api/User/5x
         [HttpGet("{id}")]
-        public ActionResult<UserDTO> GetUser(int id)
+        public ActionResult<UserAndPlatformsDTO> GetUser(int id)
         {
           if (_context.Users == null)
               return NotFound();
@@ -68,7 +68,7 @@ namespace QABBB.Controllers
             if (user == null)
                 return NotFound();
 
-            return _userAssembler.toUserDTO(user);
+            return _userAssembler.toUserAndPlatformsDTO(user);
         }
 
         [HttpPost("resetPassword")]

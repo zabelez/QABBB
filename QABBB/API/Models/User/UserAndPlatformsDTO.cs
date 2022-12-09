@@ -4,7 +4,7 @@ using QABBB.Models;
 
 namespace QABBB.API.Models.User
 {
-    public class UserDTO
+    public class UserAndPlatformsDTO
     {
         public int IdPerson { get; set; }
 
@@ -17,6 +17,8 @@ namespace QABBB.API.Models.User
         public string Status {get; set;}
 
         public List<String>? Roles { get; set; }
+
+        public List<UserPlatformDTO>? Platforms {get; set;}
 
     }
 }
