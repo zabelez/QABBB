@@ -1,12 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace QABBB.API.Models.User.Platform
+namespace QABBB.API.Models.Game.Platform
 {
-    public class UserPlatformInputDTO
+    public class GamePlatformInputDTO
     {
         [Required]
-        public int IdUser { get; set; }
+        public int IdGame { get; set; }
         [Required]
         public int IdPlatform { get; set; }
         
