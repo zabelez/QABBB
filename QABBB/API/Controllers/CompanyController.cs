@@ -26,7 +26,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/Company
         [HttpGet]
-        public ActionResult GetCompanies()
+        public ActionResult<List<CompanyDTO>> GetCompanies()
         {
             if (_context.Companies == null)
                 return NotFound();
@@ -40,7 +40,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/Company/5
         [HttpGet("{id}")]
-        public ActionResult GetCompany(int id)
+        public ActionResult<CompanyDTO> GetCompany(int id)
         {
           if (_context.Companies == null)
               return NotFound();
@@ -58,7 +58,7 @@ namespace QABBB.API.Controllers
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
-        public IActionResult PutUser(CompanyEditInputDTO companyEditInputDTO)
+        public ActionResult PutUser(CompanyEditInputDTO companyEditInputDTO)
         {
             Company? company = _companyServices.findById(companyEditInputDTO.IdCompany);
             if(company == null)
@@ -74,7 +74,7 @@ namespace QABBB.API.Controllers
         // POST: api/Company
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult PostCompany(CompanyInputDTO companyInputDTO)
+        public ActionResult<CompanyDTO> PostCompany(CompanyInputDTO companyInputDTO)
         {
             if (_context.Companies == null)
                 return Problem("Entity set 'QABBBContext.Companies'  is null.");

@@ -27,7 +27,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/Platform
         [HttpGet]
-        public ActionResult GetPlatforms()
+        public ActionResult<List<PlatformDTO>> GetPlatforms()
         {
           if (_context.Platforms == null)
                 return NotFound();
@@ -41,7 +41,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/Platform/5
         [HttpGet("{id}")]
-        public ActionResult GetPlatform(int id)
+        public ActionResult<PlatformDTO> GetPlatform(int id)
         {
           if (_context.Companies == null)
               return NotFound();
@@ -59,7 +59,7 @@ namespace QABBB.API.Controllers
         // PUT: api/Platform/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
-        public IActionResult PutPlatform(PlatformEditInputDTO platformEditInputDTO)
+        public ActionResult PutPlatform(PlatformEditInputDTO platformEditInputDTO)
         {
             Platform? platform = _platformServices.findById(platformEditInputDTO.IdPlatform);
             if(platform == null)
@@ -75,7 +75,7 @@ namespace QABBB.API.Controllers
         // POST: api/Platform
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult PostPlatform(PlatformInputDTO platformInputDTO)
+        public ActionResult<PlatformDTO> PostPlatform(PlatformInputDTO platformInputDTO)
         {
           if (_context.Companies == null)
                 return Problem("Entity set 'QABBBContext.Companies'  is null.");

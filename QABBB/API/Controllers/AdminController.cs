@@ -38,7 +38,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/Admin
         [HttpGet]
-        public ActionResult GetAdmins()
+        public ActionResult<List<AdminDTO>> GetAdmins()
         {
 
             if (_context.Admins == null)
@@ -56,7 +56,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/Admin/5
         [HttpGet("{id}")]
-        public ActionResult GetAdmin(int id)
+        public ActionResult<AdminDTO> GetAdmin(int id)
         {
             if (_context.Admins == null)
             {
@@ -109,7 +109,7 @@ namespace QABBB.API.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult PostAdmin(AdminINDTO adminINDTO)
+        public ActionResult<AdminDTO> PostAdmin(AdminINDTO adminINDTO)
         {
             if (_context.Admins == null)
                 return Problem("Entity set 'QABBBContext.Admins'  is null.");
@@ -165,11 +165,6 @@ namespace QABBB.API.Controllers
            _adminServices.inactivate(admin, int.Parse(idPerson));
 
            return NoContent();
-        }
-
-        private bool AdminExists(int id)
-        {
-            return (_context.Admins?.Any(e => e.IdAdmin == id)).GetValueOrDefault();
         }
     }
 }

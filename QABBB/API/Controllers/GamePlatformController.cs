@@ -32,7 +32,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/GamePlatform/5
         [HttpGet("{idGame}")]
-        public ActionResult GetGamePlatform(int idGame)
+        public ActionResult<List<GamePlatformDTO>> GetGamePlatform(int idGame)
         {
           if (_context.GamePlatforms == null)
               return NotFound();
@@ -47,7 +47,7 @@ namespace QABBB.API.Controllers
         // POST: api/GamePlatform
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult PostGamePlatform(GamePlatformInputDTO gamePlatformInputDTO)
+        public ActionResult<GamePlatformDTO> PostGamePlatform(GamePlatformInputDTO gamePlatformInputDTO)
         {
             if (_context.GamePlatforms == null)
                 return Problem("Entity set 'QABBBContext.GamePlatforms'  is null.");
@@ -75,7 +75,7 @@ namespace QABBB.API.Controllers
 
         // DELETE: api/GamePlatform/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteGamePlatform(int id)
+        public ActionResult DeleteGamePlatform(int id)
         {
             if (_context.GamePlatforms == null)
                 return NotFound();

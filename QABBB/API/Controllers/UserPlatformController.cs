@@ -32,7 +32,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/UserPlatform/5
         [HttpGet("{idUser}")]
-        public ActionResult GetUserPlatform(int idUser)
+        public ActionResult<List<UserPlatformDTO>> GetUserPlatform(int idUser)
         {
           if (_context.UserPlatforms == null)
               return NotFound();
@@ -47,7 +47,7 @@ namespace QABBB.API.Controllers
         // POST: api/UserPlatform
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult PostUserPlatform(UserPlatformInputDTO userPlatformInputDTO)
+        public ActionResult<UserPlatformDTO> PostUserPlatform(UserPlatformInputDTO userPlatformInputDTO)
         {
             if (_context.UserPlatforms == null)
                 return Problem("Entity set 'QABBBContext.UserPlatforms'  is null.");
@@ -75,7 +75,7 @@ namespace QABBB.API.Controllers
 
         // DELETE: api/UserPlatform/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteUserPlatform(int id)
+        public ActionResult DeleteUserPlatform(int id)
         {
             if (_context.UserPlatforms == null)
                 return NotFound();

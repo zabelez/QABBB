@@ -63,6 +63,7 @@ namespace QABBB.API.Assemblers
             newUser.IdUser = user.IdPerson;
             newUser.IsDarkMode = user.IsDarkMode;
             newUser.Token = token;
+            newUser.UserName = user.IdPersonNavigation.PersonName;
 
             return newUser;
         }

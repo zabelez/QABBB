@@ -34,7 +34,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/CompanyEmployee
         [HttpGet]
-        public ActionResult GetCompanyEmployees()
+        public ActionResult<List<CompanyEmployeeDTO>> GetCompanyEmployees()
         {
             if (_context.CompanyEmployees == null)
                 return NotFound();
@@ -48,7 +48,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/CompanyEmployee/5
         [HttpGet("{id}")]
-        public ActionResult GetCompanyEmployee(int id)
+        public ActionResult<CompanyEmployeeDTO> GetCompanyEmployee(int id)
         {
             if (_context.CompanyEmployees == null)
                 return NotFound();
@@ -64,7 +64,7 @@ namespace QABBB.API.Controllers
         // PUT: api/CompanyEmployee/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
-        public IActionResult PutChangePosition(CompanyEmployeeEditInputDTO companyEmployeeEditInputDTO)
+        public ActionResult<CompanyEmployeeDTO> PutChangePosition(CompanyEmployeeEditInputDTO companyEmployeeEditInputDTO)
         {
             CompanyEmployee? _companyEmployee = _ceServices.findById(companyEmployeeEditInputDTO.IdCompanyEmployee);
             if (_companyEmployee == null)
@@ -88,7 +88,7 @@ namespace QABBB.API.Controllers
         // POST: api/CompanyEmployee
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult PostCompanyEmployee(CompanyEmployeeInputDTO developerEmployeeInputDTO)
+        public ActionResult<CompanyEmployeeDTO> PostCompanyEmployee(CompanyEmployeeInputDTO developerEmployeeInputDTO)
         {
             if (_context.CompanyEmployees == null)
                 return Problem("Entity set 'QABBBContext.CompanyEmployees'  is null.");
@@ -110,7 +110,7 @@ namespace QABBB.API.Controllers
 
         // DELETE: api/CompanyEmployee/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteCompanyEmployee(int id)
+        public ActionResult DeleteCompanyEmployee(int id)
         {
             CompanyEmployee? _companyEmployee = _ceServices.findById(id);
             if (_companyEmployee == null)

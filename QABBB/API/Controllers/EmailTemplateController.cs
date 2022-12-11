@@ -32,7 +32,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/EmailTemplate
         [HttpGet]
-        public ActionResult GetEmailTemplates()
+        public ActionResult<List<EmailTemplateDTO>> GetEmailTemplates()
         {
             if (_context.EmailTemplates == null)
                 return NotFound();
@@ -46,7 +46,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/EmailTemplate/5
         [HttpGet("{id}")]
-        public ActionResult GetEmailTemplate(int id)
+        public ActionResult<EmailTemplateDTO> GetEmailTemplate(int id)
         {
             if (_context.EmailTemplates == null)
                 return NotFound();
@@ -63,7 +63,7 @@ namespace QABBB.API.Controllers
         // PUT: api/EmailTemplate/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public IActionResult PutEmailTemplate(EmailTemplateEditDTO emailTemplateEditDTO)
+        public ActionResult PutEmailTemplate(EmailTemplateEditDTO emailTemplateEditDTO)
         {
             EmailTemplate? emailTemplate = _emailTemplateServices.findById(emailTemplateEditDTO.IdEmailTemplate);
             if(emailTemplate == null)
@@ -79,7 +79,7 @@ namespace QABBB.API.Controllers
         // POST: api/EmailTemplate
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult PostEmailTemplate(EmailTemplateInputDTO emailTemplateInputDTO)
+        public ActionResult<EmailTemplateDTO> PostEmailTemplate(EmailTemplateInputDTO emailTemplateInputDTO)
         {
             if (_context.EmailTemplates == null)
                 return Problem("Entity set 'QABBBContext.EmailTemplates'  is null.");
@@ -95,7 +95,7 @@ namespace QABBB.API.Controllers
 
         // DELETE: api/EmailTemplate/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteEmailTemplate(int id)
+        public ActionResult DeleteEmailTemplate(int id)
         {
             if (_context.EmailTemplates == null)
                 return NotFound();

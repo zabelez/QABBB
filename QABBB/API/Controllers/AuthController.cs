@@ -38,7 +38,7 @@ namespace QABBB.API.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login([FromBody] LoginINDTO inLoginDTO)
+        public ActionResult<UserDTO> Login([FromBody] LoginINDTO inLoginDTO)
         {
             User? user = _userServices.login(inLoginDTO.Email, inLoginDTO.Password);
 
@@ -51,7 +51,6 @@ namespace QABBB.API.Controllers
             LoginOUTDTO userDTO = _userAssembler.toLoginOUTDTO(user, _authServices.BuildToken(user));
             userDTO.Roles = _authServices.getClaims(user);
 
-
             string? ipAddress = Request.HttpContext.Connection.RemoteIpAddress?.ToString();
 
             _logServices.add(ipAddress, user.IdPerson);
@@ -62,7 +61,7 @@ namespace QABBB.API.Controllers
 
         [HttpPost]
         [Route("resetPasswordRequired")]
-        public IActionResult ResetPassword([FromBody] ResetPasswordRequiredDTO resetPasswordRequiredDTO)
+        public ActionResult<UserDTO> ResetPassword([FromBody] ResetPasswordRequiredDTO resetPasswordRequiredDTO)
         {
             User? user =  _userServices.login(resetPasswordRequiredDTO.UserName, resetPasswordRequiredDTO.OldPassword);
 

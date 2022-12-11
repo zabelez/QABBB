@@ -35,7 +35,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/CompanyEmployee
         [HttpGet]
-        public ActionResult GetCompanyEmployeePositions()
+        public ActionResult<List<CompanyEmployeePositionDTO>> GetCompanyEmployeePositions()
         {
             if (_context.CompanyEmployeePositions == null)
                 return NotFound();

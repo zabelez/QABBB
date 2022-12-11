@@ -39,7 +39,7 @@ namespace QABBB.Controllers
 
         // GET: api/User
         [HttpGet]
-        public ActionResult<IEnumerable<UserDTO>> GetUsers()
+        public ActionResult<List<UserDTO>> GetUsers()
         {
           if (_context.Users == null)
           {
@@ -119,7 +119,7 @@ namespace QABBB.Controllers
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut()]
-        public IActionResult PutUser(EditUserDTO editUserDTO)
+        public ActionResult PutUser(EditUserDTO editUserDTO)
         {
             User? user = _userServices.findById(editUserDTO.IdPerson);
             if(user == null)
@@ -136,7 +136,7 @@ namespace QABBB.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult PostUser(NewUserDTO user) {
+        public ActionResult<UserDTO> PostUser(NewUserDTO user) {
             if (_context.Users == null)
                 return Problem("Entity set 'QABBBContext.Users'  is null.");
 
@@ -153,35 +153,8 @@ namespace QABBB.Controllers
 
             UserDTO userDTO = _userAssembler.toUserDTO(newUser);
 
-            return CreatedAtAction("GetUser", new {
-                id = userDTO.IdPerson
-            }, userDTO);
+            return CreatedAtAction("GetUser", new { id = userDTO.IdPerson }, userDTO);
 
-        }
-
-        //// DELETE: api/User/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteUser(int id)
-        //{
-        //    if (_context.Users == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var user = await _context.Users.FindAsync(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Users.Remove(user);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        private bool UserExists(int id)
-        {
-            return (_context.Users?.Any(e => e.IdPerson == id)).GetValueOrDefault();
         }
     }
 }

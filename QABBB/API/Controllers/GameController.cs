@@ -26,7 +26,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/Game
         [HttpGet]
-        public ActionResult GetGames()
+        public ActionResult<List<GameDTO>> GetGames()
         {
             if (_context.Games == null)
                 return NotFound();
@@ -40,7 +40,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/Game/5
         [HttpGet("{id}")]
-        public ActionResult GetGame(int id)
+        public ActionResult<GameAndPlatformsDTO> GetGame(int id)
         {
           if (_context.Games == null)
               return NotFound();
@@ -58,7 +58,7 @@ namespace QABBB.API.Controllers
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
-        public IActionResult PutUser(GameEditInputDTO gameEditInputDTO)
+        public ActionResult PutUser(GameEditInputDTO gameEditInputDTO)
         {
             Game? game = _gameServices.findById(gameEditInputDTO.IdGame);
             if(game == null)
@@ -74,7 +74,7 @@ namespace QABBB.API.Controllers
         // POST: api/Game
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult PostGame(GameInputDTO gameInputDTO)
+        public ActionResult<GameDTO> PostGame(GameInputDTO gameInputDTO)
         {
             if (_context.Games == null)
                 return Problem("Entity set 'QABBBContext.Games'  is null.");
