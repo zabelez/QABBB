@@ -331,14 +331,14 @@ namespace QABBB.Data
 
             modelBuilder.Entity<Log>(entity =>
             {
-                entity.HasKey(e => e.Idlog)
+                entity.HasKey(e => e.IdLog)
                     .HasName("PRIMARY");
 
                 entity.ToTable("log");
 
                 entity.HasIndex(e => e.IdUser, "log_FK1_idx");
 
-                entity.Property(e => e.Idlog)
+                entity.Property(e => e.IdLog)
                     .ValueGeneratedNever()
                     .HasColumnName("idlog");
 

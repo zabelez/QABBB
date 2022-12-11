@@ -16,7 +16,7 @@ namespace QABBB.API.Assemblers
             return gamePlatformDTO;
         }
 
-        public List<GamePlatformDTO> toGamePlatformDTO(IEnumerable<GamePlatform> gamePlatforms) {
+        public List<GamePlatformDTO> toGamePlatformDTO(IEnumerable<GamePlatform>? gamePlatforms) {
 
             if(gamePlatforms == null)
                 return new List<GamePlatformDTO>();

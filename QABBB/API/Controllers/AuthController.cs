@@ -25,6 +25,7 @@ namespace QABBB.API.Controllers
         private readonly AuthServices _authServices;
         private readonly AdminServices _adminServices;
         private readonly UserServices _userServices;
+        private readonly LogServices _logServices;
 
         public AuthController(QABBBContext context) {
             _context = context;
@@ -32,6 +33,7 @@ namespace QABBB.API.Controllers
             _authServices = new AuthServices(_context);
             _userServices = new UserServices(_context);
             _adminServices = new AdminServices(_context);
+            _logServices = new LogServices(_context);
         }
 
         [HttpPost]
@@ -48,6 +50,11 @@ namespace QABBB.API.Controllers
 
             LoginOUTDTO userDTO = _userAssembler.toLoginOUTDTO(user, _authServices.BuildToken(user));
             userDTO.Roles = _authServices.getClaims(user);
+
+
+            string? ipAddress = Request.HttpContext.Connection.RemoteIpAddress?.ToString();
+
+            _logServices.add(ipAddress, user.IdPerson);
 
             return Ok(userDTO);
 
