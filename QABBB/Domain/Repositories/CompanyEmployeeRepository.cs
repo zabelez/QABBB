@@ -19,7 +19,7 @@ namespace QABBB.Domain.Repositories
                 .Include(u => u.IdPersonNavigation.IdPersonNavigation)
                 .Include(u => u.IdPositionNavigation)
                 .Include(u => u.CreatedByNavigation.IdPersonNavigation)
-                .Include(u => u.RemovedByNavigation.IdPersonNavigation)
+                .Include(u => u.RemovedByNavigation!.IdPersonNavigation)
                 .Where(u => u.RemovedAt == null)
                 .ToList();
         }
@@ -42,7 +42,7 @@ namespace QABBB.Domain.Repositories
                 .Include(u => u.IdPersonNavigation.IdPersonNavigation)
                 .Include(u => u.IdPositionNavigation)
                 .Include(u => u.CreatedByNavigation.IdPersonNavigation)
-                .Include(u => u.RemovedByNavigation.IdPersonNavigation)
+                .Include(u => u.RemovedByNavigation!.IdPersonNavigation)
                 .Where(u => u.IdCompanyEmployee == id && u.RemovedAt == null)
                 .FirstOrDefault();
         }

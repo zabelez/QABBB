@@ -86,7 +86,7 @@ namespace QABBB.Controllers
             if (user.Password != resetPasswordDTO.OldPassword)
                 return NotFound("Incorrect Old Password. Try again.");
 
-            _userServices.resetPassword(user, resetPasswordDTO.NewPassword);
+            _userServices.resetPassword(user, resetPasswordDTO.NewPassword!);
 
             return NoContent();
 
@@ -149,7 +149,7 @@ namespace QABBB.Controllers
             _userServices.add(newUser);
 
             if (user.IsAdmin)
-                _adminServices.add(newUser, int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
+                _adminServices.add(newUser, int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value));
 
             UserDTO userDTO = _userAssembler.toUserDTO(newUser);
 

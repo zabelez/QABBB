@@ -101,7 +101,7 @@ namespace QABBB.API.Controllers
 
             _ceServices.add(_developerEmployee, int.Parse(idPerson));
 
-            _developerEmployee = _ceServices.findById(_developerEmployee.IdCompanyEmployee);
+            _developerEmployee = _ceServices.findById(_developerEmployee.IdCompanyEmployee)!;
 
             CompanyEmployeeDTO _developerEmployeeDTO = _ceAssembler.toCompanyEmployeeDTO(_developerEmployee);
 

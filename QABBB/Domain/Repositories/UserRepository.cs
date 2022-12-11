@@ -49,7 +49,7 @@ namespace QABBB.Domain.Repositories
                 .Include(u => u.UserPlatformIdUserNavigations)
                     .ThenInclude(u => u.CreatedByNavigation.IdPersonNavigation)
                 .Include(u => u.UserPlatformIdUserNavigations.Where(up => up.RemovedBy == null))
-                    .ThenInclude(u => u.RemovedByNavigation.IdPersonNavigation)
+                    .ThenInclude(u => u.RemovedByNavigation!.IdPersonNavigation)
                 .Where(u => u.IdPerson == id)
                 .FirstOrDefault();
         }

@@ -33,7 +33,7 @@ namespace QABBB.Domain.Repositories
             return _context.Admins
                 .Include(u => u.IdUserNavigation.IdPersonNavigation)
                 .Include(u => u.CreatedByNavigation.IdPersonNavigation)
-                .Include(u => u.RemovedByNavigation.IdPersonNavigation)
+                .Include(u => u.RemovedByNavigation!.IdPersonNavigation)
                 .Where(u => u.RemovedBy == null)
                 .OrderBy(u => u.IdUserNavigation.IdPersonNavigation.PersonName)
                 .ToList();
@@ -44,7 +44,7 @@ namespace QABBB.Domain.Repositories
             return _context.Admins
                 .Include(u => u.IdUserNavigation.IdPersonNavigation)
                 .Include(u => u.CreatedByNavigation.IdPersonNavigation)
-                .Include(u => u.RemovedByNavigation.IdPersonNavigation)
+                .Include(u => u.RemovedByNavigation!.IdPersonNavigation)
                 .Where(u => u.IdAdmin == id)
                 .FirstOrDefault();
         }
@@ -63,7 +63,7 @@ namespace QABBB.Domain.Repositories
             return _context.Admins
                 .Include(u => u.IdUserNavigation.IdPersonNavigation)
                 .Include(u => u.CreatedByNavigation.IdPersonNavigation)
-                .Include(u => u.RemovedByNavigation.IdPersonNavigation)
+                .Include(u => u.RemovedByNavigation!.IdPersonNavigation)
                 .Where(u => u.IdUser == id && u.RemovedAt == null)
                 .FirstOrDefault();
         }

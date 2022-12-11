@@ -39,7 +39,7 @@ namespace QABBB.API.Controllers
           
             List<UserPlatform>? userPlatforms = _upServices.findByIdUser(idUser);
 
-            List<UserPlatformDTO>? userPlatformDTOs = _upAssembler.toUserPlatformDTO(userPlatforms);
+            List<UserPlatformDTO>? userPlatformDTOs = _upAssembler.toUserPlatformDTO(userPlatforms!);
 
             return Ok(userPlatformDTOs);
         }

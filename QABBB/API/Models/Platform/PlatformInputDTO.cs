@@ -6,7 +6,7 @@ namespace QABBB.API.Models.Platform
     public class PlatformInputDTO
     {
         [Required]
-        public string? Name { get; set; }
+        public string Name { get; set; } = "";
 
     }
 }

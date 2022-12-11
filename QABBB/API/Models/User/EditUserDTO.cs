@@ -9,17 +9,17 @@ namespace QABBB.API.Models.User
         public int IdPerson { get; set;}
 
         [Required]
-        public string? PersonName { get; set; }
+        public string PersonName { get; set; } = "";
 
         [Required]
         [EmailAddress]
-        public string? Email { get; set; }
+        public string Email { get; set; } = "";
 
         [Required]
         public bool IsDarkMode { get; set; }
 
         [Required]
-        public string? Status {get; set;}
+        public string Status {get; set;} = "";
 
     }
 }

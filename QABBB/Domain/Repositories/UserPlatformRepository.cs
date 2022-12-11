@@ -40,7 +40,7 @@ namespace QABBB.Domain.Repositories
             return _context.UserPlatforms
                 .Include(u => u.IdUserNavigation.IdPersonNavigation)
                 .Include(u => u.CreatedByNavigation.IdPersonNavigation)
-                .Include(u => u.RemovedByNavigation.IdPersonNavigation)
+                .Include(u => u.RemovedByNavigation!.IdPersonNavigation)
                 .Include(u => u.IdPlatformNavigation)
                 .Where(u => u.IdUser == idUser && u.RemovedBy == null)
                 .ToList();

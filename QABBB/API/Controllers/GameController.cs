@@ -83,7 +83,7 @@ namespace QABBB.API.Controllers
             
             _gameServices.add(game);
 
-            game = _gameServices.findById(game.IdGame);
+            game = _gameServices.findById(game.IdGame)!;
 
             GameDTO gameDTO = _gameAssembler.toGameDTO(game);
 
