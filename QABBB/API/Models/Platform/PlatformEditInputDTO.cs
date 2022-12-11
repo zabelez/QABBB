@@ -8,7 +8,7 @@ namespace QABBB.API.Models.Platform
         [Required]
         public int IdPlatform { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
     }
 }

@@ -20,6 +20,9 @@ namespace QABBB.Domain.Services
         }
 
         public void add(string? ipAddress, int idUser) {
+            if(ipAddress == null)
+                return;
+                
             Log log = new Log();
             log.IdUser = idUser;
             log.Ip = ipAddress;
