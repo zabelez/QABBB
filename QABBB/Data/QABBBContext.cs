@@ -422,14 +422,14 @@ namespace QABBB.Data
 
             modelBuilder.Entity<ProjectFile>(entity =>
             {
-                entity.HasKey(e => e.IdProjectFiles)
+                entity.HasKey(e => e.IdProjectFile)
                     .HasName("PRIMARY");
 
                 entity.ToTable("projectFile");
 
                 entity.HasIndex(e => e.IdProject, "projectFile_FK1_idx");
 
-                entity.Property(e => e.IdProjectFiles).HasColumnName("idProjectFiles");
+                entity.Property(e => e.IdProjectFile).HasColumnName("idProjectFile");
 
                 entity.Property(e => e.IdProject).HasColumnName("idProject");
 
