@@ -1,21 +1,27 @@
 ﻿<Properties StartupConfiguration="{EAE9D91C-E2C6-4010-AE1D-C74AF4CC5291}|Default">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.QABBB PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QABBB/Domain/Services/CompanyServices.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="QABBB/API/Assemblers/UserAssembler.cs">
     <Files>
       <File FileName="QABBB/Program.cs" />
       <File FileName="QABBB/API/Controllers/UserController.cs" />
       <File FileName="QABBB/API/Models/Company/Employee/CompanyEmployeeInputDTO.cs" />
       <File FileName="QABBB/API/Models/Company/Employee/CompanyEmployeeDTO.cs" />
       <File FileName="QABBB/API/Assemblers/CompanyEmployeeAssembler.cs" />
-      <File FileName="QABBB/Domain/Services/CompanyServices.cs" Line="13" Column="1" />
+      <File FileName="QABBB/Domain/Services/CompanyServices.cs" />
       <File FileName="QABBB/Domain/Services/CompanyEmployeeServices.cs" />
       <File FileName="QABBB/Domain/Services/AuthServices.cs" />
       <File FileName="QABBB/Domain/Services/UserServices.cs" />
       <File FileName="QABBB/Domain/Services/EmailTemplateServices.cs" />
       <File FileName="QABBB/API/Controllers/CompanyEmployeeController.cs" />
+      <File FileName="QABBB/API/Assemblers/GamePlatformAssembler.cs" />
+      <File FileName="QABBB/Data/QABBBContext.cs" />
+      <File FileName="QABBB/API/Models/User/UserDTO.cs" />
+      <File FileName="QABBB/API/Assemblers/UserAssembler.cs" Line="84" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -23,20 +29,21 @@
           <Node name="QABBB" expanded="True">
             <Node name="QABBB" expanded="True">
               <Node name="API" expanded="True">
-                <Node name="Assemblers" expanded="True" />
+                <Node name="Assemblers" expanded="True">
+                  <Node name="UserAssembler.cs" selected="True" />
+                </Node>
                 <Node name="Controllers" expanded="True" />
                 <Node name="Models" expanded="True">
                   <Node name="Company" expanded="True">
                     <Node name="Employee" expanded="True" />
                   </Node>
+                  <Node name="User" expanded="True" />
                 </Node>
               </Node>
               <Node name="Data" expanded="True" />
               <Node name="Domain" expanded="True">
                 <Node name="Models" expanded="True" />
-                <Node name="Services" expanded="True">
-                  <Node name="CompanyServices.cs" selected="True" />
-                </Node>
+                <Node name="Services" expanded="True" />
               </Node>
               <Node name="Models" expanded="True" />
               <Node name="Properties" expanded="True" />
@@ -46,7 +53,5 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.QABBB PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

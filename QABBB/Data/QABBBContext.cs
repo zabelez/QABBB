@@ -338,12 +338,10 @@ namespace QABBB.Data
 
                 entity.HasIndex(e => e.IdUser, "log_FK1_idx");
 
-                entity.Property(e => e.IdLog)
-                    .ValueGeneratedNever()
-                    .HasColumnName("idlog");
+                entity.Property(e => e.IdLog).HasColumnName("idLog");
 
                 entity.Property(e => e.Date)
-                    .HasMaxLength(45)
+                    .HasColumnType("datetime")
                     .HasColumnName("date");
 
                 entity.Property(e => e.IdUser).HasColumnName("idUser");
@@ -504,14 +502,14 @@ namespace QABBB.Data
 
             modelBuilder.Entity<ProjectSummaryDoc>(entity =>
             {
-                entity.HasKey(e => e.IdProjectSummaryDocs)
+                entity.HasKey(e => e.IdProjectSummaryDoc)
                     .HasName("PRIMARY");
 
-                entity.ToTable("projectSummaryDocs");
+                entity.ToTable("projectSummaryDoc");
 
                 entity.HasIndex(e => e.IdProject, "projectSummaryDocs_FK1_idx");
 
-                entity.Property(e => e.IdProjectSummaryDocs).HasColumnName("idProjectSummaryDocs");
+                entity.Property(e => e.IdProjectSummaryDoc).HasColumnName("idProjectSummaryDoc");
 
                 entity.Property(e => e.IdProject).HasColumnName("idProject");
 
@@ -525,19 +523,19 @@ namespace QABBB.Data
                     .WithMany(p => p.ProjectSummaryDocs)
                     .HasForeignKey(d => d.IdProject)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("projectSummaryDocs_FK1");
+                    .HasConstraintName("projectSummaryDoc_FK1");
             });
 
             modelBuilder.Entity<TesterUploadedFile>(entity =>
             {
-                entity.HasKey(e => e.IdTesterUploadedFiles)
+                entity.HasKey(e => e.IdTesterUploadedFile)
                     .HasName("PRIMARY");
 
-                entity.ToTable("testerUploadedFiles");
+                entity.ToTable("testerUploadedFile");
 
                 entity.HasIndex(e => e.IdProject, "testerUploadedFiles_FK1_idx");
 
-                entity.Property(e => e.IdTesterUploadedFiles).HasColumnName("idTesterUploadedFiles");
+                entity.Property(e => e.IdTesterUploadedFile).HasColumnName("idTesterUploadedFile");
 
                 entity.Property(e => e.IdProject).HasColumnName("idProject");
 
@@ -551,7 +549,7 @@ namespace QABBB.Data
                     .WithMany(p => p.TesterUploadedFiles)
                     .HasForeignKey(d => d.IdProject)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("testerUploadedFiles_FK1");
+                    .HasConstraintName("testerUploadedFile_FK1");
             });
 
             modelBuilder.Entity<User>(entity =>
