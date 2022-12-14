@@ -40,9 +40,9 @@ namespace QABBB.API.Assemblers
         public HeatmapLayer toHeatmapLayer(HeatmapLayerInputDTO heatmapLayerInputDTO) {
 
             HeatmapLayer heatmapLayer = new HeatmapLayer();
-            heatmapLayerInputDTO.IdHeatmap = heatmapLayer.IdHeatmap;
-            heatmapLayerInputDTO.ImagePath = heatmapLayer.ImagePath;
-            heatmapLayerInputDTO.Name = heatmapLayer.Name;
+            heatmapLayer.IdHeatmap = heatmapLayerInputDTO.IdHeatmap;
+            heatmapLayer.ImagePath = heatmapLayerInputDTO.ImagePath;
+            heatmapLayer.Name = heatmapLayerInputDTO.Name;
 
             return heatmapLayer;
         }

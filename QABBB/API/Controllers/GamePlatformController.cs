@@ -1,5 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QABBB.API.Assemblers;
@@ -21,8 +26,7 @@ namespace QABBB.API.Controllers
         private readonly PlatformServices _pServices;
         private readonly GamePlatformAssembler _gpAssembler;
 
-        public GamePlatformController(QABBBContext context)
-        {
+        public GamePlatformController(QABBBContext context) {
             _context = context;
             _gpAssembler = new GamePlatformAssembler();
             _gpServices = new GamePlatformServices(_context);
@@ -32,11 +36,10 @@ namespace QABBB.API.Controllers
 
         // GET: api/GamePlatform/5
         [HttpGet("{idGame}")]
-        public ActionResult<List<GamePlatformDTO>> GetGamePlatform(int idGame)
-        {
-          if (_context.GamePlatforms == null)
-              return NotFound();
-          
+        public ActionResult<List<GamePlatformDTO>> GetGamePlatform(int idGame) {
+            if (_context.GamePlatforms == null)
+                return NotFound();
+
             List<GamePlatform>? gamePlatforms = _gpServices.findByIdGame(idGame);
 
             List<GamePlatformDTO>? gamePlatformDTOs = _gpAssembler.toGamePlatformDTO(gamePlatforms);
@@ -47,8 +50,7 @@ namespace QABBB.API.Controllers
         // POST: api/GamePlatform
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult<GamePlatformDTO> PostGamePlatform(GamePlatformInputDTO gamePlatformInputDTO)
-        {
+        public ActionResult<GamePlatformDTO> PostGamePlatform(GamePlatformInputDTO gamePlatformInputDTO) {
             if (_context.GamePlatforms == null)
                 return Problem("Entity set 'QABBBContext.GamePlatforms'  is null.");
 
@@ -57,31 +59,32 @@ namespace QABBB.API.Controllers
                 return Unauthorized();
 
             Game? game = _gServices.findById(gamePlatformInputDTO.IdGame);
-            if(game == null)
+            if (game == null)
                 return NotFound("Invalid IdGame");
 
             Platform? platform = _pServices.findById(gamePlatformInputDTO.IdPlatform);
-            if(platform == null)
+            if (platform == null)
                 return NotFound("Invalid IdPlatform");
-          
+
             GamePlatform gamePlatform = _gpAssembler.toGamePlatform(gamePlatformInputDTO);
 
             _gpServices.add(gamePlatform, int.Parse(idPerson));
 
             GamePlatformDTO gamePlatformDTO = _gpAssembler.toGamePlatformDTO(gamePlatform);
 
-            return CreatedAtAction("GetGamePlatform", new { idGame = gamePlatformDTO.IdGamePlatform }, gamePlatformDTO);
+            return CreatedAtAction("GetGamePlatform", new {
+                idGame = gamePlatformDTO.IdGamePlatform
+            }, gamePlatformDTO);
         }
 
         // DELETE: api/GamePlatform/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteGamePlatform(int id)
-        {
+        public ActionResult DeleteGamePlatform(int id) {
             if (_context.GamePlatforms == null)
                 return NotFound();
 
             GamePlatform? gamePlatform = _gpServices.findById(id);
-            if(gamePlatform == null)
+            if (gamePlatform == null)
                 return NotFound("Invalid Id");
 
             string? idPerson = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -89,7 +92,7 @@ namespace QABBB.API.Controllers
                 return Unauthorized();
 
             _gpServices.delete(gamePlatform);
-            
+
             return NoContent();
         }
     }

@@ -40,9 +40,9 @@ namespace QABBB.API.Assemblers
         public ProjectFile toProjectFile(ProjectFileInputDTO projectfileInputDTO) {
 
             ProjectFile projectfile = new ProjectFile();
-            projectfileInputDTO.IdProject = projectfile.IdProject;
-            projectfileInputDTO.Name = projectfile.Name;
-            projectfileInputDTO.Url = projectfile.Url;
+            projectfile.IdProject = projectfileInputDTO.IdProject;
+            projectfile.Name = projectfileInputDTO.Name;
+            projectfile.Url = projectfileInputDTO.Url;
 
             return projectfile;
         }

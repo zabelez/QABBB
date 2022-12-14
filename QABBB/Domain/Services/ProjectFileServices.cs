@@ -22,16 +22,16 @@ namespace QABBB.Domain.Services
             return _projectFileRepository.findById(id);
         }
 
-        public bool add(ProjectFile projectform) {
-            return _projectFileRepository.add(projectform) ? true : false;
+        public bool add(ProjectFile projectfile) {
+            return _projectFileRepository.add(projectfile);
         }
 
-        public bool edit(ProjectFile projectform){
-            return _projectFileRepository.edit(projectform);
+        public bool edit(ProjectFile projectfile){
+            return _projectFileRepository.edit(projectfile);
         }
 
-        public bool delete(ProjectFile projectform){
-            return _projectFileRepository.delete(projectform);
+        public bool delete(ProjectFile projectfile){
+            return _projectFileRepository.delete(projectfile);
         }
     }
 }

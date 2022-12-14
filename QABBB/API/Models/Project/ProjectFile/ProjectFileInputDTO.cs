@@ -4,9 +4,12 @@ namespace QABBB.API.Models.Project.ProjectFile
 {
     public class ProjectFileInputDTO
     {
+        [Required]
         public int IdProject { get; set; }
-        public string Name { get; set; } = null!;
-        public string Url { get; set; } = null!;
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Url { get; set; }
         
     }
 }

@@ -4,12 +4,12 @@ using QABBB.Domain.Repositories;
 
 namespace QABBB.Domain.Services
 {
-    public class ProjectPlatformPlatformServices
+    public class ProjectPlatformServices
     {
         private readonly QABBBContext _context;
         private readonly ProjectPlatformRepository _projectplatformRepository;
 
-        public ProjectPlatformPlatformServices(QABBBContext context) {
+        public ProjectPlatformServices(QABBBContext context) {
             _context = context;
             _projectplatformRepository = new ProjectPlatformRepository(_context);
         }

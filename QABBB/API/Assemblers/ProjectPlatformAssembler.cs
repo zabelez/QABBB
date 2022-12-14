@@ -38,8 +38,8 @@ namespace QABBB.API.Assemblers
         public ProjectPlatform toProjectPlatform(ProjectPlatformInputDTO projectplatformInputDTO) {
 
             ProjectPlatform projectplatform = new ProjectPlatform();
-            projectplatformInputDTO.IdProject = projectplatform.IdProject;
-            projectplatformInputDTO.IdGamePlatform = projectplatform.IdGamePlatform;
+            projectplatform.IdProject = projectplatformInputDTO.IdProject;
+            projectplatform.IdGamePlatform = projectplatformInputDTO.IdGamePlatform;
 
             return projectplatform;
         }

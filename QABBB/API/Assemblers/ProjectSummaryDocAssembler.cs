@@ -3,12 +3,12 @@ using QABBB.Models;
 
 namespace QABBB.API.Assemblers
 {
-    public class ProjectSummaryAssembler
+    public class ProjectSummaryDocAssembler
     {
 
-        public ProjectSummaryDTO toProjectSummaryDTO(ProjectSummaryDoc projectsummary) {
+        public ProjectSummaryDocDTO toProjectSummaryDocDTO(ProjectSummaryDoc projectsummary) {
 
-            ProjectSummaryDTO projectsummaryDTO = new ProjectSummaryDTO();
+            ProjectSummaryDocDTO projectsummaryDTO = new ProjectSummaryDocDTO();
             projectsummaryDTO.IdProjectSummaryDoc = projectsummary.IdProjectSummaryDoc;
             projectsummaryDTO.IdProject = projectsummary.IdProject;
             projectsummaryDTO.Label = projectsummary.Label;
@@ -17,7 +17,7 @@ namespace QABBB.API.Assemblers
             return projectsummaryDTO;
         }
 
-        public ProjectSummaryDoc toProjectSummary(ProjectSummaryDoc projectsummary, ProjectSummaryEditDTO projectsummaryEditInputDTO){
+        public ProjectSummaryDoc toProjectSummaryDoc(ProjectSummaryDoc projectsummary, ProjectSummaryDocEditDTO projectsummaryEditInputDTO){
             projectsummary.IdProjectSummaryDoc = projectsummaryEditInputDTO.IdProjectSummaryDoc;
             projectsummary.IdProject = projectsummaryEditInputDTO.IdProject;
             projectsummary.Label = projectsummaryEditInputDTO.Label;
@@ -26,23 +26,23 @@ namespace QABBB.API.Assemblers
             return projectsummary;
         }
 
-        public List<ProjectSummaryDTO> toProjectSummaryDTO(IEnumerable<ProjectSummaryDoc> companies) {
+        public List<ProjectSummaryDocDTO> toProjectSummaryDocDTO(IEnumerable<ProjectSummaryDoc> companies) {
 
-            List<ProjectSummaryDTO> projectsummaryDTO = new List<ProjectSummaryDTO>();
+            List<ProjectSummaryDocDTO> projectsummaryDTO = new List<ProjectSummaryDocDTO>();
 
             foreach (ProjectSummaryDoc projectsummary in companies) {
-                projectsummaryDTO.Add(toProjectSummaryDTO(projectsummary));
+                projectsummaryDTO.Add(toProjectSummaryDocDTO(projectsummary));
             }
 
             return projectsummaryDTO;
         }
 
-        public ProjectSummaryDoc toProjectSummary(ProjectSummaryInputDTO projectsummaryInputDTO) {
+        public ProjectSummaryDoc toProjectSummaryDoc(ProjectSummaryDocInputDTO projectsummaryInputDTO) {
 
             ProjectSummaryDoc projectsummary = new ProjectSummaryDoc();
-            projectsummaryInputDTO.IdProject = projectsummary.IdProject;
-            projectsummaryInputDTO.Label = projectsummary.Label;
-            projectsummaryInputDTO.Url = projectsummary.Url;
+            projectsummary.IdProject = projectsummaryInputDTO.IdProject;
+            projectsummary.Label = projectsummaryInputDTO.Label;
+            projectsummary.Url = projectsummaryInputDTO.Url;
 
             return projectsummary;
         }

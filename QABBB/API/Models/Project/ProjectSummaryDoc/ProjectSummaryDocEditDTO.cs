@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QABBB.API.Models.Project.ProjectSummary
 {
-    public class ProjectSummaryEditDTO
+    public class ProjectSummaryDocEditDTO
     {
         public int IdProjectSummaryDoc { get; set; }
         public int IdProject { get; set; }

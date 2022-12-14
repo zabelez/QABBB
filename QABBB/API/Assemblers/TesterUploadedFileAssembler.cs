@@ -40,9 +40,9 @@ namespace QABBB.API.Assemblers
         public TesterUploadedFile toTesterUploadedFile(TesterUploadedFileInputDTO testeruploadedfileInputDTO) {
 
             TesterUploadedFile testeruploadedfile = new TesterUploadedFile();
-            testeruploadedfileInputDTO.IdProject = testeruploadedfile.IdProject;
-            testeruploadedfileInputDTO.Name = testeruploadedfile.Name;
-            testeruploadedfileInputDTO.Url = testeruploadedfile.Url;
+            testeruploadedfile.IdProject = testeruploadedfileInputDTO.IdProject;
+            testeruploadedfile.Name = testeruploadedfileInputDTO.Name;
+            testeruploadedfile.Url = testeruploadedfileInputDTO.Url;
 
             return testeruploadedfile;
         }

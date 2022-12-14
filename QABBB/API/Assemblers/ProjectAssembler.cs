@@ -11,6 +11,7 @@ namespace QABBB.API.Assemblers
             ProjectDTO projectDTO = new ProjectDTO();
             projectDTO.IdProject = project.IdProject;
             projectDTO.StartDateTime = project.StartDateTime;
+            projectDTO.Name = project.Name;
             projectDTO.PowerBiUrl = project.PowerBiUrl;
             projectDTO.Duration = project.Duration;
             projectDTO.CohortSize = project.CohortSize;
@@ -22,6 +23,7 @@ namespace QABBB.API.Assemblers
         public Project toProject(Project project, ProjectEditDTO projectEditInputDTO){
             project.IdProject = projectEditInputDTO.IdProject;
             project.StartDateTime = projectEditInputDTO.StartDateTime;
+            project.Name = projectEditInputDTO.Name;
             project.PowerBiUrl = projectEditInputDTO.PowerBiUrl;
             project.Duration = projectEditInputDTO.Duration;
             project.CohortSize = projectEditInputDTO.CohortSize;
@@ -45,6 +47,7 @@ namespace QABBB.API.Assemblers
 
             Project project = new Project();
             project.StartDateTime = projectInputDTO.StartDateTime;
+            project.Name = projectInputDTO.Name;
             project.PowerBiUrl = projectInputDTO.PowerBiUrl;
             project.Duration = projectInputDTO.Duration;
             project.CohortSize = projectInputDTO.CohortSize;

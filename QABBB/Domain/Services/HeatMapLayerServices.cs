@@ -12,12 +12,12 @@ using System.Security.Claims;
 
 namespace QABBB.Domain.Services
 {
-    public class HeatMapLayerServices
+    public class HeatmapLayerServices
     {
         private readonly QABBBContext _context;
         private readonly HeatmapLayerRepository _heatmapLayerRepository;
 
-        public HeatMapLayerServices(QABBBContext context) {
+        public HeatmapLayerServices(QABBBContext context) {
             _context = context;
             _heatmapLayerRepository = new HeatmapLayerRepository(_context);
         }

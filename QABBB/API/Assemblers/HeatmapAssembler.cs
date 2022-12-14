@@ -38,8 +38,8 @@ namespace QABBB.API.Assemblers
         public Heatmap toHeatmap(HeatmapInputDTO heatmapInputDTO) {
 
             Heatmap heatmap = new Heatmap();
-            heatmapInputDTO.IdProject = heatmap.IdProject;
-            heatmapInputDTO.Color = heatmap.Color;
+            heatmap.IdProject = heatmapInputDTO.IdProject;
+            heatmap.Color = heatmapInputDTO.Color;
 
             return heatmap;
         }

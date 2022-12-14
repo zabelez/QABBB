@@ -40,9 +40,9 @@ namespace QABBB.API.Assemblers
         public ProjectForm toProjectForm(ProjectFormInputDTO projectformInputDTO) {
 
             ProjectForm projectform = new ProjectForm();
-            projectformInputDTO.IdProject = projectform.IdProject;
-            projectformInputDTO.Name = projectform.Name;
-            projectformInputDTO.Url = projectform.Url;
+            projectform.IdProject = projectformInputDTO.IdProject;
+            projectform.Name = projectformInputDTO.Name;
+            projectform.Url = projectformInputDTO.Url;
 
             return projectform;
         }
