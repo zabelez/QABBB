@@ -40,6 +40,7 @@ namespace QABBB.API.Assemblers
             Company company = new Company();
             company.Name = companyInputDTO.Name;
             company.Logo = companyInputDTO.Logo;
+            company.CompanyParent = companyInputDTO.CompanyParent;
 
             return company;
         }

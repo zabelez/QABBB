@@ -97,13 +97,22 @@ namespace QABBB.Data
 
                 entity.ToTable("company");
 
+                entity.HasIndex(e => e.CompanyParent, "company_FK1_idx");
+
                 entity.Property(e => e.IdCompany).HasColumnName("idCompany");
+
+                entity.Property(e => e.CompanyParent).HasColumnName("companyParent");
 
                 entity.Property(e => e.Logo).HasColumnName("logo");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(45)
                     .HasColumnName("name");
+
+                entity.HasOne(d => d.CompanyParentNavigation)
+                    .WithMany(p => p.InverseCompanyParentNavigation)
+                    .HasForeignKey(d => d.CompanyParent)
+                    .HasConstraintName("company_FK1");
             });
 
             modelBuilder.Entity<CompanyEmployee>(entity =>

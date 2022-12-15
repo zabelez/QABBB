@@ -80,12 +80,11 @@ namespace QABBB.API.Controllers
 
             ProjectFile projectfile = _projectfileAssembler.toProjectFile(projectfileInputDTO);
 
-            return projectfile;
             _projectfileServices.add(projectfile);
+            
+            ProjectFileDTO projectfileDTO = _projectfileAssembler.toProjectFileDTO(projectfile);
 
-            //ProjectFileDTO projectfileDTO = _projectfileAssembler.toProjectFileDTO(projectfile);
-
-            //return CreatedAtAction("GetProjectFile", new { id = projectfileDTO.IdProjectFile }, projectfileDTO);
+            return CreatedAtAction("GetProjectFile", new { id = projectfileDTO.IdProjectFile }, projectfileDTO);
         }
 
         // DELETE: api/ProjectFile/5
