@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QABBB.API.Assemblers;
-using QABBB.API.Models.Project.Heatmap.HeatmapLayer;
+using QABBB.API.Models.HeatmapLayer;
 using QABBB.Data;
 using QABBB.Domain.Services;
 using QABBB.Models;

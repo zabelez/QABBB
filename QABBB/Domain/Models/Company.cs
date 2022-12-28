@@ -8,9 +8,9 @@ namespace QABBB.Models
         public Company()
         {
             CompanyEmployees = new HashSet<CompanyEmployee>();
-            GameIdDeveloperNavigations = new HashSet<Game>();
-            GameIdPublisherNavigations = new HashSet<Game>();
             InverseCompanyParentNavigation = new HashSet<Company>();
+            ProjectDevelopers = new HashSet<ProjectDeveloper>();
+            ProjectPublishers = new HashSet<ProjectPublisher>();
         }
 
         public int IdCompany { get; set; }
@@ -20,8 +20,8 @@ namespace QABBB.Models
 
         public virtual Company? CompanyParentNavigation { get; set; }
         public virtual ICollection<CompanyEmployee> CompanyEmployees { get; set; }
-        public virtual ICollection<Game> GameIdDeveloperNavigations { get; set; }
-        public virtual ICollection<Game> GameIdPublisherNavigations { get; set; }
         public virtual ICollection<Company> InverseCompanyParentNavigation { get; set; }
+        public virtual ICollection<ProjectDeveloper> ProjectDevelopers { get; set; }
+        public virtual ICollection<ProjectPublisher> ProjectPublishers { get; set; }
     }
 }

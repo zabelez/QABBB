@@ -19,9 +19,9 @@ namespace QABBB.API.Assemblers
             companyEmployeeDTO.CreatedAt = companyEmployee.CreatedAt;
             companyEmployeeDTO.CreatedBy = companyEmployee.CreatedBy;
             companyEmployeeDTO.CreatedByName = companyEmployee.CreatedByNavigation.IdPersonNavigation.PersonName;
-            companyEmployeeDTO.RemovedAt = companyEmployee.RemovedAt;
-            companyEmployeeDTO.RemovedBy = companyEmployee.RemovedBy;
-            companyEmployeeDTO.RemovedByName = companyEmployee.RemovedByNavigation?.IdPersonNavigation.PersonName;
+            //companyEmployeeDTO.RemovedAt = companyEmployee.RemovedAt;
+            //companyEmployeeDTO.RemovedBy = companyEmployee.RemovedBy;
+            //companyEmployeeDTO.RemovedByName = companyEmployee.RemovedByNavigation?.IdPersonNavigation.PersonName;
             
             return companyEmployeeDTO;
         }

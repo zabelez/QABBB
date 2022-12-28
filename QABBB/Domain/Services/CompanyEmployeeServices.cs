@@ -35,6 +35,11 @@ namespace QABBB.Domain.Services
 
             return _ceRepository.edit(companyEmployee);
         }
+
+        internal List<CompanyEmployee>? findByIdCompany(int idCompany)
+        {
+            return _ceRepository.findByIdCompany(idCompany);
+        }
     }
 }
 

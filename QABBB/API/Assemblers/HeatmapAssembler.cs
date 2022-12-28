@@ -1,4 +1,4 @@
-using QABBB.API.Models.Project.Heatmap;
+using QABBB.API.Models.Heatmap;
 using QABBB.Models;
 
 namespace QABBB.API.Assemblers
@@ -10,7 +10,7 @@ namespace QABBB.API.Assemblers
 
             HeatmapDTO heatmapDTO = new HeatmapDTO();
             heatmapDTO.IdHeatmap = heatmap.IdHeatmap;
-            heatmapDTO.IdProject = heatmap.IdProject;
+            // heatmapDTO.IdGameProject = heatmap.IdGameProject;
             heatmapDTO.Color = heatmap.Color;
             
             return heatmapDTO;
@@ -18,7 +18,7 @@ namespace QABBB.API.Assemblers
 
         public Heatmap toHeatmap(Heatmap heatmap, HeatmapEditDTO heatmapEditInputDTO){
             heatmap.IdHeatmap = heatmapEditInputDTO.IdHeatmap;
-            heatmap.IdProject = heatmapEditInputDTO.IdProject;
+            // heatmap.IdGameProject = heatmapEditInputDTO.IdGameProject;
             heatmap.Color = heatmapEditInputDTO.Color;
 
             return heatmap;
@@ -38,7 +38,7 @@ namespace QABBB.API.Assemblers
         public Heatmap toHeatmap(HeatmapInputDTO heatmapInputDTO) {
 
             Heatmap heatmap = new Heatmap();
-            heatmap.IdProject = heatmapInputDTO.IdProject;
+            // heatmap.IdGameProject = heatmapInputDTO.IdGameProject;
             heatmap.Color = heatmapInputDTO.Color;
 
             return heatmap;

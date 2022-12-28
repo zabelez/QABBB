@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QABBB.API.Assemblers;
-using QABBB.API.Models.Project.Heatmap;
+using QABBB.API.Models.Heatmap;
 using QABBB.Data;
 using QABBB.Domain.Services;
 using QABBB.Models;

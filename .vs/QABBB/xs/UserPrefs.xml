@@ -1,23 +1,20 @@
 ﻿<Properties StartupConfiguration="{EAE9D91C-E2C6-4010-AE1D-C74AF4CC5291}|Default">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.QABBB PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/sabelebarbosa/Documents/GitHub/QABBB/QABBB/API/Controllers/ProjectFileController.cs" relfile="QABBB/API/Controllers/ProjectFileController.cs" line="81" column="1" />
-      <Breakpoint file="/Users/sabelebarbosa/Documents/GitHub/QABBB/QABBB/API/Controllers/ProjectPlatformController.cs" relfile="QABBB/API/Controllers/ProjectPlatformController.cs" line="83" column="1" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QABBB/API/Controllers/GamePlatformController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QABBB/API/Assemblers/ProjectAssembler.cs">
     <Files>
-      <File FileName="QABBB/API/Controllers/ProjectPlatformController.cs" Line="76" Column="83" />
-      <File FileName="QABBB/Domain/Repositories/ProjectPlatformRepository.cs" Line="22" Column="1" />
-      <File FileName="QABBB/Data/QABBBContext.cs" Line="264" Column="38" />
+      <File FileName="QABBB/Domain/Repositories/ProjectPlatformRepository.cs" />
+      <File FileName="QABBB/Data/QABBBContext.cs" />
       <File FileName="QABBB/appsettings.json" Line="1" Column="1" />
-      <File FileName="QABBB/backup.json" Line="1" Column="1" />
-      <File FileName="QABBB/API/Models/Project/ProjectPlatform/ProjectPlatformInputDTO.cs" Line="5" Column="41" />
-      <File FileName="QABBB/API/Controllers/GamePlatformController.cs" Line="15" Column="5" />
-      <File FileName="QABBB/API/Controllers/GamePlatformController.cs" Line="41" Column="35" />
+      <File FileName="QABBB/backup.json" />
+      <File FileName="QABBB/API/Models/Project/ProjectPlatform/ProjectPlatformInputDTO.cs" />
+      <File FileName="QABBB/API/Controllers/GamePlatformController.cs" Line="23" Column="48" />
+      <File FileName="QABBB/Program.cs" Line="94" Column="1" />
+      <File FileName="QABBB/Properties/launchSettings.json" Line="16" Column="66" />
+      <File FileName="QABBB/API/Controllers/MigrationController.cs" Line="142" Column="46" />
+      <File FileName="QABBB/API/Assemblers/CompanyEmployeeAssembler.cs" Line="20" Column="70" />
+      <File FileName="QABBB/API/Assemblers/GameAssembler.cs" Line="26" Column="23" />
+      <File FileName="QABBB/API/Models/Game/GameAndPlatformsDTO.cs" Line="20" Column="2" />
+      <File FileName="QABBB/API/Assemblers/ProjectAssembler.cs" Line="18" Column="33" />
+      <File FileName="QABBB/Domain/Repositories/ProjectRepository.cs" Line="18" Column="48" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -25,18 +22,18 @@
           <Node name="QABBB" expanded="True">
             <Node name="QABBB" expanded="True">
               <Node name="API" expanded="True">
-                <Node name="Assemblers" expanded="True" />
-                <Node name="Controllers" expanded="True">
-                  <Node name="GamePlatformController.cs" selected="True" />
+                <Node name="Assemblers" expanded="True">
+                  <Node name="ProjectAssembler.cs" selected="True" />
                 </Node>
+                <Node name="Controllers" expanded="True" />
                 <Node name="Models" expanded="True">
                   <Node name="Company" expanded="True">
                     <Node name="Employee" expanded="True" />
                   </Node>
+                  <Node name="Game" expanded="True" />
                   <Node name="Project" expanded="True">
                     <Node name="ProjectFile" expanded="True" />
                     <Node name="ProjectForm" expanded="True" />
-                    <Node name="ProjectPlatform" expanded="True" />
                   </Node>
                   <Node name="User" expanded="True" />
                 </Node>
@@ -45,7 +42,6 @@
               <Node name="Domain" expanded="True">
                 <Node name="Models" expanded="True" />
                 <Node name="Repositories" expanded="True" />
-                <Node name="Services" expanded="True" />
               </Node>
               <Node name="Models" expanded="True" />
               <Node name="Properties" expanded="True" />
@@ -55,5 +51,14 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/sabelebarbosa/Documents/GitHub/QABBB/QABBB/API/Controllers/ProjectFileController.cs" relfile="QABBB/API/Controllers/ProjectFileController.cs" line="81" column="1" />
+      <Breakpoint file="/Users/sabelebarbosa/Documents/GitHub/QABBB/QABBB/API/Controllers/ProjectGamePlatformController.cs" relfile="QABBB/API/Controllers/ProjectGamePlatformController.cs" line="83" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.QABBB PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

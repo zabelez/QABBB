@@ -1,4 +1,4 @@
-using QABBB.API.Models.Project.ProjectSummary;
+using QABBB.API.Models.ProjectSummaryDoc;
 using QABBB.Models;
 
 namespace QABBB.API.Assemblers

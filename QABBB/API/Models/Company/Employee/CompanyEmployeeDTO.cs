@@ -12,9 +12,9 @@ namespace QABBB.API.Models.Company.Employee
         public DateTime CreatedAt { get; set; }
         public int CreatedBy { get; set; }
         public string? CreatedByName {get; set;}
-        public DateTime? RemovedAt { get; set; }
-        public int? RemovedBy { get; set; }
-        public string? RemovedByName {get; set;}
+        //public DateTime? RemovedAt { get; set; }
+        //public int? RemovedBy { get; set; }
+        //public string? RemovedByName {get; set;}
 
     }
 }

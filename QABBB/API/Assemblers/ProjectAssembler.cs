@@ -1,21 +1,44 @@
+using QABBB.API.Models.Company;
+using QABBB.API.Models.Platform;
 using QABBB.API.Models.Project;
+using QABBB.API.Models.ProjectPlatform;
 using QABBB.Models;
 
 namespace QABBB.API.Assemblers
 {
     public class ProjectAssembler
     {
+        CompanyAssembler companyAssembler = new CompanyAssembler();
 
         public ProjectDTO toProjectDTO(Project project) {
 
             ProjectDTO projectDTO = new ProjectDTO();
             projectDTO.IdProject = project.IdProject;
-            projectDTO.StartDateTime = project.StartDateTime;
             projectDTO.Name = project.Name;
-            projectDTO.PowerBiUrl = project.PowerBiUrl;
+            projectDTO.StartDateTime = project.StartDateTime;
             projectDTO.Duration = project.Duration;
-            projectDTO.CohortSize = project.CohortSize;
+            projectDTO.PowerBiUrl = project.PowerBiUrl;
             projectDTO.SpreadsheetUrl = project.SpreadsheetUrl;
+
+            foreach (ProjectDeveloper projectDeveloper in project.ProjectDevelopers)
+            {
+                projectDTO.Developers.Add(companyAssembler.toCompanyDTO(projectDeveloper.IdCompanyNavigation));
+            }
+
+            foreach (ProjectPublisher projectPublisher in project.ProjectPublishers)
+            {
+                projectDTO.Publishers.Add(companyAssembler.toCompanyDTO(projectPublisher.IdCompanyNavigation));
+            }
+
+            foreach (ProjectPlatform projectPlatform in project.ProjectPlatforms)
+            {
+                ProjectPlatformDTO projectPlatformDTO = new ProjectPlatformDTO();
+                projectPlatformDTO.IdProjectPlatform = projectPlatform.IdProjectPlatform;
+                projectPlatformDTO.IdPlatform = projectPlatform.IdPlatform;
+                projectPlatformDTO.Name = projectPlatform.IdPlatformNavigation.Name;
+                projectPlatformDTO.Cohortsize = projectPlatform.CohortSize;
+                projectDTO.Platforms.Add(projectPlatformDTO);
+            }
             
             return projectDTO;
         }
@@ -26,7 +49,6 @@ namespace QABBB.API.Assemblers
             project.Name = projectEditInputDTO.Name;
             project.PowerBiUrl = projectEditInputDTO.PowerBiUrl;
             project.Duration = projectEditInputDTO.Duration;
-            project.CohortSize = projectEditInputDTO.CohortSize;
             project.SpreadsheetUrl = projectEditInputDTO.SpreadsheetUrl;
 
             return project;
@@ -50,7 +72,6 @@ namespace QABBB.API.Assemblers
             project.Name = projectInputDTO.Name;
             project.PowerBiUrl = projectInputDTO.PowerBiUrl;
             project.Duration = projectInputDTO.Duration;
-            project.CohortSize = projectInputDTO.CohortSize;
             project.SpreadsheetUrl = projectInputDTO.SpreadsheetUrl;
 
             return project;

@@ -7,14 +7,14 @@ namespace QABBB.Models
     {
         public Platform()
         {
-            GamePlatforms = new HashSet<GamePlatform>();
+            ProjectPlatforms = new HashSet<ProjectPlatform>();
             UserPlatforms = new HashSet<UserPlatform>();
         }
 
         public int IdPlatform { get; set; }
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<GamePlatform> GamePlatforms { get; set; }
+        public virtual ICollection<ProjectPlatform> ProjectPlatforms { get; set; }
         public virtual ICollection<UserPlatform> UserPlatforms { get; set; }
     }
 }

@@ -61,6 +61,18 @@ namespace QABBB.API.Controllers
             return Ok(_ceAssembler.toCompanyEmployeeDTO(companyEmployee));
         }
 
+        // GET: api/idCompany/CompanyEmployee/5
+        [HttpGet("/idCompany/{idCompany}")]
+        public ActionResult<List<CompanyEmployeeDTO>> GetCompanyEmployeeByIdCompany(int idCompany)
+        {
+            if (_context.CompanyEmployees == null)
+                return NotFound();
+          
+            List<CompanyEmployee>? companyEmployees = _ceServices.findByIdCompany(idCompany);
+
+            return Ok(_ceAssembler.toCompanyEmployeeDTO(companyEmployees!));
+        }
+
         // PUT: api/CompanyEmployee/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]

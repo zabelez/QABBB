@@ -11,11 +11,11 @@ namespace QABBB.Models
         }
 
         public int IdHeatmap { get; set; }
-        public int IdProject { get; set; }
+        public int IdProjectPlatform { get; set; }
         public string Name { get; set; } = null!;
         public string Color { get; set; } = null!;
 
-        public virtual Project IdProjectNavigation { get; set; } = null!;
+        public virtual ProjectPlatform IdProjectPlatformNavigation { get; set; } = null!;
         public virtual ICollection<HeatmapLayer> HeatmapLayers { get; set; }
     }
 }

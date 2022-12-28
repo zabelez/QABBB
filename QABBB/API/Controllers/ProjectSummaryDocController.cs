@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QABBB.API.Assemblers;
-using QABBB.API.Models.Project.ProjectSummary;
+using QABBB.API.Models.ProjectSummaryDoc;
 using QABBB.Data;
 using QABBB.Domain.Services;
 using QABBB.Models;

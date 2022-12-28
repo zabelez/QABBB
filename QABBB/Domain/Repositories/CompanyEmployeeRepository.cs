@@ -52,6 +52,18 @@ namespace QABBB.Domain.Repositories
             _context.SaveChanges();
             return true;
         }
+
+        internal List<CompanyEmployee>? findByIdCompany(int idCompany)
+        {
+            return _context.CompanyEmployees
+                .Include(u => u.IdCompanyNavigation)
+                .Include(u => u.IdPersonNavigation.IdPersonNavigation)
+                .Include(u => u.IdPositionNavigation)
+                .Include(u => u.CreatedByNavigation.IdPersonNavigation)
+                .Include(u => u.RemovedByNavigation!.IdPersonNavigation)
+                .Where(u => u.IdCompany == idCompany && u.RemovedAt == null)
+                .ToList();
+        }
     }
 }
 

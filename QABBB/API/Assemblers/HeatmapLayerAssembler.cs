@@ -1,4 +1,4 @@
-using QABBB.API.Models.Project.Heatmap.HeatmapLayer;
+using QABBB.API.Models.HeatmapLayer;
 using QABBB.Models;
 
 namespace QABBB.API.Assemblers

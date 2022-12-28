@@ -14,7 +14,14 @@ namespace QABBB.Domain.Repositories
         }
 
         public List<Project> list(){
-            return _context.Projects.ToList();
+            return _context.Projects
+            .Include(pp => pp.ProjectPlatforms)
+                .ThenInclude(p => p.IdPlatformNavigation)
+            .Include(pg => pg.ProjectDevelopers)
+                .ThenInclude(dev => dev.IdCompanyNavigation)
+            .Include(pg => pg.ProjectPublishers)
+                .ThenInclude(pub => pub.IdCompanyNavigation)
+            .ToList();
         }
 
         public bool add(Project project) {

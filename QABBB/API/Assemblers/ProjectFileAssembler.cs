@@ -1,4 +1,4 @@
-using QABBB.API.Models.Project.ProjectFile;
+using QABBB.API.Models.ProjectFile;
 using QABBB.Models;
 
 namespace QABBB.API.Assemblers
