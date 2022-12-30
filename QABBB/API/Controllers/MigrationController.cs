@@ -16,8 +16,8 @@ namespace QABBB.API.Controllers
 
         private readonly QABBBContext _context;
         MigrationRoot migration;
-        int idPerson;
-
+        int idPerson = 0;
+        
         public MigrationController(QABBBContext context)
         {
             _context = context;
@@ -105,7 +105,7 @@ namespace QABBB.API.Controllers
                     ProjectPlatform projectPlatform = new ProjectPlatform();
                     projectPlatform.IdPlatformNavigation = platform;
                     projectPlatform.IdProjectNavigation = project;
-                    projectPlatform.CohortSize = Int16.Parse(migrationTest.Value.cohortSize == ""? "0" : migrationTest.Value.cohortSize);
+                    projectPlatform.CohortSize = Int16.Parse(migrationTest.Value.cohortSize == "" ? "0" : migrationTest.Value.cohortSize);
 
                     project.ProjectPlatforms.Add(projectPlatform);
                 }
@@ -252,12 +252,12 @@ namespace QABBB.API.Controllers
         public string? developer { get; set; }
         public string? id { get; set; }
         public string? logoURL { get; set; }
-        public string duration { get; set; }
+        public string? duration { get; set; }
         public string? name { get; set; }
         public string? powerBiURL { get; set; }
         public string? spreadsheetURL { get; set; }
         public string? publisher { get; set; }
-        public string date { get; set; }
+        public string? date { get; set; }
         public string? time { get; set; }
         public List<string>? platforms { get; set; }
         public string? cohortSize { get; set; }

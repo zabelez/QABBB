@@ -13,6 +13,7 @@ namespace QABBB.API.Assemblers
             ProjectPlatformDTO projectPlatformDTO = new ProjectPlatformDTO();
             projectPlatformDTO.IdProjectPlatform = projectPlatform.IdProjectPlatform;
             projectPlatformDTO.IdPlatform = projectPlatform.IdPlatform;
+            projectPlatformDTO.Name = projectPlatform.IdPlatformNavigation.Name;
             projectPlatformDTO.CohortSize = projectPlatform.CohortSize;
             
             return projectPlatformDTO;

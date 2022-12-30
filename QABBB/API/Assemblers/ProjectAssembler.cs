@@ -33,7 +33,7 @@ namespace QABBB.API.Assemblers
                 projectDTO.Publishers.Add(companyAssembler.toCompanyDTO(projectPublisher.IdCompanyNavigation));
             }
 
-            projectDTO.Platforms = projectPlatformAssembler.toProjectPlatformDTO(project.ProjectPlatforms);
+            projectDTO.ProjectPlatforms = projectPlatformAssembler.toProjectPlatformDTO(project.ProjectPlatforms);
             
             return projectDTO;
         }

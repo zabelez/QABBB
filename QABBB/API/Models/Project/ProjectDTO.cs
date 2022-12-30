@@ -18,7 +18,7 @@ namespace QABBB.API.Models.Project
         public decimal? Duration { get; set; }
         public List<CompanyDTO> Developers { get; set; } = new List<CompanyDTO>()!;
         public List<CompanyDTO> Publishers { get; set; } = new List<CompanyDTO>()!;
-        public List<ProjectPlatformDTO> Platforms {get; set; } = new List<ProjectPlatformDTO>()!;
+        public List<ProjectPlatformDTO> ProjectPlatforms {get; set; } = new List<ProjectPlatformDTO>()!;
 
         
     }
