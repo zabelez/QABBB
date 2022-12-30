@@ -343,7 +343,11 @@ namespace QABBB.Data
 
                 entity.Property(e => e.IdProject).HasColumnName("idProject");
 
-                entity.Property(e => e.Duration).HasColumnName("duration");
+                entity.Property(e => e.Duration)
+                    .HasPrecision(5, 1)
+                    .HasColumnName("duration");
+
+                entity.Property(e => e.Logo).HasColumnName("logo");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(45)
@@ -402,7 +406,7 @@ namespace QABBB.Data
                 entity.Property(e => e.IdProject).HasColumnName("idProject");
 
                 entity.Property(e => e.Name)
-                    .HasMaxLength(45)
+                    .HasMaxLength(100)
                     .HasColumnName("name");
 
                 entity.Property(e => e.Url).HasColumnName("url");
@@ -428,7 +432,7 @@ namespace QABBB.Data
                 entity.Property(e => e.IdProject).HasColumnName("idProject");
 
                 entity.Property(e => e.Name)
-                    .HasMaxLength(45)
+                    .HasMaxLength(100)
                     .HasColumnName("name");
 
                 entity.Property(e => e.Url).HasColumnName("url");

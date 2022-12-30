@@ -10,7 +10,6 @@ namespace QABBB.API.Assemblers
 
             ProjectFileDTO projectfileDTO = new ProjectFileDTO();
             projectfileDTO.IdProjectFile = projectfile.IdProjectFile;
-            projectfileDTO.IdProject = projectfile.IdProject;
             projectfileDTO.Name = projectfile.Name;
             projectfileDTO.Url = projectfile.Url;
             

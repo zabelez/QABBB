@@ -9,16 +9,19 @@ using QABBB.API.Models.ProjectPlatform;
 
 namespace QABBB.API.Models.Project
 {
-    public class ProjectDTO
+    public class ProjectFullDTO
     {
         public int IdProject { get; set; }
         public string Name { get; set; } = null!;
-        public string? Logo { get; set; } = null!;
-        public DateTime? StartDateTime { get; set; } = null!;
+        public string? Logo { get; set; }
+        public DateTime? StartDateTime { get; set; }
         public decimal? Duration { get; set; }
         public List<CompanyDTO> Developers { get; set; } = new List<CompanyDTO>()!;
         public List<CompanyDTO> Publishers { get; set; } = new List<CompanyDTO>()!;
         public List<ProjectPlatformDTO> Platforms {get; set; } = new List<ProjectPlatformDTO>()!;
+        public List<ProjectFileDTO> ProjectFiles {get; set; } = new List<ProjectFileDTO>()!;
+        public List<ProjectFormDTO> ProjectForms {get; set; } = new List<ProjectFormDTO>()!;
+        public List<ProjectSummaryDocDTO> ProjectSummaryDocs {get; set; } = new List<ProjectSummaryDocDTO>()!;
 
         
     }

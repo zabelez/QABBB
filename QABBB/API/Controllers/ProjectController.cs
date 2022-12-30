@@ -40,7 +40,7 @@ namespace QABBB.API.Controllers
 
         // GET: api/Project/5
         [HttpGet("{id}")]
-        public ActionResult<ProjectDTO> GetProject(int id)
+        public ActionResult<ProjectFullDTO> GetProject(int id)
         {
             if (_context.Projects == null)
                 return NotFound();
@@ -49,7 +49,7 @@ namespace QABBB.API.Controllers
             if(project == null)
                 return NotFound();
 
-            ProjectDTO projectDTO = _projectAssembler.toProjectDTO(project);
+            ProjectFullDTO projectDTO = _projectAssembler.toProjectFullDTO(project);
 
             return Ok(projectDTO);
         }

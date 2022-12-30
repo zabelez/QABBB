@@ -21,6 +21,7 @@ namespace QABBB.Domain.Repositories
                 .ThenInclude(dev => dev.IdCompanyNavigation)
             .Include(pg => pg.ProjectPublishers)
                 .ThenInclude(pub => pub.IdCompanyNavigation)
+            .OrderByDescending(x => x.StartDateTime)
             .ToList();
         }
 
@@ -37,7 +38,18 @@ namespace QABBB.Domain.Repositories
         }
 
         public Project? findById(int id) {
-            return _context.Projects.FirstOrDefault();
+            return _context.Projects
+                .Include(pfiles => pfiles.ProjectFiles)
+                .Include(pforms => pforms.ProjectForms)
+                .Include(psummary => psummary.ProjectSummaryDocs)
+                .Include(pp => pp.ProjectPlatforms)
+                    .ThenInclude(p => p.IdPlatformNavigation)
+                .Include(pg => pg.ProjectDevelopers)
+                    .ThenInclude(dev => dev.IdCompanyNavigation)
+                .Include(pg => pg.ProjectPublishers)
+                    .ThenInclude(pub => pub.IdCompanyNavigation)
+                .Where(w => w.IdProject == id)
+                .FirstOrDefault();
         }
 
         public bool edit(Project project){

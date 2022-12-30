@@ -10,7 +10,6 @@ namespace QABBB.API.Assemblers
 
             ProjectSummaryDocDTO projectsummaryDTO = new ProjectSummaryDocDTO();
             projectsummaryDTO.IdProjectSummaryDoc = projectsummary.IdProjectSummaryDoc;
-            projectsummaryDTO.IdProject = projectsummary.IdProject;
             projectsummaryDTO.Label = projectsummary.Label;
             projectsummaryDTO.Url = projectsummary.Url;
             

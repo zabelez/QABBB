@@ -2,6 +2,7 @@ using System;
 using System.Security.Claims;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QABBB.Data;
 using QABBB.Domain.Services;
 using QABBB.Models;
@@ -26,6 +27,10 @@ namespace QABBB.API.Controllers
         [Route("migration")]
         public ActionResult Migration()
         {
+            String query = "SET FOREIGN_KEY_CHECKS = 0;TRUNCATE TABLE `qabbb`.`admin`;TRUNCATE TABLE `qabbb`.`company`;TRUNCATE TABLE `qabbb`.`companyEmployee`;TRUNCATE TABLE `qabbb`.`companyEmployeePosition`;TRUNCATE TABLE `qabbb`.`emailTemplate`;TRUNCATE TABLE `qabbb`.`heatmap`;TRUNCATE TABLE `qabbb`.`heatmapLayer`;TRUNCATE TABLE `qabbb`.`person`;TRUNCATE TABLE `qabbb`.`platform`;TRUNCATE TABLE `qabbb`.`project`;TRUNCATE TABLE `qabbb`.`projectPlatform`;TRUNCATE TABLE `qabbb`.`projectDeveloper`;TRUNCATE TABLE `qabbb`.`projectFile`;TRUNCATE TABLE `qabbb`.`projectForm`;TRUNCATE TABLE `qabbb`.`projectPublisher`;TRUNCATE TABLE `qabbb`.`projectSummaryDoc`;TRUNCATE TABLE `qabbb`.`user`;TRUNCATE TABLE `qabbb`.`userPlatform`;SET FOREIGN_KEY_CHECKS = 1;INSERT INTO `qabbb`.`companyEmployeePosition` (`name`) VALUES ('Owner');INSERT INTO `qabbb`.`companyEmployeePosition` (`name`) VALUES ('Developer');INSERT INTO `qabbb`.`person` (`personName`, `email`) VALUES ('string', 'user@example.com');INSERT INTO `qabbb`.`user` (`idPerson`, `password`, `isPasswordResetRequired`, `isDarkMode`, `status`) VALUES ('1', 'string', '0', '1', 'Active');";
+
+            _context.Database.ExecuteSqlRaw(query);
+
             string? jsonString = System.IO.File.ReadAllText("backup.json");
             migration = JsonSerializer.Deserialize<MigrationRoot>(jsonString)!;
             idPerson = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
@@ -35,7 +40,7 @@ namespace QABBB.API.Controllers
             List<User> users = MUsers(companies);
 
             List<Platform> platforms = MPlatform();
-            // List<Game> games = MGame(companies, platforms);
+            List<Project> projects = MProject(companies, platforms);
 
             return Ok();
         }
@@ -62,46 +67,77 @@ namespace QABBB.API.Controllers
             return platforms;
         }
 
-        // private List<Game> MGame(List<Company> companies, List<Platform> platforms) {
+        private List<Project> MProject(List<Company> companies, List<Platform> platforms) {
 
-        //     GameServices gameServices = new GameServices(_context);
+            ProjectServices projectServices = new ProjectServices(_context);
 
-        //     List<Game> games = new List<Game>();
-        //     foreach (KeyValuePair<string, MigrationTests> migrationTest in migration.__collections__!.tests!){
-        //         Game game = new Game();
-        //         game.Name = migrationTest.Value.name!;
-        //         game.Gamelogo = migrationTest.Value.logoURL;
+            List<Project> projects = new List<Project>();
 
-        //         if(migrationTest.Value.developer != null){
-        //             var MigrateCompany = migration.__collections__!.publishers![migrationTest.Value.developer];
-        //             Company develop = companies.Find(company => company.Name == MigrateCompany.text)!;
-        //             game.IdDeveloperNavigation = develop;
-        //         }
+            foreach (KeyValuePair<string, MigrationTests> migrationTest in migration.__collections__!.tests!){
+                Project project = new Project();
+                project.Name = migrationTest.Value.name!;
+                project.Logo = migrationTest.Value.logoURL;
+                project.StartDateTime = migrationTest.Value.date == "" ? null : DateTime.Parse(migrationTest.Value.date);
+                project.Duration = Decimal.Parse(migrationTest.Value.duration == "" ? "0" : migrationTest.Value.duration);
+                project.PowerBiUrl = migrationTest.Value.powerBiURL;
+                project.SpreadsheetUrl = migrationTest.Value.spreadsheetURL;
 
-        //         if(migrationTest.Value.publisher != null){
-        //             var MigrateCompany = migration.__collections__!.publishers![migrationTest.Value.publisher];
-        //             Company publisher = companies.Find(company => company.Name == MigrateCompany.text)!;
-        //             game.IdPublisherNavigation = publisher;
-        //         }
+                if(migrationTest.Value.developer != null){
+                    var MigrateCompany = migration.__collections__!.publishers![migrationTest.Value.developer];
+                    Company develop = companies.Find(company => company.Name == MigrateCompany.text)!;
+                    ProjectDeveloper projectDeveloper = new ProjectDeveloper();
+                    projectDeveloper.IdCompanyNavigation = develop;
+                    projectDeveloper.IdProjectNavigation = project;
+                    project.ProjectDevelopers.Add(projectDeveloper);
+                }
 
+                if(migrationTest.Value.publisher != null){
+                    var MigrateCompany = migration.__collections__!.publishers![migrationTest.Value.publisher];
+                    Company publisher = companies.Find(company => company.Name == MigrateCompany.text)!;
+                    ProjectPublisher projectPublisher = new ProjectPublisher();
+                    projectPublisher.IdCompanyNavigation = publisher;
+                    projectPublisher.IdProjectNavigation = project;
+                    project.ProjectPublishers.Add(projectPublisher);
+                }
+
+                foreach (string item in migrationTest.Value.platforms!) {
+                    Platform platform = platforms.Find(p => p.Name == item)!;
+                    ProjectPlatform projectPlatform = new ProjectPlatform();
+                    projectPlatform.IdPlatformNavigation = platform;
+                    projectPlatform.IdProjectNavigation = project;
+                    projectPlatform.CohortSize = Int16.Parse(migrationTest.Value.cohortSize == ""? "0" : migrationTest.Value.cohortSize);
+
+                    project.ProjectPlatforms.Add(projectPlatform);
+                }
+
+                foreach (Files item in migrationTest.Value.summaryDocs ?? new List<Files>()) {
+                    ProjectSummaryDoc projectSummaryDoc = new ProjectSummaryDoc();
+                    projectSummaryDoc.Url = item.url == null ? "No name" : item.url;
+                    projectSummaryDoc.Label = item.label == null ? "No name" : item.label;
+                    project.ProjectSummaryDocs.Add(projectSummaryDoc);
+                }
+
+                foreach (Files2 item in migrationTest.Value.uploadedFiles ?? new List<Files2>()) {
+                    ProjectFile projectFile = new ProjectFile();
+                    projectFile.Url = item.url == null ? "No name" : item.url;
+                    projectFile.Name = item.name == null ? "No name" : item.name;
+                    project.ProjectFiles.Add(projectFile);
+                }
                 
-        //         foreach (string item in migrationTest.Value.platforms!) {
-        //             Platform platform = platforms.Find(p => p.Name == item)!;
-                    
-        //             GamePlatform gamePlatform = new GamePlatform();
-        //             gamePlatform.IdGameNavigation = game;
-        //             gamePlatform.IdPlatformNavigation = platform;
-
-        //             game.GamePlatforms.Add(gamePlatform);
-        //         }
+                foreach (Files item in migrationTest.Value.forms ?? new List<Files>()) {
+                    ProjectForm projectForm = new ProjectForm();
+                    projectForm.Url = item.url == null ? "No name" : item.url;
+                    projectForm.Name = item.label == null ? "No name" : item.label;
+                    project.ProjectForms.Add(projectForm);
+                }
                 
-        //         gameServices.add(game);
+                projectServices.add(project);
 
-        //         games.Add(game);
+                projects.Add(project);
                     
-        //     }
-        //     return games;
-        // }
+            }
+            return projects;
+        }
 
         private List<EmailTemplate> MEmailTemplates(){
 
@@ -114,6 +150,7 @@ namespace QABBB.API.Controllers
                 email.Text = item.Value.text!;
 
                 EmailTemplateServices emailTemplateServices = new EmailTemplateServices(_context);
+
                 emailTemplateServices.add(email);
                 emailTemplates.Add(email);
             }
@@ -214,19 +251,19 @@ namespace QABBB.API.Controllers
     public class MigrationTests{
         public string? developer { get; set; }
         public string? id { get; set; }
-        public List<UploadedFile>? uploadedFiles { get; set; }
-        public string? duration { get; set; }
+        public string? logoURL { get; set; }
+        public string duration { get; set; }
         public string? name { get; set; }
-        public List<Form>? forms { get; set; }
         public string? powerBiURL { get; set; }
         public string? spreadsheetURL { get; set; }
         public string? publisher { get; set; }
-        public string? date { get; set; }
+        public string date { get; set; }
         public string? time { get; set; }
         public List<string>? platforms { get; set; }
         public string? cohortSize { get; set; }
-        public List<SummaryDoc>? summaryDocs { get; set; }
-        public string? logoURL { get; set; }
+        public List<Files>? forms { get; set; }
+        public List<Files2>? uploadedFiles { get; set; }
+        public List<Files>? summaryDocs { get; set; }
         public MigrationCollections? __collections__ { get; set; }
     }
 
@@ -242,9 +279,15 @@ namespace QABBB.API.Controllers
         public string? label { get; set; }
     }
 
-    public class SummaryDoc
+    public class Files
     {
         public string? label { get; set; }
+        public string? url { get; set; }
+    }
+
+    public class Files2
+    {
+        public string? name { get; set; }
         public string? url { get; set; }
     }
 

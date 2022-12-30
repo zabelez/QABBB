@@ -10,7 +10,6 @@ namespace QABBB.API.Assemblers
 
             ProjectFormDTO projectformDTO = new ProjectFormDTO();
             projectformDTO.IdProjectForm = projectform.IdProjectForm;
-            projectformDTO.IdProject = projectform.IdProject;
             projectformDTO.Name = projectform.Name;
             projectformDTO.Url = projectform.Url;
             

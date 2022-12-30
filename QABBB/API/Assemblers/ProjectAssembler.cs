@@ -9,17 +9,20 @@ namespace QABBB.API.Assemblers
     public class ProjectAssembler
     {
         CompanyAssembler companyAssembler = new CompanyAssembler();
+        ProjectFileAssembler projectFileAssembler = new ProjectFileAssembler();
+        ProjectFormAssembler projectFormAssembler = new ProjectFormAssembler();
+        ProjectSummaryDocAssembler projectSummaryDocAssembler = new ProjectSummaryDocAssembler();
+        ProjectPlatformAssembler projectPlatformAssembler = new ProjectPlatformAssembler();
 
         public ProjectDTO toProjectDTO(Project project) {
 
             ProjectDTO projectDTO = new ProjectDTO();
             projectDTO.IdProject = project.IdProject;
             projectDTO.Name = project.Name;
+            projectDTO.Logo = project.Logo;
             projectDTO.StartDateTime = project.StartDateTime;
             projectDTO.Duration = project.Duration;
-            projectDTO.PowerBiUrl = project.PowerBiUrl;
-            projectDTO.SpreadsheetUrl = project.SpreadsheetUrl;
-
+            
             foreach (ProjectDeveloper projectDeveloper in project.ProjectDevelopers)
             {
                 projectDTO.Developers.Add(companyAssembler.toCompanyDTO(projectDeveloper.IdCompanyNavigation));
@@ -30,25 +33,57 @@ namespace QABBB.API.Assemblers
                 projectDTO.Publishers.Add(companyAssembler.toCompanyDTO(projectPublisher.IdCompanyNavigation));
             }
 
-            foreach (ProjectPlatform projectPlatform in project.ProjectPlatforms)
-            {
-                ProjectPlatformDTO projectPlatformDTO = new ProjectPlatformDTO();
-                projectPlatformDTO.IdProjectPlatform = projectPlatform.IdProjectPlatform;
-                projectPlatformDTO.IdPlatform = projectPlatform.IdPlatform;
-                projectPlatformDTO.Name = projectPlatform.IdPlatformNavigation.Name;
-                projectPlatformDTO.Cohortsize = projectPlatform.CohortSize;
-                projectDTO.Platforms.Add(projectPlatformDTO);
-            }
+            projectDTO.Platforms = projectPlatformAssembler.toProjectPlatformDTO(project.ProjectPlatforms);
             
             return projectDTO;
         }
 
+        public ProjectFullDTO toProjectFullDTO(Project project)
+        {
+            ProjectFullDTO projectFullDTO = new ProjectFullDTO();
+            projectFullDTO.IdProject = project.IdProject;
+            projectFullDTO.Name = project.Name;
+            projectFullDTO.Logo = project.Logo;
+            projectFullDTO.StartDateTime = project.StartDateTime;
+            projectFullDTO.Duration = project.Duration;
+            
+            projectFullDTO.Platforms = projectPlatformAssembler.toProjectPlatformDTO(project.ProjectPlatforms);
+
+            foreach (ProjectDeveloper projectDeveloper in project.ProjectDevelopers)
+            {
+                projectFullDTO.Developers.Add(companyAssembler.toCompanyDTO(projectDeveloper.IdCompanyNavigation));
+            }
+
+            foreach (ProjectPublisher projectPublisher in project.ProjectPublishers)
+            {
+                projectFullDTO.Publishers.Add(companyAssembler.toCompanyDTO(projectPublisher.IdCompanyNavigation));
+            }
+
+            foreach (ProjectFile item in project.ProjectFiles)
+            {
+                projectFullDTO.ProjectFiles.Add(projectFileAssembler.toProjectFileDTO(item));
+            }
+            
+            foreach (ProjectForm item in project.ProjectForms)
+            {
+                projectFullDTO.ProjectForms.Add(projectFormAssembler.toProjectFormDTO(item));
+            }
+            
+            foreach (ProjectSummaryDoc item in project.ProjectSummaryDocs)
+            {
+                projectFullDTO.ProjectSummaryDocs.Add(projectSummaryDocAssembler.toProjectSummaryDocDTO(item));
+            }
+            
+            return projectFullDTO;
+        }
+
         public Project toProject(Project project, ProjectEditDTO projectEditInputDTO){
             project.IdProject = projectEditInputDTO.IdProject;
-            project.StartDateTime = projectEditInputDTO.StartDateTime;
             project.Name = projectEditInputDTO.Name;
-            project.PowerBiUrl = projectEditInputDTO.PowerBiUrl;
+            project.Logo = projectEditInputDTO.Logo;
+            project.StartDateTime = projectEditInputDTO.StartDateTime;
             project.Duration = projectEditInputDTO.Duration;
+            project.PowerBiUrl = projectEditInputDTO.PowerBiUrl;
             project.SpreadsheetUrl = projectEditInputDTO.SpreadsheetUrl;
 
             return project;
