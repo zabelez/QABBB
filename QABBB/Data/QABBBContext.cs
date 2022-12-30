@@ -548,7 +548,7 @@ namespace QABBB.Data
                 entity.Property(e => e.IsPasswordResetRequired).HasColumnName("isPasswordResetRequired");
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(45)
+                    .HasMaxLength(128)
                     .HasColumnName("password");
 
                 entity.Property(e => e.Status)

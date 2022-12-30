@@ -27,13 +27,13 @@ namespace QABBB.API.Controllers
         [Route("migration")]
         public ActionResult Migration()
         {
-            String query = "SET FOREIGN_KEY_CHECKS = 0;TRUNCATE TABLE `qabbb`.`admin`;TRUNCATE TABLE `qabbb`.`company`;TRUNCATE TABLE `qabbb`.`companyEmployee`;TRUNCATE TABLE `qabbb`.`companyEmployeePosition`;TRUNCATE TABLE `qabbb`.`emailTemplate`;TRUNCATE TABLE `qabbb`.`heatmap`;TRUNCATE TABLE `qabbb`.`heatmapLayer`;TRUNCATE TABLE `qabbb`.`person`;TRUNCATE TABLE `qabbb`.`platform`;TRUNCATE TABLE `qabbb`.`project`;TRUNCATE TABLE `qabbb`.`projectPlatform`;TRUNCATE TABLE `qabbb`.`projectDeveloper`;TRUNCATE TABLE `qabbb`.`projectFile`;TRUNCATE TABLE `qabbb`.`projectForm`;TRUNCATE TABLE `qabbb`.`projectPublisher`;TRUNCATE TABLE `qabbb`.`projectSummaryDoc`;TRUNCATE TABLE `qabbb`.`user`;TRUNCATE TABLE `qabbb`.`userPlatform`;SET FOREIGN_KEY_CHECKS = 1;INSERT INTO `qabbb`.`companyEmployeePosition` (`name`) VALUES ('Owner');INSERT INTO `qabbb`.`companyEmployeePosition` (`name`) VALUES ('Developer');INSERT INTO `qabbb`.`person` (`personName`, `email`) VALUES ('string', 'user@example.com');INSERT INTO `qabbb`.`user` (`idPerson`, `password`, `isPasswordResetRequired`, `isDarkMode`, `status`) VALUES ('1', 'string', '0', '1', 'Active');";
+            String query = "SET FOREIGN_KEY_CHECKS = 0;TRUNCATE TABLE `qabbb`.`admin`;TRUNCATE TABLE `qabbb`.`company`;TRUNCATE TABLE `qabbb`.`companyEmployee`;TRUNCATE TABLE `qabbb`.`companyEmployeePosition`;TRUNCATE TABLE `qabbb`.`emailTemplate`;TRUNCATE TABLE `qabbb`.`heatmap`;TRUNCATE TABLE `qabbb`.`heatmapLayer`;TRUNCATE TABLE `qabbb`.`person`;TRUNCATE TABLE `qabbb`.`platform`;TRUNCATE TABLE `qabbb`.`project`;TRUNCATE TABLE `qabbb`.`projectPlatform`;TRUNCATE TABLE `qabbb`.`projectDeveloper`;TRUNCATE TABLE `qabbb`.`projectFile`;TRUNCATE TABLE `qabbb`.`projectForm`;TRUNCATE TABLE `qabbb`.`projectPublisher`;TRUNCATE TABLE `qabbb`.`projectSummaryDoc`;TRUNCATE TABLE `qabbb`.`user`;TRUNCATE TABLE `qabbb`.`userPlatform`;SET FOREIGN_KEY_CHECKS = 1;INSERT INTO `qabbb`.`companyEmployeePosition` (`name`) VALUES ('Owner');INSERT INTO `qabbb`.`companyEmployeePosition` (`name`) VALUES ('Developer');INSERT INTO `qabbb`.`person` (`personName`, `email`) VALUES ('string', 'user@example.com');INSERT INTO `qabbb`.`user` (`idPerson`, `password`, `isPasswordResetRequired`, `isDarkMode`, `status`) VALUES ('1', '29B6775BAECA015A7EDF18D2780D46C00818103AB6BB278BC37B51C19AF488F21BED4F1349A2EB49501F0EA8EE98E34F5531B84A49123BB8CDEDE31533C6481C', '0', '1', 'Active');INSERT INTO `qabbb`.`admin` (`idUser`, `createdAt`, `createdBy`) VALUES ('1', '2022-11-11 11:11:11', '1');";
 
             _context.Database.ExecuteSqlRaw(query);
 
             string? jsonString = System.IO.File.ReadAllText("backup.json");
             migration = JsonSerializer.Deserialize<MigrationRoot>(jsonString)!;
-            idPerson = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+            idPerson = 1;
 
             List<EmailTemplate> emailTemplates = MEmailTemplates();
             List<Company> companies = MCompanies();
@@ -43,6 +43,14 @@ namespace QABBB.API.Controllers
             List<Project> projects = MProject(companies, platforms);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("hashPassword/{password}")]
+        public ActionResult HashPassword(string password)
+        {
+            PasswordServices passwordServices = new PasswordServices();
+            return Ok(passwordServices.HashPasword(password));
         }
 
         private List<Platform> MPlatform() {
@@ -185,11 +193,9 @@ namespace QABBB.API.Controllers
                 userServices.add(user);
 
                 if(item.Value.publishers!.Count > 0){
-                    List<string> companyTokens = new List<string>();
-
+                    
                     foreach (var tokenCompany in item.Value.publishers)
                     {
-                        companyTokens.Add(tokenCompany);
                         var MigrateCompany = migration.__collections__!.publishers![tokenCompany];
                         Company company = companies.Find(company => company.Name == MigrateCompany.text)!;
 
@@ -219,19 +225,45 @@ namespace QABBB.API.Controllers
 
         private List<Company> MCompanies(){
             List<Company> companies = new List<Company>();
+
+            List<Rename> renameList = new List<Rename>();
+            renameList.Add(new Rename("Ubisoft", "Ubisoft - Far Cry 6"));
+            renameList.Add(new Rename("Ubisoft", "Ubisoft - Watch Dogs"));
+
             foreach (KeyValuePair<string, MigrationPublishers> item in migration.__collections__!.publishers!)
             {
-                Company company = new Company();
-                company.Name = item.Value.text!;
-                company.Logo = item.Value.logoURL;
+                Rename? rename = renameList.Find(i => i.from == item.Value.text);
+                if(rename != null)
+                    item.Value.text = rename.to;
 
-                CompanyServices companyServices = new CompanyServices(_context);
-                companyServices.add(company);
+                Company company = companies.Find(company => company.Name == item.Value.text)!;
 
-                companies.Add(company);
+                if(company == null) {
+                    company = new Company();
+
+                    
+                    company.Name = item.Value.text!;
+                    company.Logo = item.Value.logoURL;
+
+                    CompanyServices companyServices = new CompanyServices(_context);
+                    companyServices.add(company);
+
+                    companies.Add(company);
+                }
             }
             
             return companies;
+        }
+    }
+
+    public class Rename {
+        public string to;
+        public string from;
+
+        public Rename(string to, string from)
+        {
+            this.to = to;
+            this.from = from;
         }
     }
 

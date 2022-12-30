@@ -45,6 +45,12 @@ namespace QABBB.Domain.Repositories
             _context.SaveChanges();
             return true;
         }
+
+        public bool delete(ProjectPublisher projectPublisher){
+            _context.ProjectPublishers.Remove(projectPublisher);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }
 

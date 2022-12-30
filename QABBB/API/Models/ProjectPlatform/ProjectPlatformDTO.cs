@@ -1,8 +1,4 @@
-using System;
-using QABBB.API.Models.Heatmap;
-
-namespace QABBB.API.Models.ProjectPlatform
-{
+namespace QABBB.API.Models.ProjectPlatform {
     public class ProjectPlatformDTO
     {
         public int IdProjectPlatform { get; set; }

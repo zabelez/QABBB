@@ -14,7 +14,9 @@ namespace QABBB.Domain.Repositories
         }
 
         public List<Company> list(){
-            return _context.Companies.ToList();
+            return _context.Companies
+                .OrderBy(n => n.Name)
+                .ToList();
         }
 
         public bool add(Company company)

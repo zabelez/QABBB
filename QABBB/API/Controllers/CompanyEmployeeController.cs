@@ -62,7 +62,7 @@ namespace QABBB.API.Controllers
         }
 
         // GET: api/idCompany/CompanyEmployee/5
-        [HttpGet("/idCompany/{idCompany}")]
+        [HttpGet("idCompany/{idCompany}")]
         public ActionResult<List<CompanyEmployeeDTO>> GetCompanyEmployeeByIdCompany(int idCompany)
         {
             if (_context.CompanyEmployees == null)

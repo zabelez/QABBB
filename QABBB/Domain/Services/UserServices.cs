@@ -17,6 +17,7 @@ namespace QABBB.Domain.Services
     {
         private readonly QABBBContext _context;
         private readonly UserRepository _userRepository;
+        private PasswordServices passwordServices = new PasswordServices();
 
         public UserServices(QABBBContext context) {
             _context = context;
@@ -24,7 +25,10 @@ namespace QABBB.Domain.Services
         }
 
         public User? login(string userName, string password){
-            return _userRepository.findByUserNameAndPassword(userName, password);
+
+            String hashPassword = passwordServices.HashPasword(password);
+
+            return _userRepository.findByUserNameAndPassword(userName, hashPassword);
         }
 
         public List<User> userList() {
@@ -37,7 +41,7 @@ namespace QABBB.Domain.Services
 
         public bool add(User user) {
             Random r = new Random();
-            user.Password = r.Next(100000, 1000000).ToString();
+            user.Password = passwordServices.HashPasword(r.Next(100000, 1000000).ToString());
             user.Status = "Active";
             return _userRepository.add(user) ? true : false;
         }

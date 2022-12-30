@@ -11,7 +11,7 @@ namespace QABBB.Domain.Services
         const int keySize = 64;
         const int iterations = 350000;
         HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
-        byte[] salt = RandomNumberGenerator.GetBytes(12);
+        byte[] salt = Encoding.ASCII.GetBytes("Gj+6c0At!#eWn@DUnzM4T)bJQWRH?5(V!OFb@nH8");
 
         public string HashPasword(string password)
         {
@@ -27,12 +27,3 @@ namespace QABBB.Domain.Services
         }
     }
 }
-
-// hash_config {
-//   algorithm: SCRYPT,
-//   base64_signer_key: Z2JpPIO9Nn2uhdpvBiA6STvuhrqblngFeIqhSMRGlMNV1sFuKqjJEH9k0pIYn4w6Rzk47+TjfUIiAWGIqI+ZEQ==,
-//   base64_salt_separator: Bw==,
-//   rounds: 8,
-//   mem_cost: 14,
-// }
-

@@ -73,7 +73,7 @@ namespace QABBB.API.Controllers
         // POST: api/ProjectFile
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult<ProjectFile> PostProjectFile(ProjectFileInputDTO projectfileInputDTO)
+        public ActionResult<ProjectFileDTO> PostProjectFile(ProjectFileInputDTO projectfileInputDTO)
         {
             if (_context.ProjectFiles == null)
                 return Problem("Entity set 'QABBBContext.ProjectFiles'  is null.");

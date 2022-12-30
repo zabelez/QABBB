@@ -19,7 +19,7 @@ namespace QABBB.API.Assemblers
             return projectPlatformDTO;
         }
 
-        public ProjectPlatform toProject(ProjectPlatform projectPlatform, ProjectPlatformEditDTO projectPlatformEditDTO){
+        public ProjectPlatform toProjectPlatform(ProjectPlatform projectPlatform, ProjectPlatformEditDTO projectPlatformEditDTO){
             projectPlatform.IdProjectPlatform = projectPlatformEditDTO.IdProjectPlatform;
             projectPlatform.IdPlatform = projectPlatformEditDTO.IdPlatform;
             projectPlatform.CohortSize = projectPlatformEditDTO.CohortSize;

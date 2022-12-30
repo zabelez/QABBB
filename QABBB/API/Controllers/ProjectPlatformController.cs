@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using QABBB.API.Assemblers;
-using QABBB.API.Models.Project;
+using QABBB.API.Models.ProjectPlatform;
 using QABBB.Data;
 using QABBB.Domain.Services;
 using QABBB.Models;
@@ -15,92 +10,68 @@ namespace QABBB.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class ProjectPlatformController : ControllerBase
     {
         private readonly QABBBContext _context;
-        private readonly ProjectServices _projectServices;
-        private readonly ProjectAssembler _projectAssembler;
+        private readonly ProjectPlatformServices _projectplatformServices;
+        private readonly ProjectPlatformAssembler _projectplatformAssembler;
 
-        public ProjectPlatformController(QABBBContext context) {
+        public ProjectPlatformController(QABBBContext context)
+        {
             _context = context;
-            _projectServices = new ProjectServices(_context);
-            _projectAssembler = new ProjectAssembler();
+            _projectplatformServices = new ProjectPlatformServices(_context);
+            _projectplatformAssembler = new ProjectPlatformAssembler();
         }
 
-        // GET: api/Project
+        // GET: api/ProjectPlatform
         [HttpGet]
-        public ActionResult<List<ProjectDTO>> GetProjects() {
-            if (_context.Projects == null)
+        public ActionResult<List<ProjectPlatformDTO>> GetCompanies()
+        {
+            if (_context.Companies == null)
                 return NotFound();
 
-            List<Project> projects = _projectServices.list();
+            List<ProjectPlatform>? _companies = _projectplatformServices.list();
 
-            List<ProjectDTO> projectDTOs = _projectAssembler.toProjectDTO(projects);
+            List<ProjectPlatformDTO> _companiesDTO = _projectplatformAssembler.toProjectPlatformDTO(_companies);
 
-            return Ok(projectDTOs);
+            return Ok(_companiesDTO);
         }
 
-        // GET: api/Project/5
+        // GET: api/ProjectPlatform/5
         [HttpGet("{id}")]
-        public ActionResult<ProjectFullDTO> GetProject(int id) {
-            if (_context.Projects == null)
+        public ActionResult<ProjectPlatformDTO> GetProjectPlatform(int id)
+        {
+          if (_context.Companies == null)
+              return NotFound();
+
+            var projectplatform = _projectplatformServices.findById(id);
+
+            if (projectplatform == null)
                 return NotFound();
 
-            Project? project = _projectServices.findById(id);
-            if (project == null)
-                return NotFound();
+            ProjectPlatformDTO projectplatformDTO = _projectplatformAssembler.toProjectPlatformDTO(projectplatform);
 
-            ProjectFullDTO projectDTO = _projectAssembler.toProjectFullDTO(project);
-
-            return Ok(projectDTO);
+            return Ok(projectplatformDTO);
         }
 
-        // PUT: api/Project/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public ActionResult PutProject(ProjectEditDTO projectEditDTO) {
-            Project? project = _projectServices.findById(projectEditDTO.IdProject);
-            if (project == null)
-                return NotFound();
 
-            _projectAssembler.toProject(project, projectEditDTO);
-
-            _projectServices.edit(project);
-
-            return NoContent();
-        }
-
-        // POST: api/Project
+        // POST: api/ProjectPlatform
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public ActionResult<ProjectDTO> PostProject(ProjectInputDTO projectInputDTO) {
-            if (_context.Projects == null)
-                return Problem("Entity set 'QABBBContext.Projects'  is null.");
+        public ActionResult<ProjectPlatformDTO> PostProjectPlatform(ProjectPlatformInputDTO projectplatformInputDTO)
+        {
+            if (_context.Companies == null)
+                return Problem("Entity set 'QABBBContext.Companies'  is null.");
 
-            Project project = _projectAssembler.toProject(projectInputDTO);
+            ProjectPlatform projectplatform = _projectplatformAssembler.toProjectPlatform(projectplatformInputDTO);
+            
+            _projectplatformServices.add(projectplatform);
 
-            _projectServices.add(project);
+            ProjectPlatformDTO projectplatformDTO = _projectplatformAssembler.toProjectPlatformDTO(projectplatform);
 
-            ProjectDTO projectDTO = _projectAssembler.toProjectDTO(project);
-
-            return CreatedAtAction("GetProject", new {
-                id = projectDTO.IdProject
-            }, projectDTO);
+            return CreatedAtAction("GetProjectPlatform", new { id = projectplatformDTO.IdProjectPlatform }, projectplatformDTO);
         }
 
-        // DELETE: api/Project/5
-        [HttpDelete("{id}")]
-        public ActionResult DeleteProject(int id) {
-            if (_context.Projects == null)
-                return NotFound();
-
-            Project? project = _projectServices.findById(id);
-            if (project == null)
-                return NotFound();
-
-            _projectServices.delete(project);
-
-            return NoContent();
-        }
     }
 }
