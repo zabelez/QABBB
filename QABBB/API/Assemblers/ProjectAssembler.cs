@@ -105,8 +105,9 @@ namespace QABBB.API.Assemblers
             Project project = new Project();
             project.StartDateTime = projectInputDTO.StartDateTime;
             project.Name = projectInputDTO.Name;
-            project.PowerBiUrl = projectInputDTO.PowerBiUrl;
+            project.Logo = projectInputDTO.Logo;
             project.Duration = projectInputDTO.Duration;
+            project.PowerBiUrl = projectInputDTO.PowerBiUrl;
             project.SpreadsheetUrl = projectInputDTO.SpreadsheetUrl;
 
             return project;
