@@ -3,30 +3,30 @@ using QABBB.API.Models.Log;
 
 namespace QABBB.API.Assemblers
 {
-    public class LogAssembler
-    {
-        public LogDTO toLogDTO(Log log) {
+    // public class LogAssembler
+    // {
+    //     public LogDTO toLogDTO(Log log) {
 
-            LogDTO logDTO = new LogDTO();
-            logDTO.IdLog = log.IdLog;
-            logDTO.IdUser = log.IdUser;
-            logDTO.PersonName = log.IdUserNavigation.IdPersonNavigation.PersonName;
-            logDTO.Ip = log.Ip;
-            logDTO.Date = log.Date;
+    //         LogDTO logDTO = new LogDTO();
+    //         logDTO.IdLog = log.IdLog;
+    //         logDTO.IdUser = log.IdUser;
+    //         logDTO.PersonName = log.IdUserNavigation.IdPersonNavigation.PersonName;
+    //         logDTO.Ip = log.Ip;
+    //         logDTO.Date = log.Date;
             
-            return logDTO;
-        }
+    //         return logDTO;
+    //     }
 
-        public List<LogDTO> toLogDTO(IEnumerable<Log> companies) {
+    //     public List<LogDTO> toLogDTO(IEnumerable<Log> companies) {
 
-            List<LogDTO> logDTO = new List<LogDTO>();
+    //         List<LogDTO> logDTO = new List<LogDTO>();
 
-            foreach (Log log in companies) {
-                logDTO.Add(toLogDTO(log));
-            }
+    //         foreach (Log log in companies) {
+    //             logDTO.Add(toLogDTO(log));
+    //         }
 
-            return logDTO;
-        }
-    }
+    //         return logDTO;
+    //     }
+    // }
 }
 
