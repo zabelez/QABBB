@@ -1,5 +1,5 @@
-using QABBB.API.Models.Log;
 using QABBB.Models;
+using QABBB.API.Models.Log;
 
 namespace QABBB.API.Assemblers
 {

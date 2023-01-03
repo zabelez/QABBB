@@ -4,7 +4,6 @@ using QABBB.API.Assemblers;
 using QABBB.API.Models.Log;
 using QABBB.Data;
 using QABBB.Domain.Services;
-using QABBB.Models;
 
 namespace QABBB.API.Controllers
 {
