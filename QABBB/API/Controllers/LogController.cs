@@ -1,10 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using QABBB.API.Assemblers;
-using QABBB.API.Models.Log;
-using QABBB.Data;
-using QABBB.Domain.Services;
-
 namespace QABBB.API.Controllers
 {
     // [Route("api/[controller]")]
