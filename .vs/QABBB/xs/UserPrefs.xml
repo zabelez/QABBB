@@ -1,4 +1,7 @@
 ﻿<Properties StartupConfiguration="{EAE9D91C-E2C6-4010-AE1D-C74AF4CC5291}|Default">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/sabelebarbosa/Documents/GitHub/QABBB/QABBB/API/Controllers/ProjectFileController.cs" relfile="QABBB/API/Controllers/ProjectFileController.cs" line="81" column="1" />
@@ -6,46 +9,32 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.QABBB PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QABBB/API/Controllers/ProjectPlatformController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="QABBB/appsettings.json">
     <Files>
       <File FileName="QABBB/Data/QABBBContext.cs" />
-      <File FileName="QABBB/appsettings.json" />
+      <File FileName="QABBB/appsettings.json" Line="14" Column="1" />
       <File FileName="QABBB/backup.json" />
       <File FileName="QABBB/Program.cs" />
-      <File FileName="QABBB/Properties/launchSettings.json" />
+      <File FileName="QABBB/Properties/launchSettings.json" Line="16" Column="28" />
       <File FileName="QABBB/API/Controllers/MigrationController.cs" />
       <File FileName="QABBB/API/Assemblers/CompanyEmployeeAssembler.cs" />
       <File FileName="QABBB/API/Assemblers/ProjectAssembler.cs" />
       <File FileName="QABBB/Domain/Repositories/ProjectRepository.cs" />
-      <File FileName="QABBB/API/Models/ProjectSummaryDoc/ProjectSummaryDocInputDTO.cs" Line="16" Column="1" />
-      <File FileName="QABBB/API/Controllers/ProjectPlatformController.cs" Line="15" Column="49" />
-      <File FileName="QABBB/API/Controllers/ProjectController.cs" Line="104" Column="10" />
+      <File FileName="QABBB/API/Models/ProjectSummaryDoc/ProjectSummaryDocInputDTO.cs" />
+      <File FileName="QABBB/API/Controllers/ProjectPlatformController.cs" />
+      <File FileName="QABBB/API/Controllers/ProjectController.cs" />
+      <File FileName="QABBB/.gitignore" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="QABBB" expanded="True">
+          <Node name="QABBB" expanded="True" selected="True">
             <Node name="QABBB" expanded="True">
-              <Node name="API" expanded="True">
-                <Node name="Assemblers" expanded="True" />
-                <Node name="Controllers" expanded="True" />
-                <Node name="Models" expanded="True">
-                  <Node name="Company" expanded="True">
-                    <Node name="Employee" expanded="True" />
-                  </Node>
-                  <Node name="Project" expanded="True" />
-                  <Node name="ProjectSummaryDoc" expanded="True" />
-                  <Node name="User" expanded="True" />
-                </Node>
-              </Node>
               <Node name="Data" expanded="True" />
               <Node name="Domain" expanded="True">
                 <Node name="Models" expanded="True" />
                 <Node name="Repositories" expanded="True" />
               </Node>
-              <Node name="Models" expanded="True" />
               <Node name="Properties" expanded="True" />
             </Node>
           </Node>
@@ -53,5 +42,4 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

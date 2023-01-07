@@ -179,7 +179,7 @@ namespace QABBB.API.Controllers
 
                 User user = new User();
                 user.IsDarkMode = item.Value.isDarkMode;
-                user.IsPasswordResetRequired = item.Value.isPasswordResetRequired;
+                user.IsPasswordResetRequired = true;
                 user.Status = "Active";
 
                 Person person = new Person();
@@ -188,7 +188,7 @@ namespace QABBB.API.Controllers
 
                 user.IdPersonNavigation = person;
 
-                userServices.add(user);
+                userServices.addCustomPassword(user, "123456");
 
                 if(item.Value.publishers!.Count > 0){
                     

@@ -46,6 +46,12 @@ namespace QABBB.Domain.Services
             return _userRepository.add(user) ? true : false;
         }
 
+        public bool addCustomPassword(User user, string password) {
+            user.Password = passwordServices.HashPasword(password);
+            user.Status = "Active";
+            return _userRepository.add(user) ? true : false;
+        }
+
         public bool save(User user)
         {
             return _userRepository.save(user);
