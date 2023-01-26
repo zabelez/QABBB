@@ -46,6 +46,7 @@ namespace QABBB.API.Assemblers
             projectFullDTO.Logo = project.Logo;
             projectFullDTO.StartDateTime = project.StartDateTime;
             projectFullDTO.Duration = project.Duration;
+            projectFullDTO.PowerBiUrl = project.PowerBiUrl;
             
             projectFullDTO.Platforms = projectPlatformAssembler.toProjectPlatformDTO(project.ProjectPlatforms);
 

@@ -190,20 +190,18 @@ namespace QABBB.API.Controllers
 
                 userServices.addCustomPassword(user, "123456");
 
-                if(item.Value.publishers!.Count > 0){
+                if(item.Value.company != null){
                     
-                    foreach (var tokenCompany in item.Value.publishers)
-                    {
-                        var MigrateCompany = migration.__collections__!.publishers![tokenCompany];
-                        Company company = companies.Find(company => company.Name == MigrateCompany.text)!;
+                    var MigrateCompany = migration.__collections__!.publishers![item.Value.company];
+                    Company company = companies.Find(company => company.Name == MigrateCompany.text)!;
 
-                        CompanyEmployee companyEmployee = new CompanyEmployee();
-                        companyEmployee.IdCompany = company.IdCompany;
-                        companyEmployee.IdPerson = user.IdPerson;
-                        companyEmployee.IdPosition = 2;
+                    CompanyEmployee companyEmployee = new CompanyEmployee();
+                    companyEmployee.IdCompany = company.IdCompany;
+                    companyEmployee.IdPerson = user.IdPerson;
+                    companyEmployee.IdPosition = 2;
 
-                        companyEmployeeServices.add(companyEmployee, idPerson);
-                    }
+                    companyEmployeeServices.add(companyEmployee, idPerson);
+                    
                 }
 
                 if(item.Value.isAdmin == true){
@@ -325,7 +323,7 @@ namespace QABBB.API.Controllers
         public bool? isAdmin { get; set; }
         public bool isPasswordResetRequired { get; set; } = false!;
         public string? email { get; set; }
-        public List<string>? publishers { get; set; }
+        public string? company { get; set; }
         public string? id { get; set; }
         public string? text { get; set; }
         public bool isDarkMode { get; set;} = false!;

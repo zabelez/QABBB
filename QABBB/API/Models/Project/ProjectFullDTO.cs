@@ -16,6 +16,7 @@ namespace QABBB.API.Models.Project
         public string? Logo { get; set; }
         public DateTime? StartDateTime { get; set; }
         public decimal? Duration { get; set; }
+        public string? PowerBiUrl { get; set; }
         public List<CompanyDTO> Developers { get; set; } = new List<CompanyDTO>()!;
         public List<CompanyDTO> Publishers { get; set; } = new List<CompanyDTO>()!;
         public List<ProjectPlatformDTO> Platforms {get; set; } = new List<ProjectPlatformDTO>()!;
