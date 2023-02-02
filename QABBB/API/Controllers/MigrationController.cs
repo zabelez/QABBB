@@ -83,7 +83,92 @@ namespace QABBB.API.Controllers
                 Project project = new Project();
                 project.Name = migrationTest.Value.name!;
                 project.Logo = migrationTest.Value.logoURL;
-                project.StartDateTime = migrationTest.Value.date == "" ? null : DateTime.Parse(migrationTest.Value.date);
+
+                var formattedTime = "";
+                switch (migrationTest.Value.time)
+                {
+                    case "1AM EST":
+                        formattedTime = "01:00:00";
+                        break;
+                        
+                    case "4 AM EST":
+                        formattedTime = "04:00:00";
+                        break;
+                    
+                    case "6AM EST":
+                        formattedTime = "06:00:00";
+                        break;
+                        
+                    case "7AM EDT":
+                        formattedTime = "07:00:00";
+                        break;
+                        
+                    case "10 AM CEST":
+                    case "10AM EST":
+                        formattedTime = "10:00:00";
+                        break;
+                        
+                    case "10:30 AM CEST":
+                        formattedTime = "10:30:00";
+                        break;
+                        
+                    case "11":
+                    case "11AM EDT":
+                    case "11 AM EDT":
+                        formattedTime = "11:00:00";
+                        break;
+                        
+                    case "12PM EST":
+                    case "12 PM EST":
+                        formattedTime = "12:00:00";
+                        break;
+                    
+                    case "12:30 PM EST":
+                        formattedTime = "12:30:00";
+                        break;
+                    
+                    case "1PM EST":
+                    case "1PM EDT":
+                    case "1 PM EDT":
+                        formattedTime = "13:00:00";
+                        break;
+                        
+                    case "2PM":
+                    case "2PM EST":
+                    case "2 PM EST":
+                    case "2PM EDT":
+                    case "2 PM EDT":
+                        formattedTime = "14:00:00";
+                        break;
+                    
+                    case "3PM EST":
+                    case "3 PM EST":
+                        formattedTime = "15:00:00";
+                        break;
+                    
+                    case "6PM Local":
+                        formattedTime = "18:00:00";
+                        break;
+                    
+                    case "7PM EDT":
+                        formattedTime = "19:00:00";
+                        break;
+                    
+                    case "11 PM EST":
+                        formattedTime = "23:00:00";
+                        break;
+                        
+                    case "12:00 AM BST":
+                    case "NA":
+                    default:
+                        formattedTime = "00:00:00";
+                        break;
+
+                }
+
+
+
+                project.StartDateTime = migrationTest.Value.date == "" ? null : DateTime.Parse(migrationTest.Value.date + " " + formattedTime);
                 project.Duration = Decimal.Parse(migrationTest.Value.duration == "" ? "0" : migrationTest.Value.duration);
                 project.PowerBiUrl = migrationTest.Value.powerBiURL;
                 project.SpreadsheetUrl = migrationTest.Value.spreadsheetURL;
