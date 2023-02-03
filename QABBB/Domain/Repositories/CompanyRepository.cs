@@ -15,6 +15,11 @@ namespace QABBB.Domain.Repositories
 
         public List<Company> list(){
             return _context.Companies
+                .Include(ce => ce.CompanyEmployees)
+                    .ThenInclude(u => u.IdPositionNavigation)
+                .Include(ce => ce.CompanyEmployees)
+                    .ThenInclude(pe => pe.IdPersonNavigation)
+                        .ThenInclude(pe => pe.IdPersonNavigation)
                 .OrderBy(n => n.Name)
                 .ToList();
         }

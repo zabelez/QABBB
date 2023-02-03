@@ -1,5 +1,6 @@
 using System;
 using QABBB.API.Models.Company;
+using QABBB.API.Models.Company.Employee;
 using QABBB.API.Models.User;
 using QABBB.Models;
 
@@ -14,6 +15,18 @@ namespace QABBB.API.Assemblers
             companyDTO.IdCompany = company.IdCompany;
             companyDTO.Name = company.Name;
             companyDTO.Logo = company.Logo;
+
+            foreach (var employee in company.CompanyEmployees)
+            {
+                CompanyEmployeeForCompanyDTO employeeDTO = new CompanyEmployeeForCompanyDTO();
+                employeeDTO.IdCompanyEmployee = employee.IdCompanyEmployee;
+                employeeDTO.IdPerson = employee.IdCompanyEmployee;
+                employeeDTO.PersonName = employee.IdPersonNavigation.IdPersonNavigation.PersonName;
+                employeeDTO.Position = employee.IdPositionNavigation.Name;
+                employeeDTO.CreatedAt = employee.CreatedAt;
+
+                companyDTO.Employees.Add(employeeDTO);
+            }
             
             return companyDTO;
         }
