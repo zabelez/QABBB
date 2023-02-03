@@ -1,5 +1,6 @@
 ﻿<Properties StartupConfiguration="{EAE9D91C-E2C6-4010-AE1D-C74AF4CC5291}|Default">
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.QABBB PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -7,23 +8,24 @@
       <Breakpoint file="/Users/sabelebarbosa/Documents/GitHub/QABBB/QABBB/API/Controllers/ProjectGamePlatformController.cs" relfile="QABBB/API/Controllers/ProjectGamePlatformController.cs" line="83" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workbench ActiveDocument="QABBB/API/Controllers/MigrationController.cs">
     <Files>
       <File FileName="QABBB/Data/QABBBContext.cs" />
-      <File FileName="QABBB/appsettings.json" Line="14" Column="1" />
-      <File FileName="QABBB/backup.json" Line="1" Column="27" />
+      <File FileName="QABBB/appsettings.json" />
+      <File FileName="QABBB/backup.json" />
       <File FileName="QABBB/Program.cs" />
       <File FileName="QABBB/Properties/launchSettings.json" />
       <File FileName="QABBB/API/Controllers/MigrationController.cs" Line="85" Column="60" />
       <File FileName="QABBB/API/Assemblers/CompanyEmployeeAssembler.cs" />
-      <File FileName="QABBB/API/Assemblers/ProjectAssembler.cs" Line="43" Column="24" />
+      <File FileName="QABBB/API/Assemblers/ProjectAssembler.cs" />
       <File FileName="QABBB/Domain/Repositories/ProjectRepository.cs" />
       <File FileName="QABBB/API/Models/ProjectSummaryDoc/ProjectSummaryDocInputDTO.cs" />
       <File FileName="QABBB/API/Controllers/ProjectPlatformController.cs" />
       <File FileName="QABBB/API/Controllers/ProjectController.cs" />
       <File FileName="QABBB/.gitignore" />
-      <File FileName="QABBB/Domain/Models/Project.cs" Line="23" Column="34" />
-      <File FileName="QABBB/API/Models/Project/ProjectFullDTO.cs" Line="17" Column="24" />
+      <File FileName="QABBB/Domain/Models/Project.cs" />
+      <File FileName="QABBB/API/Models/Project/ProjectFullDTO.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -43,13 +45,10 @@
                 <Node name="Repositories" expanded="True" />
               </Node>
               <Node name="Properties" expanded="True" />
-              <Node name="backup.json" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.QABBB PreferredExecutionTarget="/Applications/Google Chrome.app" />
 </Properties>
