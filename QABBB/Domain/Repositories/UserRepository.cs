@@ -50,6 +50,16 @@ namespace QABBB.Domain.Repositories
                     .ThenInclude(u => u.CreatedByNavigation.IdPersonNavigation)
                 .Include(u => u.UserPlatformIdUserNavigations.Where(up => up.RemovedBy == null))
                     .ThenInclude(u => u.RemovedByNavigation!.IdPersonNavigation)
+                .Include(u => u.CompanyEmployeeIdPersonNavigations.Where(up => up.RemovedBy == null))
+                    .ThenInclude(u => u.IdCompanyNavigation)
+                        .ThenInclude(pd => pd.ProjectDevelopers)
+                            .ThenInclude(p => p.IdProjectNavigation)
+                .Include(u => u.CompanyEmployeeIdPersonNavigations.Where(up => up.RemovedBy == null))
+                    .ThenInclude(u => u.IdCompanyNavigation)
+                        .ThenInclude(pp => pp.ProjectPublishers)
+                            .ThenInclude(p => p.IdProjectNavigation)
+                .Include(u => u.CompanyEmployeeIdPersonNavigations)
+                    .ThenInclude(u => u.IdPositionNavigation)
                 .Where(u => u.IdPerson == id)
                 .FirstOrDefault();
         }

@@ -8,13 +8,31 @@ namespace QABBB.API.Assemblers
 {
     public class ProjectAssembler
     {
-        CompanyAssembler companyAssembler = new CompanyAssembler();
+        
         ProjectFileAssembler projectFileAssembler = new ProjectFileAssembler();
         ProjectFormAssembler projectFormAssembler = new ProjectFormAssembler();
         ProjectSummaryDocAssembler projectSummaryDocAssembler = new ProjectSummaryDocAssembler();
         ProjectPlatformAssembler projectPlatformAssembler = new ProjectPlatformAssembler();
 
-        public ProjectDTO toProjectDTO(Project project) {
+        public ProjectForUserDTO toProjectForUserDTO(Project project) {
+
+            CompanyAssembler companyAssembler = new CompanyAssembler();
+
+            ProjectForUserDTO projectDTO = new ProjectForUserDTO();
+            projectDTO.IdProject = project.IdProject;
+            projectDTO.Name = project.Name;
+            projectDTO.Logo = project.Logo;
+            projectDTO.StartDateTime = project.StartDateTime;
+            projectDTO.Duration = project.Duration;
+            
+            
+            return projectDTO;
+        }
+
+        public ProjectDTO toProjectDTO(Project project)
+        {
+
+            CompanyAssembler companyAssembler = new CompanyAssembler();
 
             ProjectDTO projectDTO = new ProjectDTO();
             projectDTO.IdProject = project.IdProject;
@@ -22,7 +40,7 @@ namespace QABBB.API.Assemblers
             projectDTO.Logo = project.Logo;
             projectDTO.StartDateTime = project.StartDateTime;
             projectDTO.Duration = project.Duration;
-            
+
             foreach (ProjectDeveloper projectDeveloper in project.ProjectDevelopers)
             {
                 projectDTO.Developers.Add(companyAssembler.toCompanyDTO(projectDeveloper.IdCompanyNavigation));
@@ -34,12 +52,14 @@ namespace QABBB.API.Assemblers
             }
 
             projectDTO.ProjectPlatforms = projectPlatformAssembler.toProjectPlatformDTO(project.ProjectPlatforms);
-            
+
             return projectDTO;
         }
 
         public ProjectFullDTO toProjectFullDTO(Project project)
         {
+            CompanyAssembler companyAssembler = new CompanyAssembler();
+
             ProjectFullDTO projectFullDTO = new ProjectFullDTO();
             projectFullDTO.IdProject = project.IdProject;
             projectFullDTO.Name = project.Name;

@@ -1,11 +1,13 @@
 using System;
 using QABBB.API.Models.Company.Employee;
+using QABBB.API.Models.Project;
 using QABBB.Models;
 
 namespace QABBB.API.Assemblers
 {
     public class CompanyEmployeeAssembler
     {
+        public ProjectAssembler projectAssembler = new ProjectAssembler();
 
         public CompanyEmployeeDTO toCompanyEmployeeDTO(CompanyEmployee companyEmployee) {
 
@@ -19,11 +21,51 @@ namespace QABBB.API.Assemblers
             companyEmployeeDTO.CreatedAt = companyEmployee.CreatedAt;
             companyEmployeeDTO.CreatedBy = companyEmployee.CreatedBy;
             companyEmployeeDTO.CreatedByName = companyEmployee.CreatedByNavigation.IdPersonNavigation.PersonName;
-            //companyEmployeeDTO.RemovedAt = companyEmployee.RemovedAt;
-            //companyEmployeeDTO.RemovedBy = companyEmployee.RemovedBy;
-            //companyEmployeeDTO.RemovedByName = companyEmployee.RemovedByNavigation?.IdPersonNavigation.PersonName;
             
             return companyEmployeeDTO;
+        }
+
+        public CompanyEmployeeForCompanyDTO toCompanyEmployeeForCompanyDTO(CompanyEmployee companyEmployee) {
+            CompanyEmployeeForCompanyDTO employeeDTO = new CompanyEmployeeForCompanyDTO();
+            employeeDTO.IdCompanyEmployee = companyEmployee.IdCompanyEmployee;
+            employeeDTO.IdPerson = companyEmployee.IdCompanyEmployee;
+            employeeDTO.PersonName = companyEmployee.IdPersonNavigation.IdPersonNavigation.PersonName;
+            employeeDTO.Position = companyEmployee.IdPositionNavigation.Name;
+            employeeDTO.CreatedAt = companyEmployee.CreatedAt;
+
+            return employeeDTO;
+        }
+        public List<CompanyEmployeeForUserDTO> toCompanyEmployeeForUserDTO(IEnumerable<CompanyEmployee> companyEmployees) {
+            List<CompanyEmployeeForUserDTO> companyEmployeeForUserDTOs = new List<CompanyEmployeeForUserDTO>();
+            foreach (var companyEmployee in companyEmployees)
+            {
+                companyEmployeeForUserDTOs.Add(toCompanyEmployeeForUserDTO(companyEmployee));
+            }
+            return companyEmployeeForUserDTOs;
+        }
+
+        public CompanyEmployeeForUserDTO toCompanyEmployeeForUserDTO(CompanyEmployee companyEmployee) {
+            CompanyEmployeeForUserDTO employeeDTO = new CompanyEmployeeForUserDTO();
+            employeeDTO.IdCompanyEmployee = companyEmployee.IdCompanyEmployee;
+            employeeDTO.IdCompany = companyEmployee.IdCompany;
+            employeeDTO.CompanyName = companyEmployee.IdCompanyNavigation.Name;
+            employeeDTO.Position = companyEmployee.IdPositionNavigation.Name;
+            employeeDTO.CreatedAt = companyEmployee.CreatedAt;
+
+            HashSet<ProjectForUserDTO> projects = new HashSet<ProjectForUserDTO>();
+            foreach (var project in companyEmployee.IdCompanyNavigation.ProjectDevelopers)
+            {
+                projects.Add(projectAssembler.toProjectForUserDTO(project.IdProjectNavigation));
+            }
+            foreach (var project in companyEmployee.IdCompanyNavigation.ProjectPublishers)
+            
+            {
+                projects.Add(projectAssembler.toProjectForUserDTO(project.IdProjectNavigation));
+            }
+
+            employeeDTO.projects = projects.ToList();
+
+            return employeeDTO;
         }
 
         public List<CompanyEmployeeDTO> toCompanyEmployeeDTO(IEnumerable<CompanyEmployee> companyEmployees) {

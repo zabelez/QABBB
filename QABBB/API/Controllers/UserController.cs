@@ -58,7 +58,7 @@ namespace QABBB.Controllers
 
         // GET: api/User/5x
         [HttpGet("{id}")]
-        public ActionResult<UserAndPlatformsDTO> GetUser(int id)
+        public ActionResult<UserPlatformsEmployeeDTO> GetUser(int id)
         {
           if (_context.Users == null)
               return NotFound();

@@ -10,6 +10,7 @@ namespace QABBB.API.Assemblers
     {
         
         UserPlatformAssembler userPlatformAssembler = new UserPlatformAssembler();
+        CompanyEmployeeAssembler companyEmployeeAssembler = new CompanyEmployeeAssembler();
 
         public UserDTO toUserDTO(User user) {
 
@@ -23,9 +24,9 @@ namespace QABBB.API.Assemblers
             return newUser;
         }
 
-        public UserAndPlatformsDTO toUserAndPlatformsDTO(User user) {
+        public UserPlatformsEmployeeDTO toUserAndPlatformsDTO(User user) {
 
-            UserAndPlatformsDTO newUser = new UserAndPlatformsDTO();
+            UserPlatformsEmployeeDTO newUser = new UserPlatformsEmployeeDTO();
             newUser.IdPerson = user.IdPerson;
             newUser.IsDarkMode = user.IsDarkMode;
             newUser.Status = user.Status;
@@ -33,6 +34,7 @@ namespace QABBB.API.Assemblers
             newUser.Email = user.IdPersonNavigation.Email;
 
             newUser.Platforms = userPlatformAssembler.toUserPlatformDTO(user.UserPlatformIdUserNavigations);
+            newUser.Employers = companyEmployeeAssembler.toCompanyEmployeeForUserDTO(user.CompanyEmployeeIdPersonNavigations);
 
             return newUser;
         }

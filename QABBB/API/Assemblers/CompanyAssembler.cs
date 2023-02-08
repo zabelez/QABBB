@@ -8,6 +8,7 @@ namespace QABBB.API.Assemblers
 {
     public class CompanyAssembler
     {
+        public CompanyEmployeeAssembler companyEmployeeAssembler = new CompanyEmployeeAssembler();
 
         public CompanyDTO toCompanyDTO(Company company) {
 
@@ -18,14 +19,7 @@ namespace QABBB.API.Assemblers
 
             foreach (var employee in company.CompanyEmployees)
             {
-                CompanyEmployeeForCompanyDTO employeeDTO = new CompanyEmployeeForCompanyDTO();
-                employeeDTO.IdCompanyEmployee = employee.IdCompanyEmployee;
-                employeeDTO.IdPerson = employee.IdCompanyEmployee;
-                employeeDTO.PersonName = employee.IdPersonNavigation.IdPersonNavigation.PersonName;
-                employeeDTO.Position = employee.IdPositionNavigation.Name;
-                employeeDTO.CreatedAt = employee.CreatedAt;
-
-                companyDTO.Employees.Add(employeeDTO);
+                companyDTO.Employees.Add(companyEmployeeAssembler.toCompanyEmployeeForCompanyDTO(employee));
             }
             
             return companyDTO;
