@@ -24,6 +24,14 @@ namespace QABBB.API.Assemblers
             
             return companyDTO;
         }
+        public CompanyForDashboardScreenDTO toCompanyForDashboardScreenDTO(Company company) {
+
+            CompanyForDashboardScreenDTO companyDTO = new CompanyForDashboardScreenDTO();
+            companyDTO.IdCompany = company.IdCompany;
+            companyDTO.Name = company.Name;
+
+            return companyDTO;
+        }
 
         public Company toCompany(Company company, CompanyEditInputDTO companyEditInputDTO){
             company.Name = companyEditInputDTO.Name;
@@ -37,6 +45,16 @@ namespace QABBB.API.Assemblers
 
             foreach (Company company in companies) {
                 companyDTO.Add(toCompanyDTO(company));
+            }
+
+            return companyDTO;
+        }
+        public List<CompanyForDashboardScreenDTO> toCompanyForDashboardScreenDTO(IEnumerable<Company> companies) {
+
+            List<CompanyForDashboardScreenDTO> companyDTO = new List<CompanyForDashboardScreenDTO>();
+
+            foreach (Company company in companies) {
+                companyDTO.Add(toCompanyForDashboardScreenDTO(company));
             }
 
             return companyDTO;

@@ -55,6 +55,37 @@ namespace QABBB.API.Assemblers
 
             return projectDTO;
         }
+        public ProjectForDashboardScreenDTO toProjectForDashboardScreenDTO(Project project)
+        {
+
+            CompanyAssembler companyAssembler = new CompanyAssembler();
+
+            ProjectForDashboardScreenDTO projectForDashboardScreenDTO = new ProjectForDashboardScreenDTO();
+            projectForDashboardScreenDTO.IdProject = project.IdProject;
+            projectForDashboardScreenDTO.Name = project.Name;
+            projectForDashboardScreenDTO.Logo = project.Logo;
+            projectForDashboardScreenDTO.StartDateTime = project.StartDateTime;
+            projectForDashboardScreenDTO.Duration = project.Duration;
+
+            foreach (ProjectDeveloper projectDeveloper in project.ProjectDevelopers)
+            {
+                projectForDashboardScreenDTO.Developers.Add(companyAssembler.toCompanyForDashboardScreenDTO(projectDeveloper.IdCompanyNavigation));
+            }
+
+            foreach (ProjectPublisher projectPublisher in project.ProjectPublishers)
+            {
+                projectForDashboardScreenDTO.Publishers.Add(companyAssembler.toCompanyForDashboardScreenDTO(projectPublisher.IdCompanyNavigation));
+            }
+
+            projectForDashboardScreenDTO.ProjectPlatforms = projectPlatformAssembler.toProjectPlatformForDashboardScreen(project.ProjectPlatforms);
+
+            foreach (ProjectPlatform projectPlatform in project.ProjectPlatforms)
+            {
+                projectForDashboardScreenDTO.cohortSizeTotal += projectPlatform.CohortSize;
+            }
+
+            return projectForDashboardScreenDTO;
+        }
 
         public ProjectFullDTO toProjectFullDTO(Project project)
         {
@@ -110,15 +141,26 @@ namespace QABBB.API.Assemblers
             return project;
         }
 
-        public List<ProjectDTO> toProjectDTO(IEnumerable<Project> companies) {
+        public List<ProjectDTO> toProjectDTO(IEnumerable<Project> projects) {
 
             List<ProjectDTO> projectDTO = new List<ProjectDTO>();
 
-            foreach (Project project in companies) {
+            foreach (Project project in projects) {
                 projectDTO.Add(toProjectDTO(project));
             }
 
             return projectDTO;
+        }
+
+        public List<ProjectForDashboardScreenDTO> toProjectForDashboardScreenDTO(IEnumerable<Project> projects) {
+
+            List<ProjectForDashboardScreenDTO> projectForDashboardScreenDTO = new List<ProjectForDashboardScreenDTO>();
+
+            foreach (Project project in projects) {
+                projectForDashboardScreenDTO.Add(toProjectForDashboardScreenDTO(project));
+            }
+
+            return projectForDashboardScreenDTO;
         }
 
         public Project toProject(ProjectInputDTO projectInputDTO) {

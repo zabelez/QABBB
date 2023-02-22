@@ -26,14 +26,14 @@ namespace QABBB.API.Controllers
 
         // GET: api/Project
         [HttpGet]
-        public ActionResult<List<ProjectDTO>> GetProjects()
+        public ActionResult<List<ProjectForDashboardScreenDTO>> GetProjects()
         {
             if (_context.Projects == null)
                 return NotFound();
 
             List<Project> projects = _projectServices.list();
 
-            List<ProjectDTO> projectDTOs = _projectAssembler.toProjectDTO(projects);
+            List<ProjectForDashboardScreenDTO> projectDTOs = _projectAssembler.toProjectForDashboardScreenDTO(projects);
           
             return Ok(projectDTOs);
         }

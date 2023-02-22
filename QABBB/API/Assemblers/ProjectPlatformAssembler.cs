@@ -18,6 +18,14 @@ namespace QABBB.API.Assemblers
             
             return projectPlatformDTO;
         }
+        public ProjectPlatformForDashboardScreenDTO toProjectPlatformForDashboardScreenDTO(ProjectPlatform projectPlatform) {
+
+            ProjectPlatformForDashboardScreenDTO projectPlatformForDashboardScreenDTO = new ProjectPlatformForDashboardScreenDTO();
+            projectPlatformForDashboardScreenDTO.IdPlatform = projectPlatform.IdPlatform;
+            projectPlatformForDashboardScreenDTO.Name = projectPlatform.IdPlatformNavigation.Name;
+            
+            return projectPlatformForDashboardScreenDTO;
+        }
 
         public ProjectPlatform toProjectPlatform(ProjectPlatform projectPlatform, ProjectPlatformEditDTO projectPlatformEditDTO){
             projectPlatform.IdProjectPlatform = projectPlatformEditDTO.IdProjectPlatform;
@@ -36,6 +44,16 @@ namespace QABBB.API.Assemblers
             }
 
             return projectPlatformDTO;
+        }
+        public List<ProjectPlatformForDashboardScreenDTO> toProjectPlatformForDashboardScreen(IEnumerable<ProjectPlatform> projectPlatforms) {
+
+            List<ProjectPlatformForDashboardScreenDTO> projectPlatformForDashboardScreenDTO = new List<ProjectPlatformForDashboardScreenDTO>();
+
+            foreach (ProjectPlatform projectPlatform in projectPlatforms) {
+                projectPlatformForDashboardScreenDTO.Add(toProjectPlatformForDashboardScreenDTO(projectPlatform));
+            }
+
+            return projectPlatformForDashboardScreenDTO;
         }
 
         public ProjectPlatform toProjectPlatform(ProjectPlatformInputDTO projectPlatformInputDTO) {

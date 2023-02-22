@@ -13,12 +13,40 @@ namespace QABBB.API.Controllers
     {
 
         private readonly QABBBContext _context;
+        private readonly UserServices _userServices;
         MigrationRoot migration;
         int idPerson = 0;
         
         public MigrationController(QABBBContext context)
         {
             _context = context;
+            _userServices = new UserServices(_context);
+        }
+
+        [HttpGet]
+        [Route("EmailResetPassword")]
+        public async Task<ActionResult> EmailAsync(int idUser)
+        {
+            EmailServices emailServices = new EmailServices(_context);
+
+            User user = new User();
+
+            await emailServices.ResetPassword(user);
+
+            return Ok();
+        }
+        
+        [HttpGet]
+        [Route("EmailNewUserWelcome")]
+        public async Task<ActionResult> EmailNewUser(int idUser)
+        {
+            EmailServices emailServices = new EmailServices(_context);
+
+            User user = new User();
+
+            await emailServices.NewUserWelcome(user);
+
+            return Ok();
         }
 
         [HttpGet]
