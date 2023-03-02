@@ -29,7 +29,7 @@ namespace QABBB.API.Controllers
         {
             EmailServices emailServices = new EmailServices(_context);
 
-            User user = new User();
+            User user = _userServices.findById(idUser)!;
 
             await emailServices.ResetPassword(user);
 
