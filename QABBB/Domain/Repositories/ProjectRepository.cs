@@ -63,6 +63,44 @@ namespace QABBB.Domain.Repositories
             _context.SaveChanges();
             return true;
         }
+
+        internal List<Project> listByUser(int id)
+        {
+            return _context.Projects
+            .Include(pp => pp.ProjectPlatforms)
+                .ThenInclude(p => p.IdPlatformNavigation)
+            .Include(pg => pg.ProjectDevelopers)
+                .ThenInclude(dev => dev.IdCompanyNavigation)
+            .Include(pg => pg.ProjectPublishers)
+                .ThenInclude(pub => pub.IdCompanyNavigation)
+            .Where(p => p.ProjectDevelopers
+                            .Any(dev => dev.IdCompanyNavigation.CompanyEmployees
+                                .Any(p => p.IdPerson == id)) 
+                    || p.ProjectPublishers
+                            .Any(pub => pub.IdCompanyNavigation.CompanyEmployees
+                                .Any(p => p.IdPerson == id))
+            )
+            .OrderByDescending(x => x.StartDateTime)
+            .ToList();
+        }
+
+        internal List<Project> listByCompany(int id)
+        {
+            return _context.Projects
+            .Include(pp => pp.ProjectPlatforms)
+                .ThenInclude(p => p.IdPlatformNavigation)
+            .Include(pg => pg.ProjectDevelopers)
+                .ThenInclude(dev => dev.IdCompanyNavigation)
+            .Include(pg => pg.ProjectPublishers)
+                .ThenInclude(pub => pub.IdCompanyNavigation)
+            .Where(p => p.ProjectDevelopers
+                            .Any(dev => dev.IdCompany == id) 
+                    || p.ProjectPublishers
+                            .Any(pub => pub.IdCompany == id)
+            )
+            .OrderByDescending(x => x.StartDateTime)
+            .ToList();
+        }
     }
 }
 

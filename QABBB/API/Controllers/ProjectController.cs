@@ -38,6 +38,34 @@ namespace QABBB.API.Controllers
             return Ok(projectDTOs);
         }
 
+        // GET: api/Project/byUser/{id}
+        [HttpGet("byUser/{id}")]
+        public ActionResult<List<ProjectForDashboardScreenDTO>> GetProjectsByUser(int id)
+        {
+            if (_context.Projects == null)
+                return NotFound();
+
+            List<Project> projects = _projectServices.listByUser(id);
+
+            List<ProjectForDashboardScreenDTO> projectDTOs = _projectAssembler.toProjectForDashboardScreenDTO(projects);
+
+            return Ok(projectDTOs);
+        }
+
+        // GET: api/Project/byCompany/{id}
+        [HttpGet("byCompany/{id}")]
+        public ActionResult<List<ProjectForDashboardScreenDTO>> GetProjectsByCompany(int id)
+        {
+            if (_context.Projects == null)
+                return NotFound();
+
+            List<Project> projects = _projectServices.listByCompany(id);
+
+            List<ProjectForDashboardScreenDTO> projectDTOs = _projectAssembler.toProjectForDashboardScreenDTO(projects);
+
+            return Ok(projectDTOs);
+        }
+
         // GET: api/Project/5
         [HttpGet("{id}")]
         public ActionResult<ProjectFullDTO> GetProject(int id)

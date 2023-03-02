@@ -19,7 +19,7 @@ namespace QABBB.API.Models.Project
         public int? cohortSizeTotal {get; set; } = 0!;
         public List<CompanyForDashboardScreenDTO> Developers { get; set; } = new List<CompanyForDashboardScreenDTO>()!;
         public List<CompanyForDashboardScreenDTO> Publishers { get; set; } = new List<CompanyForDashboardScreenDTO>()!;
-        public List<ProjectPlatformForDashboardScreenDTO> ProjectPlatforms { get; set; } = new List<ProjectPlatformForDashboardScreenDTO>()!;
+        public List<ProjectPlatformForDashboardScreenDTO> Platforms { get; set; } = new List<ProjectPlatformForDashboardScreenDTO>()!;
         
     }
 

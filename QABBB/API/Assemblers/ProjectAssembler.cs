@@ -77,7 +77,7 @@ namespace QABBB.API.Assemblers
                 projectForDashboardScreenDTO.Publishers.Add(companyAssembler.toCompanyForDashboardScreenDTO(projectPublisher.IdCompanyNavigation));
             }
 
-            projectForDashboardScreenDTO.ProjectPlatforms = projectPlatformAssembler.toProjectPlatformForDashboardScreen(project.ProjectPlatforms);
+            projectForDashboardScreenDTO.Platforms = projectPlatformAssembler.toProjectPlatformForDashboardScreen(project.ProjectPlatforms);
 
             foreach (ProjectPlatform projectPlatform in project.ProjectPlatforms)
             {

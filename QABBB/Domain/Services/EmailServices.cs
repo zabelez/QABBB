@@ -27,7 +27,7 @@ namespace QABBB.Domain.Services
         {
             // EmailAddress to = new EmailAddress(user.IdPersonNavigation.Email, user.IdPersonNavigation.PersonName);
             EmailAddress to = new EmailAddress("zabele@bara.com.br", "Sabele Barbosa");
-            String subject = "Reset your password for %APP_NAME%";
+            String subject = "Reset your password for QABBB";
             String htmlContent = "<!DOCTYPE html >< html lang =\"en\"><head>    <meta charset=\"UTF-8\">    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">    <title>Document</title></head><body>    <p>Hello,</p>    <p>Somebody requested a new password for the %APP_NAME% account associated with %EMAIL%.</p>    <p>No changes have been made to your account yet.</p>    <p>You can reset your password by clicking the link below:</p>    <p>https://www.qabbb.com/#/auth-management?mode=action&oobCode=code</p>        <p>If you did not request a new password, you can ignore this email.</p>        <p>Thanks,<br>    DAQA</p></body></html>";
 
             await TesteEmail(subject, htmlContent, to);
@@ -37,8 +37,8 @@ namespace QABBB.Domain.Services
         {
             // EmailAddress to = new EmailAddress(user.IdPersonNavigation.Email, user.IdPersonNavigation.PersonName);
             EmailAddress to = new EmailAddress("zabele@bara.com.br", "Sabele Barbosa");
-            String subject = "Welcome to %APP_NAME%";
-            String htmlContent = "<!DOCTYPE html><html lang=\"en\"><head>    <meta charset=\"UTF-8\">    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">    <title>Document</title></head><body>    <p>Hello,</p>    <p>Welcome to %APP_NAME%.</p>    <p>You have been registered as a user on this site by someone within your organization.</p>    <p>%APP_NAME% is DAQA’s proprietary online portal for viewing, downloading, and interacting with data gathered during test</p>    <p>projects.</p>    <p>Please bookmark the %APP_NAME% URL as it will be used to warehouse reports for past, present, and future test projects.</p>    <p>If you have any questions or run into any difficulties with the site, please contact us at info@daqa.net and we will</p>    <p>reply as soon as possible.</p>    <p>Yours,<br>    DAQA</p></body></html>";
+            String subject = "Welcome to QABBB";
+            String htmlContent = "<!DOCTYPE html><html lang=\"en\"><head>    <meta charset=\"UTF-8\">    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">    <title>Document</title></head><body>    <p>Hello,</p>    <p>Welcome to QABBB.</p>    <p>You have been registered as a user on this site by someone within your organization.</p>    <p>QABBB is DAQA’s proprietary online portal for viewing, downloading, and interacting with data gathered during test</p>    <p>projects.</p>    <p>Please bookmark the <a href=\"#\">QABBB URL</a> as it will be used to warehouse reports for past, present, and future test projects.</p>    <p>If you have any questions or run into any difficulties with the site, please contact us at info@daqa.net and we will</p>    <p>reply as soon as possible.</p>    <p>Yours,<br>    DAQA</p></body></html>";
 
             await TesteEmail(subject, htmlContent, to);
         }

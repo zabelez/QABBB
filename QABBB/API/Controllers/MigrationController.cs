@@ -261,6 +261,8 @@ namespace QABBB.API.Controllers
         private List<EmailTemplate> MEmailTemplates(){
 
             List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
+            EmailTemplateServices emailTemplateServices = new EmailTemplateServices(_context);
+
             foreach (KeyValuePair<string, MigrationEmail> item in migration.__collections__!.emailTemplates!)
             {
                 EmailTemplate email = new EmailTemplate();
@@ -268,11 +270,19 @@ namespace QABBB.API.Controllers
                 email.Subject = item.Value.subject!;
                 email.Text = item.Value.text!;
 
-                EmailTemplateServices emailTemplateServices = new EmailTemplateServices(_context);
 
                 emailTemplateServices.add(email);
                 emailTemplates.Add(email);
             }
+
+            // Welcome User
+            // EmailTemplate newUserEmailTemplate = new EmailTemplate();
+            // newUserEmailTemplate.Text = "New User Welcome";
+            // newUserEmailTemplate.Subject = "Welcome to %APP_NAME%";
+            // newUserEmailTemplate.Html = "<!DOCTYPE html>< html >< head >  < meta name = \"viewport\" content = \"width=device-width,initial-scale=1\" >  < style >    body {            color: #fff;      padding: 50px;                font - family: 'Gill Sans, sans-seriff';                background - color: #2f3c4b;    }            p {                line - height: 18px;            }            a {            color: white;                font - weight: bold;            }  </ style ></ head >< body >  < h1 > Welcome to % APP_NAME %.</ h1 >  < p > You have been registered as a user on this site by someone within your organization.</ p >  < p >% APP_NAME % is DAQA’s proprietary online portal for viewing, downloading, and interacting with data gathered during test projects.</ p >  < p > Please bookmark the % APP_NAME % URL as it will be used to warehouse reports for past, present, and future test projects.</ p >  < p > If you have any questions or run into any difficulties with the site, please contact us at < a href = \"mailto:info@daqa.net\" > info@daqa.net </ a > and we will reply as soon as possible.</ p >  < p > Yours,< br >  DAQA </ p ></ body ></ html >";
+
+            // emailTemplateServices.add(newUserEmailTemplate);
+            // emailTemplates.Add(newUserEmailTemplate);
 
             return emailTemplates;
 

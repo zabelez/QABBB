@@ -33,6 +33,14 @@ namespace QABBB.Domain.Services
         public bool delete(Project projectform){
             return _projectRepository.delete(projectform);
         }
+
+        public List<Project> listByUser(int id) {
+            return _projectRepository.listByUser(id);
+        }
+
+        public List<Project> listByCompany(int id) {
+            return _projectRepository.listByCompany(id);
+        }
     }
 }
 
