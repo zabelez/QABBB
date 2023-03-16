@@ -28,8 +28,9 @@ namespace QABBB.API.Assemblers
         public CompanyEmployeeForCompanyDTO toCompanyEmployeeForCompanyDTO(CompanyEmployee companyEmployee) {
             CompanyEmployeeForCompanyDTO employeeDTO = new CompanyEmployeeForCompanyDTO();
             employeeDTO.IdCompanyEmployee = companyEmployee.IdCompanyEmployee;
-            employeeDTO.IdPerson = companyEmployee.IdCompanyEmployee;
+            employeeDTO.IdPerson = companyEmployee.IdPersonNavigation.IdPerson;
             employeeDTO.PersonName = companyEmployee.IdPersonNavigation.IdPersonNavigation.PersonName;
+            employeeDTO.IdPosition = companyEmployee.IdPosition;
             employeeDTO.Position = companyEmployee.IdPositionNavigation.Name;
             employeeDTO.CreatedAt = companyEmployee.CreatedAt;
 
@@ -85,6 +86,29 @@ namespace QABBB.API.Assemblers
             companyEmployee.IdCompany = companyEmployeeInputDTO.IdCompany;
             companyEmployee.IdPerson = companyEmployeeInputDTO.IdPerson;
             companyEmployee.IdPosition = companyEmployeeInputDTO.IdCompanyEmployeePosition;
+
+            return companyEmployee;
+        }
+
+        public CompanyEmployee toCompanyEmployee(Company company, CompanyEmployeeInputForPostCompany companyEmployeeInputDTO, int idPerson) {
+
+            CompanyEmployee companyEmployee = new CompanyEmployee();
+            companyEmployee.IdCompanyNavigation = company;
+            companyEmployee.IdPerson = companyEmployeeInputDTO.IdPerson;
+            companyEmployee.IdPosition = companyEmployeeInputDTO.IdPosition;
+            companyEmployee.CreatedBy = idPerson;
+            companyEmployee.CreatedAt = DateTime.Now;
+
+            return companyEmployee;
+        }
+        public CompanyEmployee toCompanyEmployee(Company company, CompanyEmployeeInputForPutCompany companyEmployeeInput, int idPerson) {
+
+            CompanyEmployee companyEmployee = new CompanyEmployee();
+            companyEmployee.IdCompanyNavigation = company;
+            companyEmployee.IdPerson = companyEmployeeInput.IdPerson;
+            companyEmployee.IdPosition = companyEmployeeInput.IdPosition;
+            companyEmployee.CreatedBy = idPerson;
+            companyEmployee.CreatedAt = DateTime.Now;
 
             return companyEmployee;
         }

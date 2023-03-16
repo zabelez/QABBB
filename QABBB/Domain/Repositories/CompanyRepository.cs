@@ -15,7 +15,7 @@ namespace QABBB.Domain.Repositories
 
         public List<Company> list(){
             return _context.Companies
-                .Include(ce => ce.CompanyEmployees)
+                .Include(ce => ce.CompanyEmployees.Where(ce => ce.RemovedBy == null))
                     .ThenInclude(u => u.IdPositionNavigation)
                 .Include(ce => ce.CompanyEmployees)
                     .ThenInclude(pe => pe.IdPersonNavigation)
@@ -39,6 +39,11 @@ namespace QABBB.Domain.Repositories
 
         public Company? findById(int id) {
             return _context.Companies
+                .Include(ce => ce.CompanyEmployees.Where(ce => ce.RemovedBy == null))
+                    .ThenInclude(u => u.IdPositionNavigation)
+                .Include(ce => ce.CompanyEmployees)
+                    .ThenInclude(pe => pe.IdPersonNavigation)
+                        .ThenInclude(pe => pe.IdPersonNavigation)
                 .Where(u => u.IdCompany == id)
                 .FirstOrDefault();
         }

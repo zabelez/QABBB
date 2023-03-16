@@ -6,6 +6,7 @@ namespace QABBB.API.Models.Company.Employee
         public int IdCompanyEmployee { get; set; }
         public int IdPerson { get; set; }
         public string? PersonName {get; set;}
+        public int? IdPosition {get; set;}
         public string? Position {get; set;}
         public DateTime CreatedAt { get; set; }
     }

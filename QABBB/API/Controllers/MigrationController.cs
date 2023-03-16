@@ -24,6 +24,15 @@ namespace QABBB.API.Controllers
         }
 
         [HttpGet]
+        [Route("EnviromentTest")]
+        public ActionResult EnviromentTest()
+        {
+            string? password = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            return Ok(password);
+        }
+
+        [HttpGet]
         [Route("EmailResetPassword")]
         public async Task<ActionResult> EmailAsync(int idUser)
         {

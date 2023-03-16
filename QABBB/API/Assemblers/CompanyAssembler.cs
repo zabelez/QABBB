@@ -2,6 +2,7 @@ using System;
 using QABBB.API.Models.Company;
 using QABBB.API.Models.Company.Employee;
 using QABBB.API.Models.User;
+using QABBB.Domain.Services;
 using QABBB.Models;
 
 namespace QABBB.API.Assemblers
@@ -33,9 +34,16 @@ namespace QABBB.API.Assemblers
             return companyDTO;
         }
 
-        public Company toCompany(Company company, CompanyEditInputDTO companyEditInputDTO){
+        public Company toCompany(Company company, CompanyEditInputDTO companyEditInputDTO, int idPerson){
+
             company.Name = companyEditInputDTO.Name;
             company.Logo = companyEditInputDTO.Logo;
+
+            foreach (CompanyEmployeeInputForPutCompany companyEmployee in companyEditInputDTO.employees)
+            {
+                if(companyEmployee.IdCompanyEmployee == null)
+                    company.CompanyEmployees.Add(companyEmployeeAssembler.toCompanyEmployee(company, companyEmployee, idPerson));
+            }
             return company;
         }
 
@@ -60,12 +68,16 @@ namespace QABBB.API.Assemblers
             return companyDTO;
         }
 
-        public Company toCompany(CompanyInputDTO companyInputDTO) {
+        public Company toCompany(CompanyInputDTO companyInputDTO, int idPerson) {
 
             Company company = new Company();
             company.Name = companyInputDTO.Name;
             company.Logo = companyInputDTO.Logo;
-            company.CompanyParent = companyInputDTO.CompanyParent;
+
+            foreach (CompanyEmployeeInputForPostCompany companyEmployee in companyInputDTO.employees)
+            {
+                company.CompanyEmployees.Add(companyEmployeeAssembler.toCompanyEmployee(company, companyEmployee, idPerson));
+            }
 
             return company;
         }
