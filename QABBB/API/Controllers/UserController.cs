@@ -121,13 +121,29 @@ namespace QABBB.Controllers
         [HttpPut()]
         public ActionResult PutUser(EditUserDTO editUserDTO)
         {
+            CompanyEmployeeServices ceServices = new CompanyEmployeeServices(_context);
+
             User? user = _userServices.findById(editUserDTO.IdPerson);
             if(user == null)
                 return NotFound();
 
-            _userAssembler.toUser(user, editUserDTO);
+            string? idPerson = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (idPerson == null)
+                return Unauthorized();
+
+            using var transaction = _context.Database.BeginTransaction();
+
+            foreach (CompanyEmployee companyEmployee in user.CompanyEmployeeIdPersonNavigations)
+            {
+                if (!editUserDTO.employers.Exists(x => x.IdCompanyEmployee == companyEmployee.IdCompanyEmployee))
+                    ceServices.inactivate(companyEmployee, int.Parse(idPerson));
+            }
+
+            _userAssembler.toUser(user, editUserDTO, int.Parse(idPerson));
 
             _userServices.edit(user);
+
+            transaction.Commit();
 
             return NoContent();
         }
@@ -137,6 +153,9 @@ namespace QABBB.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public ActionResult<UserDTO> PostUser(NewUserDTO user) {
+            
+            using var transaction = _context.Database.BeginTransaction();
+
             if (_context.Users == null)
                 return Problem("Entity set 'QABBBContext.Users'  is null.");
 
@@ -144,14 +163,31 @@ namespace QABBB.Controllers
             if (error.Count > 0)
                 return BadRequest(error);
 
-            User newUser = _userAssembler.toUser(user);
+            string? idPerson = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (idPerson == null)
+                return Unauthorized();
+
+            User newUser = _userAssembler.toUser(user, int.Parse(idPerson));
 
             _userServices.add(newUser);
 
-            if (user.IsAdmin)
-                _adminServices.add(newUser, int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value));
+            foreach (String role in user.roles){
+                switch (role){
+                    case "Admin":
+                        _adminServices.add(newUser, int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value));
+                        break;
+                    
+                    default:
+                        transaction.Rollback();
+                        return BadRequest($"Role {role} is not valid.");
+                }
+            }
 
-            UserDTO userDTO = _userAssembler.toUserDTO(newUser);
+
+            transaction.Commit();
+
+            UserPlatformsEmployeeDTO userDTO = _userAssembler.toUserAndPlatformsDTO(_userServices.findById(newUser.IdPerson));
+            userDTO.Roles = _authServices.getClaims(newUser);
 
             return CreatedAtAction("GetUser", new { id = userDTO.IdPerson }, userDTO);
 

@@ -90,6 +90,30 @@ namespace QABBB.API.Assemblers
             return companyEmployee;
         }
 
+        public CompanyEmployee toCompanyEmployee(User user, CompanyEmployeeInputForPostUser companyEmployeeInputDTO, int idPerson)
+        {
+
+            CompanyEmployee companyEmployee = new CompanyEmployee();
+            companyEmployee.IdCompany = companyEmployeeInputDTO.IdCompany;
+            companyEmployee.IdPersonNavigation = user;
+            companyEmployee.IdPosition = companyEmployeeInputDTO.IdPosition;
+            companyEmployee.CreatedBy = idPerson;
+            companyEmployee.CreatedAt = DateTime.Now;
+
+            return companyEmployee;
+        }
+        public CompanyEmployee toCompanyEmployee(User user, CompanyEmployeeInputForPutUser companyEmployeeInput, int idPerson) {
+
+            CompanyEmployee companyEmployee = new CompanyEmployee();
+            companyEmployee.IdCompany = companyEmployeeInput.IdCompany;
+            companyEmployee.IdPersonNavigation = user;
+            companyEmployee.IdPosition = companyEmployeeInput.IdPosition;
+            companyEmployee.CreatedBy = idPerson;
+            companyEmployee.CreatedAt = DateTime.Now;
+
+            return companyEmployee;
+        }
+        
         public CompanyEmployee toCompanyEmployee(Company company, CompanyEmployeeInputForPostCompany companyEmployeeInputDTO, int idPerson) {
 
             CompanyEmployee companyEmployee = new CompanyEmployee();

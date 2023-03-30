@@ -1,4 +1,5 @@
 ﻿using System;
+using QABBB.API.Models.Company.Employee;
 using QABBB.API.Models.User;
 using QABBB.API.Models.User.Platform;
 using QABBB.Domain.Services;
@@ -39,11 +40,18 @@ namespace QABBB.API.Assemblers
             return newUser;
         }
 
-        public User toUser(User user, EditUserDTO editUserDTO){
+        public User toUser(User user, EditUserDTO editUserDTO, int idPerson){
             user.IsDarkMode = editUserDTO.IsDarkMode;
             user.Status = editUserDTO.Status;
             user.IdPersonNavigation.PersonName = editUserDTO.PersonName;
             user.IdPersonNavigation.Email = editUserDTO.Email;
+
+            foreach (CompanyEmployeeInputForPutUser companyEmployee in editUserDTO.employers)
+            {
+                if (companyEmployee.IdCompanyEmployee == null)
+                    user.CompanyEmployeeIdPersonNavigations.Add(companyEmployeeAssembler.toCompanyEmployee(user, companyEmployee, idPerson));
+            }
+
             return user;
         }
 
@@ -70,13 +78,18 @@ namespace QABBB.API.Assemblers
             return newUser;
         }
 
-        public User toUser(NewUserDTO user) {
+        public User toUser(NewUserDTO user, int idPerson) {
 
             User newUser = new User();
             newUser.IdPersonNavigation = new Person();
             newUser.IsDarkMode = user.IsDarkMode;
             newUser.IdPersonNavigation.PersonName = user.PersonName!;
             newUser.IdPersonNavigation.Email = user.Email;
+
+            foreach (CompanyEmployeeInputForPostUser employer in user.employers)
+            {
+                newUser.CompanyEmployeeIdPersonNavigations.Add(companyEmployeeAssembler.toCompanyEmployee(newUser, employer, idPerson));
+            }
 
             return newUser;
         }
