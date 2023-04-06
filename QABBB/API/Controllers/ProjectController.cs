@@ -2,6 +2,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QABBB.API.Assemblers;
 using QABBB.API.Models.Project;
+using QABBB.API.Models.ProjectDeveloper;
+using QABBB.API.Models.ProjectFile;
+using QABBB.API.Models.ProjectForm;
+using QABBB.API.Models.ProjectPlatform;
+using QABBB.API.Models.ProjectPublisher;
 using QABBB.Data;
 using QABBB.Domain.Services;
 using QABBB.Models;
@@ -103,14 +108,64 @@ namespace QABBB.API.Controllers
         [HttpPost]
         public ActionResult<ProjectDTO> PostProject(ProjectInputDTO projectInputDTO)
         {
+            using var transaction = _context.Database.BeginTransaction();
+
+            CompanyServices companyServices = new CompanyServices(_context);
+            PlatformServices platformServices = new PlatformServices(_context);
+
             if (_context.Projects == null)
                 return Problem("Entity set 'QABBBContext.Projects'  is null.");
 
             Project project = _projectAssembler.toProject(projectInputDTO);
 
+            foreach (ProjectDeveloperInputDTOForPostProject developer in projectInputDTO.Developers)
+            {
+                ProjectDeveloper projectDeveloper = new ProjectDeveloper();
+                projectDeveloper.IdProjectNavigation = project;
+                projectDeveloper.IdCompanyNavigation = companyServices.findById(developer.IdCompany);
+                project.ProjectDevelopers.Add(projectDeveloper);
+            }
+
+            foreach (ProjectPublisherInputDTOForPostProject publisher in projectInputDTO.Publishers)
+            {
+                ProjectPublisher projectPublisher = new ProjectPublisher();
+                projectPublisher.IdProjectNavigation = project;
+                projectPublisher.IdCompanyNavigation = companyServices.findById(publisher.IdCompany);
+                project.ProjectPublishers.Add(projectPublisher);
+            }
+
+            foreach (ProjectPlatformInputDTOForPostProject platform in projectInputDTO.ProjectPlatforms)
+            {
+                ProjectPlatform projectPlatform = new ProjectPlatform();
+                projectPlatform.IdProjectNavigation = project;
+                projectPlatform.CohortSize = platform.CohortSize;
+                projectPlatform.IdPlatformNavigation = platformServices.findById(platform.IdPlatform);
+                project.ProjectPlatforms.Add(projectPlatform);
+            }
+
+            foreach (ProjectFileInputDTOForPostProject file in projectInputDTO.ProjectFiles)
+            {
+                ProjectFile projectFile = new ProjectFile();
+                projectFile.IdProjectNavigation = project;
+                projectFile.Name = file.Name;
+                projectFile.Url = file.Url;
+                project.ProjectFiles.Add(projectFile);
+            }
+
+            foreach (ProjectFormInputDTOForPostProject form in projectInputDTO.ProjectForms)
+            {
+                ProjectForm projectForm = new ProjectForm();
+                projectForm.IdProjectNavigation = project;
+                projectForm.Name = form.Name;
+                projectForm.Url = form.Url;
+                project.ProjectForms.Add(projectForm);
+            }
+
             _projectServices.add(project);
 
-            ProjectDTO projectDTO = _projectAssembler.toProjectDTO(project);
+            transaction.Commit();
+
+            ProjectFullDTO projectDTO = _projectAssembler.toProjectFullDTO(project);
 
             return CreatedAtAction("GetProject", new { id = projectDTO.IdProject }, projectDTO);
         }

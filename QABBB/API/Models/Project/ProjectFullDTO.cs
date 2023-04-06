@@ -19,7 +19,7 @@ namespace QABBB.API.Models.Project
         public string? PowerBiUrl { get; set; }
         public List<CompanyDTO> Developers { get; set; } = new List<CompanyDTO>()!;
         public List<CompanyDTO> Publishers { get; set; } = new List<CompanyDTO>()!;
-        public List<ProjectPlatformDTO> Platforms {get; set; } = new List<ProjectPlatformDTO>()!;
+        public List<ProjectPlatformDTO> ProjectPlatforms {get; set; } = new List<ProjectPlatformDTO>()!;
         public List<ProjectFileDTO> ProjectFiles {get; set; } = new List<ProjectFileDTO>()!;
         public List<ProjectFormDTO> ProjectForms {get; set; } = new List<ProjectFormDTO>()!;
         public List<ProjectSummaryDocDTO> ProjectSummaryDocs {get; set; } = new List<ProjectSummaryDocDTO>()!;

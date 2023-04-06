@@ -1,7 +1,12 @@
 using QABBB.API.Models.Company;
 using QABBB.API.Models.Platform;
 using QABBB.API.Models.Project;
+using QABBB.API.Models.ProjectDeveloper;
+using QABBB.API.Models.ProjectFile;
+using QABBB.API.Models.ProjectForm;
 using QABBB.API.Models.ProjectPlatform;
+using QABBB.API.Models.ProjectPublisher;
+using QABBB.Domain.Services;
 using QABBB.Models;
 
 namespace QABBB.API.Assemblers
@@ -77,7 +82,7 @@ namespace QABBB.API.Assemblers
                 projectForDashboardScreenDTO.Publishers.Add(companyAssembler.toCompanyForDashboardScreenDTO(projectPublisher.IdCompanyNavigation));
             }
 
-            projectForDashboardScreenDTO.Platforms = projectPlatformAssembler.toProjectPlatformForDashboardScreen(project.ProjectPlatforms);
+            projectForDashboardScreenDTO.ProjectPlatforms = projectPlatformAssembler.toProjectPlatformForDashboardScreen(project.ProjectPlatforms);
 
             foreach (ProjectPlatform projectPlatform in project.ProjectPlatforms)
             {
@@ -99,7 +104,7 @@ namespace QABBB.API.Assemblers
             projectFullDTO.Duration = project.Duration;
             projectFullDTO.PowerBiUrl = project.PowerBiUrl;
             
-            projectFullDTO.Platforms = projectPlatformAssembler.toProjectPlatformDTO(project.ProjectPlatforms);
+            projectFullDTO.ProjectPlatforms = projectPlatformAssembler.toProjectPlatformDTO(project.ProjectPlatforms);
 
             foreach (ProjectDeveloper projectDeveloper in project.ProjectDevelopers)
             {

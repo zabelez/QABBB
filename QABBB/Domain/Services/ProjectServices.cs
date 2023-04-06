@@ -1,6 +1,7 @@
 using QABBB.Models;
 using QABBB.Data;
 using QABBB.Domain.Repositories;
+using QABBB.API.Models.Project;
 
 namespace QABBB.Domain.Services
 {
