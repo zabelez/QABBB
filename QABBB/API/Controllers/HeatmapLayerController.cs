@@ -62,7 +62,7 @@ namespace QABBB.API.Controllers
 
         // PUT: api/HeatmapLayer/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut()]
         public ActionResult PutHeatmapLayer(HeatmapLayerEditDTO heatmapLayerEditDTO)
         {
             HeatmapLayer? heatmapLayer = _heatmapLayerServices.findById(heatmapLayerEditDTO.IdHeatmapLayer);

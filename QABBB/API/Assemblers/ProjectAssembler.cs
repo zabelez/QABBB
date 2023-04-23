@@ -18,6 +18,7 @@ namespace QABBB.API.Assemblers
         ProjectFormAssembler projectFormAssembler = new ProjectFormAssembler();
         ProjectSummaryDocAssembler projectSummaryDocAssembler = new ProjectSummaryDocAssembler();
         ProjectPlatformAssembler projectPlatformAssembler = new ProjectPlatformAssembler();
+        ProjectInterviewAssembler projectInterviewAssembler = new ProjectInterviewAssembler();
 
         public ProjectForUserDTO toProjectForUserDTO(Project project) {
 
@@ -94,6 +95,8 @@ namespace QABBB.API.Assemblers
 
         public ProjectFullDTO toProjectFullDTO(Project project)
         {
+            ProjectDeveloperAssembler pdAssembler = new ProjectDeveloperAssembler();
+            ProjectPublisherAssembler ppAssembler = new ProjectPublisherAssembler();
             CompanyAssembler companyAssembler = new CompanyAssembler();
 
             ProjectFullDTO projectFullDTO = new ProjectFullDTO();
@@ -108,12 +111,12 @@ namespace QABBB.API.Assemblers
 
             foreach (ProjectDeveloper projectDeveloper in project.ProjectDevelopers)
             {
-                projectFullDTO.Developers.Add(companyAssembler.toCompanyDTO(projectDeveloper.IdCompanyNavigation));
+                projectFullDTO.Developers.Add(pdAssembler.toProjectDeveloperDTOForProject(projectDeveloper));
             }
 
             foreach (ProjectPublisher projectPublisher in project.ProjectPublishers)
             {
-                projectFullDTO.Publishers.Add(companyAssembler.toCompanyDTO(projectPublisher.IdCompanyNavigation));
+                projectFullDTO.Publishers.Add(ppAssembler.toProjectPublisherDTOForProject(projectPublisher));
             }
 
             foreach (ProjectFile item in project.ProjectFiles)
@@ -129,6 +132,11 @@ namespace QABBB.API.Assemblers
             foreach (ProjectSummaryDoc item in project.ProjectSummaryDocs)
             {
                 projectFullDTO.ProjectSummaryDocs.Add(projectSummaryDocAssembler.toProjectSummaryDocDTO(item));
+            }
+
+            foreach (ProjectInterview item in project.ProjectInterviews)
+            {
+                projectFullDTO.ProjectInterviews.Add(projectInterviewAssembler.toProjectInterviewDTO(item));
             }
             
             return projectFullDTO;

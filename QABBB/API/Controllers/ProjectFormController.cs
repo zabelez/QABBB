@@ -56,7 +56,7 @@ namespace QABBB.API.Controllers
 
         // PUT: api/ProjectForm/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut()]
         public ActionResult PutProjectForm(ProjectFormEditDTO projectformEditDTO)
         {
             ProjectForm? projectform = _projectformServices.findById(projectformEditDTO.IdProjectForm);

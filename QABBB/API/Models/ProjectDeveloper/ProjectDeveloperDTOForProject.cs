@@ -1,11 +1,11 @@
-using System.ComponentModel.DataAnnotations;
+using QABBB.API.Models.Company;
 
 namespace QABBB.API.Models.ProjectDeveloper
 {
-    public class ProjectDeveloperInputDTOForPutProject
+    public class ProjectDeveloperDTOForProject
     {
         public int IdProjectDeveloper { get; set; }
-        [Required]
         public int IdCompany { get; set; }
+        public CompanyDTO Company {get; set; }
     }
 }

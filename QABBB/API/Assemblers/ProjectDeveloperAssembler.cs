@@ -17,6 +17,17 @@ namespace QABBB.API.Assemblers
             
             return projectdeveloperDTO;
         }
+        public ProjectDeveloperDTOForProject toProjectDeveloperDTOForProject(ProjectDeveloper projectdeveloper) {
+
+            CompanyAssembler cAssembler = new CompanyAssembler();
+
+            ProjectDeveloperDTOForProject pdDTO = new ProjectDeveloperDTOForProject();
+            pdDTO.IdProjectDeveloper = projectdeveloper.IdProjectDeveloper;
+            pdDTO.IdCompany = projectdeveloper.IdCompany;
+            pdDTO.Company = cAssembler.toCompanyDTO(projectdeveloper.IdCompanyNavigation);
+            
+            return pdDTO;
+        }
 
         public List<ProjectDeveloperDTO> toProjectDeveloperDTO(IEnumerable<ProjectDeveloper> companies) {
 

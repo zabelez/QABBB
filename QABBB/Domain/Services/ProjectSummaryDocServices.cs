@@ -1,6 +1,7 @@
 using QABBB.Models;
 using QABBB.Data;
 using QABBB.Domain.Repositories;
+using QABBB.API.Models.ProjectSummaryDoc;
 
 namespace QABBB.Domain.Services
 {
@@ -32,6 +33,26 @@ namespace QABBB.Domain.Services
 
         public bool delete(ProjectSummaryDoc projectform){
             return _projectSummaryDocRepository.delete(projectform);
+        }
+        public ICollection<ProjectSummaryDoc> editProject(ICollection<ProjectSummaryDoc> projectSummaryDocs, List<ProjectSummaryDocInputDTOForPutProject>? inputProjectSummaryDocs)
+        {
+            foreach (var item in projectSummaryDocs.Select((value, index) => new { value, index }))
+            {
+                if (!inputProjectSummaryDocs.Exists(x => x.IdProjectSummaryDoc == item.value.IdProjectSummaryDoc))
+                    projectSummaryDocs.Remove(item.value);
+            }
+
+            foreach (ProjectSummaryDocInputDTOForPutProject item in inputProjectSummaryDocs)
+            {
+                if (item.IdProjectSummaryDoc == 0)
+                {
+                    ProjectSummaryDoc? pd = this.findById(item.IdProjectSummaryDoc);
+                    if (pd != null)
+                        projectSummaryDocs.Add(pd);
+                }
+            }
+
+            return projectSummaryDocs;
         }
     }
 }

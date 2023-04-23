@@ -5,8 +5,10 @@ using QABBB.API.Models.Project;
 using QABBB.API.Models.ProjectDeveloper;
 using QABBB.API.Models.ProjectFile;
 using QABBB.API.Models.ProjectForm;
+using QABBB.API.Models.ProjectInterview;
 using QABBB.API.Models.ProjectPlatform;
 using QABBB.API.Models.ProjectPublisher;
+using QABBB.API.Models.ProjectSummaryDoc;
 using QABBB.Data;
 using QABBB.Domain.Services;
 using QABBB.Models;
@@ -89,16 +91,22 @@ namespace QABBB.API.Controllers
 
         // PUT: api/Project/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut()]
         public ActionResult PutProject(ProjectEditDTO projectEditDTO)
         {
+            ProjectDeveloperServices pdServices = new ProjectDeveloperServices(_context);
+
             Project? project = _projectServices.findById(projectEditDTO.IdProject);
             if(project == null)
                 return NotFound();
 
+            using var transaction = _context.Database.BeginTransaction();
+
             _projectAssembler.toProject(project, projectEditDTO);
             
-            _projectServices.edit(project);
+            _projectServices.edit(project, projectEditDTO);
+
+            transaction.Commit();
             
             return NoContent();
         }
@@ -159,6 +167,24 @@ namespace QABBB.API.Controllers
                 projectForm.Name = form.Name;
                 projectForm.Url = form.Url;
                 project.ProjectForms.Add(projectForm);
+            }
+
+            foreach (ProjectSummaryDocInputDTOForPostProject form in projectInputDTO.ProjectSummaryDocs)
+            {
+                ProjectSummaryDoc projectSummaryDoc = new ProjectSummaryDoc();
+                projectSummaryDoc.IdProjectNavigation = project;
+                projectSummaryDoc.Label = form.Label;
+                projectSummaryDoc.Url = form.Url;
+                project.ProjectSummaryDocs.Add(projectSummaryDoc);
+            }
+
+            foreach (ProjectInterviewInputDTOForPostProject file in projectInputDTO.ProjectInterviews)
+            {
+                ProjectInterview projectInterview = new ProjectInterview();
+                projectInterview.IdProjectNavigation = project;
+                projectInterview.Name = file.Name;
+                projectInterview.Url = file.Url;
+                project.ProjectInterviews.Add(projectInterview);
             }
 
             _projectServices.add(project);

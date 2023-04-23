@@ -56,7 +56,7 @@ namespace QABBB.API.Controllers
 
         // PUT: api/ProjectSummaryDoc/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut()]
         public ActionResult PutProjectSummaryDoc(ProjectSummaryDocEditDTO projectsummarydocEditDTO)
         {
             ProjectSummaryDoc? projectsummarydoc = _projectsummarydocServices.findById(projectsummarydocEditDTO.IdProjectSummaryDoc);

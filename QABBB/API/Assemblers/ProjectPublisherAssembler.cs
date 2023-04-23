@@ -37,6 +37,19 @@ namespace QABBB.API.Assemblers
             
             return projectpublisher;
         }
+
+        public ProjectPublisherDTOForProject toProjectPublisherDTOForProject(ProjectPublisher projectPublisher)
+        {
+
+            CompanyAssembler cAssembler = new CompanyAssembler();
+
+            ProjectPublisherDTOForProject ppDTO = new ProjectPublisherDTOForProject();
+            ppDTO.IdProjectPublisher = projectPublisher.IdProjectPublisher;
+            ppDTO.IdCompany = projectPublisher.IdCompany;
+            ppDTO.Company = cAssembler.toCompanyDTO(projectPublisher.IdCompanyNavigation);
+
+            return ppDTO;
+        }
     }
 }
 

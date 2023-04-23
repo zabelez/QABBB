@@ -10,6 +10,7 @@ namespace QABBB.Models
             ProjectDevelopers = new HashSet<ProjectDeveloper>();
             ProjectFiles = new HashSet<ProjectFile>();
             ProjectForms = new HashSet<ProjectForm>();
+            ProjectInterviews = new HashSet<ProjectInterview>();
             ProjectPlatforms = new HashSet<ProjectPlatform>();
             ProjectPublishers = new HashSet<ProjectPublisher>();
             ProjectSummaryDocs = new HashSet<ProjectSummaryDoc>();
@@ -26,6 +27,7 @@ namespace QABBB.Models
         public virtual ICollection<ProjectDeveloper> ProjectDevelopers { get; set; }
         public virtual ICollection<ProjectFile> ProjectFiles { get; set; }
         public virtual ICollection<ProjectForm> ProjectForms { get; set; }
+        public virtual ICollection<ProjectInterview> ProjectInterviews { get; set; }
         public virtual ICollection<ProjectPlatform> ProjectPlatforms { get; set; }
         public virtual ICollection<ProjectPublisher> ProjectPublishers { get; set; }
         public virtual ICollection<ProjectSummaryDoc> ProjectSummaryDocs { get; set; }

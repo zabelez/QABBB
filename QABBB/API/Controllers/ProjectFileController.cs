@@ -56,7 +56,7 @@ namespace QABBB.API.Controllers
 
         // PUT: api/ProjectFile/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut()]
         public ActionResult PutProjectFile(ProjectFileEditDTO projectfileEditDTO)
         {
             ProjectFile? projectfile = _projectfileServices.findById(projectfileEditDTO.IdProjectFile);

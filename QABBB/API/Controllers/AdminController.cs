@@ -76,7 +76,7 @@ namespace QABBB.API.Controllers
 
         //// PUT: api/Admin/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
+        //[HttpPut()]
         //public async Task<IActionResult> PutAdmin(int id, Admin admin)
         //{
         //    if (id != admin.IdAdmin)

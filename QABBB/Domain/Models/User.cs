@@ -21,8 +21,8 @@ namespace QABBB.Models
 
         public int IdPerson { get; set; }
         public string Password { get; set; } = null!;
-        public bool IsPasswordResetRequired { get; set; }
-        public bool IsDarkMode { get; set; }
+        public Boolean IsPasswordResetRequired { get; set; }
+        public Boolean IsDarkMode { get; set; }
         public string Status { get; set; } = null!;
 
         public virtual Person IdPersonNavigation { get; set; } = null!;

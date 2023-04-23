@@ -31,6 +31,7 @@ namespace QABBB.Data
         public virtual DbSet<ProjectDeveloper> ProjectDevelopers { get; set; } = null!;
         public virtual DbSet<ProjectFile> ProjectFiles { get; set; } = null!;
         public virtual DbSet<ProjectForm> ProjectForms { get; set; } = null!;
+        public virtual DbSet<ProjectInterview> ProjectInterviews { get; set; } = null!;
         public virtual DbSet<ProjectPlatform> ProjectPlatforms { get; set; } = null!;
         public virtual DbSet<ProjectPublisher> ProjectPublishers { get; set; } = null!;
         public virtual DbSet<ProjectSummaryDoc> ProjectSummaryDocs { get; set; } = null!;
@@ -207,11 +208,11 @@ namespace QABBB.Data
                 entity.Property(e => e.Html).HasColumnName("html");
 
                 entity.Property(e => e.Subject)
-                    .HasMaxLength(45)
+                    .HasMaxLength(200)
                     .HasColumnName("subject");
 
                 entity.Property(e => e.Text)
-                    .HasMaxLength(45)
+                    .HasMaxLength(200)
                     .HasColumnName("text");
             });
 
@@ -388,7 +389,6 @@ namespace QABBB.Data
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectDevelopers)
                     .HasForeignKey(d => d.IdProject)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("projectDeveloper_FK1");
             });
 
@@ -414,7 +414,6 @@ namespace QABBB.Data
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectFiles)
                     .HasForeignKey(d => d.IdProject)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("projectFile_FK1");
             });
 
@@ -440,8 +439,33 @@ namespace QABBB.Data
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectForms)
                     .HasForeignKey(d => d.IdProject)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("projectForm_FK1");
+            });
+
+            modelBuilder.Entity<ProjectInterview>(entity =>
+            {
+                entity.HasKey(e => e.IdProjectInterview)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("projectInterview");
+
+                entity.HasIndex(e => e.IdProject, "projectInterview_FK1_idx");
+
+                entity.Property(e => e.IdProjectInterview).HasColumnName("idProjectInterview");
+
+                entity.Property(e => e.IdProject).HasColumnName("idProject");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Url).HasColumnName("url");
+
+                entity.HasOne(d => d.IdProjectNavigation)
+                    .WithMany(p => p.ProjectInterviews)
+                    .HasForeignKey(d => d.IdProject)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("projectInterview_FK1");
             });
 
             modelBuilder.Entity<ProjectPlatform>(entity =>
@@ -472,7 +496,6 @@ namespace QABBB.Data
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectPlatforms)
                     .HasForeignKey(d => d.IdProject)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("projectPlatform_FK1");
             });
 
@@ -502,7 +525,6 @@ namespace QABBB.Data
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectPublishers)
                     .HasForeignKey(d => d.IdProject)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("projectPublisher_FK10");
             });
 
@@ -528,7 +550,6 @@ namespace QABBB.Data
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectSummaryDocs)
                     .HasForeignKey(d => d.IdProject)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("projectSummaryDoc_FK1");
             });
 

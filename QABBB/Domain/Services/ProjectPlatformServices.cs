@@ -1,6 +1,7 @@
 using QABBB.Models;
 using QABBB.Data;
 using QABBB.Domain.Repositories;
+using QABBB.API.Models.ProjectPlatform;
 
 namespace QABBB.Domain.Services
 {
@@ -32,6 +33,26 @@ namespace QABBB.Domain.Services
 
         public bool delete(ProjectPlatform projectplatformform){
             return _projectplatformRepository.delete(projectplatformform);
+        }
+        public ICollection<ProjectPlatform> editProject(ICollection<ProjectPlatform> projectPlatforms, List<ProjectPlatformInputDTOForPutProject>? inputProjectPlatforms)
+        {
+            foreach (var item in projectPlatforms.Select((value, index) => new { value, index }))
+            {
+                if (!inputProjectPlatforms.Exists(x => x.IdProjectPlatform == item.value.IdProjectPlatform))
+                    projectPlatforms.Remove(item.value);
+            }
+
+            foreach (ProjectPlatformInputDTOForPutProject item in inputProjectPlatforms)
+            {
+                if (item.IdProjectPlatform == 0)
+                {
+                    ProjectPlatform? pd = this.findById(item.IdPlatform);
+                    if (pd != null)
+                        projectPlatforms.Add(pd);
+                }
+            }
+
+            return projectPlatforms;
         }
     }
 }
