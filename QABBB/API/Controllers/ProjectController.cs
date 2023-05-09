@@ -3,12 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using QABBB.API.Assemblers;
 using QABBB.API.Models.Project;
 using QABBB.API.Models.ProjectDeveloper;
-using QABBB.API.Models.ProjectFile;
-using QABBB.API.Models.ProjectForm;
-using QABBB.API.Models.ProjectInterview;
+using QABBB.API.Models.Link;
 using QABBB.API.Models.ProjectPlatform;
 using QABBB.API.Models.ProjectPublisher;
-using QABBB.API.Models.ProjectSummaryDoc;
 using QABBB.Data;
 using QABBB.Domain.Services;
 using QABBB.Models;
@@ -151,41 +148,53 @@ namespace QABBB.API.Controllers
                 project.ProjectPlatforms.Add(projectPlatform);
             }
 
-            foreach (ProjectFileInputDTOForPostProject file in projectInputDTO.ProjectFiles)
-            {
-                ProjectFile projectFile = new ProjectFile();
-                projectFile.IdProjectNavigation = project;
-                projectFile.Name = file.Name;
-                projectFile.Url = file.Url;
-                project.ProjectFiles.Add(projectFile);
-            }
+            // foreach (ProjectFileInputDTOForPostProject file in projectInputDTO.ProjectFiles)
+            // {
+            //     ProjectFile projectFile = new ProjectFile();
+            //     projectFile.DocumentNavigation = new Document();
 
-            foreach (ProjectFormInputDTOForPostProject form in projectInputDTO.ProjectForms)
-            {
-                ProjectForm projectForm = new ProjectForm();
-                projectForm.IdProjectNavigation = project;
-                projectForm.Name = form.Name;
-                projectForm.Url = form.Url;
-                project.ProjectForms.Add(projectForm);
-            }
+            //     projectFile.IdProjectNavigation = project;
+            //     projectFile.DocumentNavigation.Label = file.Name;
+            //     projectFile.DocumentNavigation.Link = file.Url;
+            //     projectFile.DocumentNavigation.DocumentStorage = file.DocumentStorage;
+            //     project.ProjectFiles.Add(projectFile);
+            // }
 
-            foreach (ProjectSummaryDocInputDTOForPostProject form in projectInputDTO.ProjectSummaryDocs)
-            {
-                ProjectSummaryDoc projectSummaryDoc = new ProjectSummaryDoc();
-                projectSummaryDoc.IdProjectNavigation = project;
-                projectSummaryDoc.Label = form.Label;
-                projectSummaryDoc.Url = form.Url;
-                project.ProjectSummaryDocs.Add(projectSummaryDoc);
-            }
+            // foreach (LinkInputDTOForPostProject form in projectInputDTO.Links)
+            // {
+            //     Link link = new Link();
+            //     link.DocumentNavigation = new Document();
 
-            foreach (ProjectInterviewInputDTOForPostProject file in projectInputDTO.ProjectInterviews)
-            {
-                ProjectInterview projectInterview = new ProjectInterview();
-                projectInterview.IdProjectNavigation = project;
-                projectInterview.Name = file.Name;
-                projectInterview.Url = file.Url;
-                project.ProjectInterviews.Add(projectInterview);
-            }
+            //     link.IdProjectNavigation = project;
+            //     link.DocumentNavigation.Label = form.Name;
+            //     link.DocumentNavigation.Link = form.Url;
+            //     link.DocumentNavigation.DocumentStorage = form.DocumentStorage;
+            //     project.Links.Add(link);
+            // }
+
+            // foreach (ProjectSummaryDocInputDTOForPostProject form in projectInputDTO.ProjectSummaryDocs)
+            // {
+            //     ProjectSummaryDoc projectSummaryDoc = new ProjectSummaryDoc();
+            //     projectSummaryDoc.DocumentNavigation = new Document();
+
+            //     projectSummaryDoc.IdProjectNavigation = project;
+            //     projectSummaryDoc.DocumentNavigation.Label = form.Label;
+            //     projectSummaryDoc.DocumentNavigation.Link = form.Url;
+            //     projectSummaryDoc.DocumentNavigation.DocumentStorage = form.DocumentStorage;
+            //     project.ProjectSummaryDocs.Add(projectSummaryDoc);
+            // }
+
+            // foreach (ProjectInterviewInputDTOForPostProject file in projectInputDTO.ProjectInterviews)
+            // {
+            //     ProjectInterview projectInterview = new ProjectInterview();
+            //     projectInterview.DocumentNavigation = new Document();
+
+            //     projectInterview.IdProjectNavigation = project;
+            //     projectInterview.DocumentNavigation.Label = file.Name;
+            //     projectInterview.DocumentNavigation.Link = file.Url;
+            //     projectInterview.DocumentNavigation.DocumentStorage = file.DocumentStorage;
+            //     project.ProjectInterviews.Add(projectInterview);
+            // }
 
             _projectServices.add(project);
 

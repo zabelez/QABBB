@@ -2,8 +2,7 @@ using QABBB.API.Models.Company;
 using QABBB.API.Models.Platform;
 using QABBB.API.Models.Project;
 using QABBB.API.Models.ProjectDeveloper;
-using QABBB.API.Models.ProjectFile;
-using QABBB.API.Models.ProjectForm;
+using QABBB.API.Models.Link;
 using QABBB.API.Models.ProjectPlatform;
 using QABBB.API.Models.ProjectPublisher;
 using QABBB.Domain.Services;
@@ -14,12 +13,9 @@ namespace QABBB.API.Assemblers
     public class ProjectAssembler
     {
         
-        ProjectFileAssembler projectFileAssembler = new ProjectFileAssembler();
-        ProjectFormAssembler projectFormAssembler = new ProjectFormAssembler();
-        ProjectSummaryDocAssembler projectSummaryDocAssembler = new ProjectSummaryDocAssembler();
+        LinkAssembler LinkAssembler = new LinkAssembler();
         ProjectPlatformAssembler projectPlatformAssembler = new ProjectPlatformAssembler();
-        ProjectInterviewAssembler projectInterviewAssembler = new ProjectInterviewAssembler();
-
+        
         public ProjectForUserDTO toProjectForUserDTO(Project project) {
 
             CompanyAssembler companyAssembler = new CompanyAssembler();
@@ -97,6 +93,7 @@ namespace QABBB.API.Assemblers
         {
             ProjectDeveloperAssembler pdAssembler = new ProjectDeveloperAssembler();
             ProjectPublisherAssembler ppAssembler = new ProjectPublisherAssembler();
+            DocumentAssembler docAssembler = new DocumentAssembler();
             CompanyAssembler companyAssembler = new CompanyAssembler();
 
             ProjectFullDTO projectFullDTO = new ProjectFullDTO();
@@ -119,24 +116,14 @@ namespace QABBB.API.Assemblers
                 projectFullDTO.Publishers.Add(ppAssembler.toProjectPublisherDTOForProject(projectPublisher));
             }
 
-            foreach (ProjectFile item in project.ProjectFiles)
+            foreach (Link item in project.Links)
             {
-                projectFullDTO.ProjectFiles.Add(projectFileAssembler.toProjectFileDTO(item));
+                projectFullDTO.Links.Add(LinkAssembler.toLinkDTO(item));
             }
             
-            foreach (ProjectForm item in project.ProjectForms)
+            foreach (Document item in project.Documents)
             {
-                projectFullDTO.ProjectForms.Add(projectFormAssembler.toProjectFormDTO(item));
-            }
-            
-            foreach (ProjectSummaryDoc item in project.ProjectSummaryDocs)
-            {
-                projectFullDTO.ProjectSummaryDocs.Add(projectSummaryDocAssembler.toProjectSummaryDocDTO(item));
-            }
-
-            foreach (ProjectInterview item in project.ProjectInterviews)
-            {
-                projectFullDTO.ProjectInterviews.Add(projectInterviewAssembler.toProjectInterviewDTO(item));
+                projectFullDTO.Documents.Add(docAssembler.toDocumentDTO(item));
             }
             
             return projectFullDTO;

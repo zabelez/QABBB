@@ -1,11 +1,8 @@
-using System.ComponentModel.DataAnnotations;
+using QABBB.API.Models.Document;
 using QABBB.API.Models.ProjectDeveloper;
-using QABBB.API.Models.ProjectFile;
-using QABBB.API.Models.ProjectForm;
-using QABBB.API.Models.ProjectInterview;
+using QABBB.API.Models.Link;
 using QABBB.API.Models.ProjectPlatform;
 using QABBB.API.Models.ProjectPublisher;
-using QABBB.API.Models.ProjectSummaryDoc;
 
 namespace QABBB.API.Models.Project
 {
@@ -20,11 +17,9 @@ namespace QABBB.API.Models.Project
         public string? SpreadsheetUrl { get; set; }
         public List<ProjectDeveloperInputDTOForPutProject> Developers { get; set; } = new List<ProjectDeveloperInputDTOForPutProject>()!;
         public List<ProjectPublisherInputDTOForPutProject> Publishers { get; set; } = new List<ProjectPublisherInputDTOForPutProject>()!;
-        public List<ProjectFileInputDTOForPutProject>? ProjectFiles { get; set; } = new List<ProjectFileInputDTOForPutProject>()!;
-        public List<ProjectFormInputDTOForPutProject>? ProjectForms { get; set; } = new List<ProjectFormInputDTOForPutProject>()!;
+        public List<LinkInputDTOForPutProject>? Links { get; set; } = new List<LinkInputDTOForPutProject>()!;
         public List<ProjectPlatformInputDTOForPutProject>? ProjectPlatforms { get; set; } = new List<ProjectPlatformInputDTOForPutProject>()!;
-        public List<ProjectSummaryDocInputDTOForPutProject>? ProjectSummaryDocs { get; set; } = new List<ProjectSummaryDocInputDTOForPutProject>()!;
-        public List<ProjectInterviewInputDTOForPutProject>? ProjectInterviews { get; set; } = new List<ProjectInterviewInputDTOForPutProject>()!;
+        public List<DocumentInputDTOForPutProject>? Documents { get; set; } = new List<DocumentInputDTOForPutProject>()!;
         
     }
 }

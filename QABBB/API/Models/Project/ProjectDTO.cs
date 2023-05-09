@@ -1,10 +1,4 @@
-using System.ComponentModel.DataAnnotations;
 using QABBB.API.Models.Company;
-using QABBB.API.Models.Platform;
-using QABBB.API.Models.ProjectFile;
-using QABBB.API.Models.ProjectForm;
-using QABBB.API.Models.Heatmap;
-using QABBB.API.Models.ProjectSummaryDoc;
 using QABBB.API.Models.ProjectPlatform;
 
 namespace QABBB.API.Models.Project

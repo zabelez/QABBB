@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using QABBB.API.Controllers;
 using QABBB.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +39,8 @@ builder.Services.AddAuthentication(opt => {
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("asdfasdfasdfasdfasdf"))
     };
 });
+
+builder.Services.AddHttpClient<DocumentController>();
 
 builder.Services.AddSwaggerGen(setup => {
     // Include 'SecurityScheme' to use JWT Authentication

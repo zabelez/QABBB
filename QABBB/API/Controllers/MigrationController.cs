@@ -62,7 +62,7 @@ namespace QABBB.API.Controllers
         [Route("migration")]
         public ActionResult Migration()
         {
-            String query = "SET FOREIGN_KEY_CHECKS = 0;TRUNCATE TABLE `qabbb`.`admin`;TRUNCATE TABLE `qabbb`.`company`;TRUNCATE TABLE `qabbb`.`companyEmployee`;TRUNCATE TABLE `qabbb`.`companyEmployeePosition`;TRUNCATE TABLE `qabbb`.`emailTemplate`;TRUNCATE TABLE `qabbb`.`heatmap`;TRUNCATE TABLE `qabbb`.`heatmapLayer`;TRUNCATE TABLE `qabbb`.`person`;TRUNCATE TABLE `qabbb`.`platform`;TRUNCATE TABLE `qabbb`.`project`;TRUNCATE TABLE `qabbb`.`projectPlatform`;TRUNCATE TABLE `qabbb`.`projectDeveloper`;TRUNCATE TABLE `qabbb`.`projectFile`;TRUNCATE TABLE `qabbb`.`projectForm`;TRUNCATE TABLE `qabbb`.`projectPublisher`;TRUNCATE TABLE `qabbb`.`projectSummaryDoc`;TRUNCATE TABLE `qabbb`.`user`;TRUNCATE TABLE `qabbb`.`userPlatform`;SET FOREIGN_KEY_CHECKS = 1;INSERT INTO `qabbb`.`companyEmployeePosition` (`name`) VALUES ('Owner');INSERT INTO `qabbb`.`companyEmployeePosition` (`name`) VALUES ('Developer');INSERT INTO `qabbb`.`person` (`personName`, `email`) VALUES ('string', 'user@example.com');INSERT INTO `qabbb`.`user` (`idPerson`, `password`, `isPasswordResetRequired`, `isDarkMode`, `status`) VALUES ('1', '29B6775BAECA015A7EDF18D2780D46C00818103AB6BB278BC37B51C19AF488F21BED4F1349A2EB49501F0EA8EE98E34F5531B84A49123BB8CDEDE31533C6481C', '0', '1', 'Active');INSERT INTO `qabbb`.`admin` (`idUser`, `createdAt`, `createdBy`) VALUES ('1', '2022-11-11 11:11:11', '1');";
+            String query = "SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE `qabbb`.`admin`; TRUNCATE TABLE `qabbb`.`company`; TRUNCATE TABLE `qabbb`.`companyEmployee`; TRUNCATE TABLE `qabbb`.`companyEmployeePosition`; TRUNCATE TABLE `qabbb`.`emailTemplate`; TRUNCATE TABLE `qabbb`.`document`; TRUNCATE TABLE `qabbb`.`documentType`; TRUNCATE TABLE `qabbb`.`documentStorage`; TRUNCATE TABLE `qabbb`.`heatmap`; TRUNCATE TABLE `qabbb`.`heatmapLayer`; TRUNCATE TABLE `qabbb`.`person`; TRUNCATE TABLE `qabbb`.`platform`; TRUNCATE TABLE `qabbb`.`project`; TRUNCATE TABLE `qabbb`.`projectPublisher`; TRUNCATE TABLE `qabbb`.`projectDeveloper`; TRUNCATE TABLE `qabbb`.`link`; TRUNCATE TABLE `qabbb`.`linkType`; TRUNCATE TABLE `qabbb`.`user`; TRUNCATE TABLE `qabbb`.`userPlatform`; SET FOREIGN_KEY_CHECKS = 1; INSERT INTO `qabbb`.`linkType` (`name`) VALUES ('Project Form'); INSERT INTO `qabbb`.`linkType` (`name`) VALUES ('Project Summary Doc'); INSERT INTO `qabbb`.`documentType` (`name`) VALUES ('Project File'); INSERT INTO `qabbb`.`documentStorage` (`name`) VALUES ('SharePoint'); INSERT INTO `qabbb`.`companyEmployeePosition` (`name`) VALUES ('Owner'); INSERT INTO `qabbb`.`companyEmployeePosition` (`name`) VALUES ('Developer'); INSERT INTO `qabbb`.`person` (`personName`, `email`) VALUES ('string', 'user@example.com'); INSERT INTO `qabbb`.`user` ( `idPerson`, `password`, `isPasswordResetRequired`, `isDarkMode`, `status` ) VALUES ( '1', '29B6775BAECA015A7EDF18D2780D46C00818103AB6BB278BC37B51C19AF488F21BED4F1349A2EB49501F0EA8EE98E34F5531B84A49123BB8CDEDE31533C6481C', '0', '1', 'Active' ); INSERT INTO `qabbb`.`admin` ( `idUser`, `createdAt`, `createdBy` ) VALUES ('1', '2022-11-11 11:11:11', '1');";
 
             _context.Database.ExecuteSqlRaw(query);
 
@@ -238,25 +238,36 @@ namespace QABBB.API.Controllers
                     project.ProjectPlatforms.Add(projectPlatform);
                 }
 
-                foreach (Files item in migrationTest.Value.summaryDocs ?? new List<Files>()) {
-                    ProjectSummaryDoc projectSummaryDoc = new ProjectSummaryDoc();
-                    projectSummaryDoc.Url = item.url == null ? "No name" : item.url;
-                    projectSummaryDoc.Label = item.label == null ? "No name" : item.label;
-                    project.ProjectSummaryDocs.Add(projectSummaryDoc);
-                }
-
                 foreach (Files2 item in migrationTest.Value.uploadedFiles ?? new List<Files2>()) {
-                    ProjectFile projectFile = new ProjectFile();
-                    projectFile.Url = item.url == null ? "No name" : item.url;
-                    projectFile.Name = item.name == null ? "No name" : item.name;
-                    project.ProjectFiles.Add(projectFile);
+                    Document document = new Document();
+
+                    document.Uuid = Guid.NewGuid().ToString();
+                    document.IdDocumentStorage = 1;
+                    document.IdDocumentType = 1;
+                    document.Label = item.name == null ? "No name" : item.name;
+                    document.Url = item.url == null ? "No name" : item.url;
+
+                    project.Documents.Add(document);
                 }
                 
                 foreach (Files item in migrationTest.Value.forms ?? new List<Files>()) {
-                    ProjectForm projectForm = new ProjectForm();
-                    projectForm.Url = item.url == null ? "No name" : item.url;
-                    projectForm.Name = item.label == null ? "No name" : item.label;
-                    project.ProjectForms.Add(projectForm);
+                    Link link = new Link();
+
+                    link.IdLinkType = 1;
+                    link.Label = item.label == null ? "No name" : item.label;
+                    link.Url = item.url == null ? "No name" : item.url;
+
+                    project.Links.Add(link);
+                }
+
+                foreach (Files item in migrationTest.Value.summaryDocs ?? new List<Files>()) {
+                    Link link = new Link();
+
+                    link.IdLinkType = 2;
+                    link.Label = item.label == null ? "No name" : item.label;
+                    link.Url = item.url == null ? "No name" : item.url;
+                    
+                    project.Links.Add(link);
                 }
                 
                 projectServices.add(project);

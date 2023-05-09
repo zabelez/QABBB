@@ -39,9 +39,12 @@ namespace QABBB.Domain.Repositories
 
         public Project? findById(int id) {
             return _context.Projects
-                .Include(pfiles => pfiles.ProjectFiles)
-                .Include(pforms => pforms.ProjectForms)
-                .Include(psummary => psummary.ProjectSummaryDocs)
+                .Include(pdocs => pdocs.Documents)
+                    .ThenInclude(pdoc => pdoc.IdDocumentStorageNavigation)
+                .Include(pdocs => pdocs.Documents)
+                    .ThenInclude(pdoc => pdoc.IdDocumentTypeNavigation)
+                .Include(pdocs => pdocs.Links)
+                    .ThenInclude(pdoc => pdoc.IdLinkTypeNavigation)
                 .Include(pp => pp.ProjectPlatforms)
                     .ThenInclude(p => p.IdPlatformNavigation)
                 .Include(pg => pg.ProjectDevelopers)
@@ -53,9 +56,17 @@ namespace QABBB.Domain.Repositories
                     .ThenInclude(dev => dev.IdCompanyNavigation)
                         .ThenInclude(com => com.CompanyEmployees)
                             .ThenInclude(pos => pos.IdPositionNavigation)
-                            
+
                 .Include(pg => pg.ProjectPublishers)
-                    .ThenInclude(pub => pub.IdCompanyNavigation)
+                    .ThenInclude(dev => dev.IdCompanyNavigation)
+                        .ThenInclude(com => com.CompanyEmployees)
+                            .ThenInclude(per => per.IdPersonNavigation)
+                                .ThenInclude(x => x.IdPersonNavigation)
+                .Include(pg => pg.ProjectPublishers)
+                    .ThenInclude(dev => dev.IdCompanyNavigation)
+                        .ThenInclude(com => com.CompanyEmployees)
+                            .ThenInclude(pos => pos.IdPositionNavigation)
+                        
                 .Where(w => w.IdProject == id)
                 .FirstOrDefault();
         }

@@ -24,33 +24,29 @@ namespace QABBB.Domain.Services
             return _projectRepository.findById(id);
         }
 
-        public bool add(Project projectform) {
-            return _projectRepository.add(projectform) ? true : false;
+        public bool add(Project link) {
+            return _projectRepository.add(link) ? true : false;
         }
 
         public bool edit(Project project, ProjectEditDTO projectEditDTO){
 
             ProjectDeveloperServices projectDeveloperServices = new ProjectDeveloperServices(_context);
             ProjectPublisherServices projectPublisherServices = new ProjectPublisherServices(_context);
-            ProjectFileServices projectFileServices = new ProjectFileServices(_context);
-            ProjectFormServices projectFormServices = new ProjectFormServices(_context);
+            LinkServices linkServices = new LinkServices(_context);
             ProjectPlatformServices projectPlatformServices = new ProjectPlatformServices(_context);
-            ProjectSummaryDocServices projectSummaryDocServices = new ProjectSummaryDocServices(_context);
-            ProjectInterviewServices projectInterviewServices = new ProjectInterviewServices(_context);
+            DocumentServices documentServices = new DocumentServices(_context);
             
             projectDeveloperServices.editProject(project.ProjectDevelopers, projectEditDTO.Developers);
             projectPublisherServices.editProject(project.ProjectPublishers, projectEditDTO.Publishers);
-            projectFileServices.editProject(project.ProjectFiles, projectEditDTO.ProjectFiles);
-            projectFormServices.editProject(project.ProjectForms, projectEditDTO.ProjectForms);
             projectPlatformServices.editProject(project.ProjectPlatforms, projectEditDTO.ProjectPlatforms);
-            projectSummaryDocServices.editProject(project.ProjectSummaryDocs, projectEditDTO.ProjectSummaryDocs);
-            projectInterviewServices.editProject(project.ProjectInterviews, projectEditDTO.ProjectInterviews);
+            documentServices.editProject(project.Documents, projectEditDTO.Documents);
+            linkServices.editProject(project.Links, projectEditDTO.Links);
 
             return _projectRepository.edit(project);
         }
 
-        public bool delete(Project projectform){
-            return _projectRepository.delete(projectform);
+        public bool delete(Project link){
+            return _projectRepository.delete(link);
         }
 
         public List<Project> listByUser(int id) {

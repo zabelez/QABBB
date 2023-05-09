@@ -21,20 +21,21 @@ namespace QABBB.Data
         public virtual DbSet<Company> Companies { get; set; } = null!;
         public virtual DbSet<CompanyEmployee> CompanyEmployees { get; set; } = null!;
         public virtual DbSet<CompanyEmployeePosition> CompanyEmployeePositions { get; set; } = null!;
+        public virtual DbSet<Document> Documents { get; set; } = null!;
+        public virtual DbSet<DocumentStorage> DocumentStorages { get; set; } = null!;
+        public virtual DbSet<DocumentType> DocumentTypes { get; set; } = null!;
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; } = null!;
         public virtual DbSet<Heatmap> Heatmaps { get; set; } = null!;
         public virtual DbSet<HeatmapLayer> HeatmapLayers { get; set; } = null!;
+        public virtual DbSet<Link> Links { get; set; } = null!;
+        public virtual DbSet<LinkType> LinkTypes { get; set; } = null!;
         public virtual DbSet<Log> Logs { get; set; } = null!;
         public virtual DbSet<Person> People { get; set; } = null!;
         public virtual DbSet<Platform> Platforms { get; set; } = null!;
         public virtual DbSet<Project> Projects { get; set; } = null!;
         public virtual DbSet<ProjectDeveloper> ProjectDevelopers { get; set; } = null!;
-        public virtual DbSet<ProjectFile> ProjectFiles { get; set; } = null!;
-        public virtual DbSet<ProjectForm> ProjectForms { get; set; } = null!;
-        public virtual DbSet<ProjectInterview> ProjectInterviews { get; set; } = null!;
         public virtual DbSet<ProjectPlatform> ProjectPlatforms { get; set; } = null!;
         public virtual DbSet<ProjectPublisher> ProjectPublishers { get; set; } = null!;
-        public virtual DbSet<ProjectSummaryDoc> ProjectSummaryDocs { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserPlatform> UserPlatforms { get; set; } = null!;
 
@@ -196,6 +197,81 @@ namespace QABBB.Data
                     .HasColumnName("name");
             });
 
+            modelBuilder.Entity<Document>(entity =>
+            {
+                entity.HasKey(e => e.IdDocument)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("document");
+
+                entity.HasIndex(e => e.IdDocumentType, "document_FK2_idx");
+
+                entity.HasIndex(e => e.IdProject, "document_FK3_idx");
+
+                entity.HasIndex(e => e.IdDocumentStorage, "file_FK1_idx");
+
+                entity.Property(e => e.IdDocument).HasColumnName("idDocument");
+
+                entity.Property(e => e.IdDocumentStorage).HasColumnName("idDocumentStorage");
+
+                entity.Property(e => e.IdDocumentType).HasColumnName("idDocumentType");
+
+                entity.Property(e => e.IdProject).HasColumnName("idProject");
+
+                entity.Property(e => e.Label)
+                    .HasMaxLength(100)
+                    .HasColumnName("label");
+
+                entity.Property(e => e.Url).HasColumnName("url");
+
+                entity.Property(e => e.Uuid)
+                    .HasMaxLength(36)
+                    .HasColumnName("uuid");
+
+                entity.HasOne(d => d.IdDocumentStorageNavigation)
+                    .WithMany(p => p.Documents)
+                    .HasForeignKey(d => d.IdDocumentStorage)
+                    .HasConstraintName("document_FK1");
+
+                entity.HasOne(d => d.IdDocumentTypeNavigation)
+                    .WithMany(p => p.Documents)
+                    .HasForeignKey(d => d.IdDocumentType)
+                    .HasConstraintName("document_FK2");
+
+                entity.HasOne(d => d.IdProjectNavigation)
+                    .WithMany(p => p.Documents)
+                    .HasForeignKey(d => d.IdProject)
+                    .HasConstraintName("document_FK3");
+            });
+
+            modelBuilder.Entity<DocumentStorage>(entity =>
+            {
+                entity.HasKey(e => e.IdDocumentStorage)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("documentStorage");
+
+                entity.Property(e => e.IdDocumentStorage).HasColumnName("idDocumentStorage");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(45)
+                    .HasColumnName("name");
+            });
+
+            modelBuilder.Entity<DocumentType>(entity =>
+            {
+                entity.HasKey(e => e.IdDocumentType)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("documentType");
+
+                entity.Property(e => e.IdDocumentType).HasColumnName("idDocumentType");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(45)
+                    .HasColumnName("name");
+            });
+
             modelBuilder.Entity<EmailTemplate>(entity =>
             {
                 entity.HasKey(e => e.IdEmailTemplate)
@@ -270,6 +346,54 @@ namespace QABBB.Data
                     .HasForeignKey(d => d.IdHeatmap)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("heatmapLayerFK1");
+            });
+
+            modelBuilder.Entity<Link>(entity =>
+            {
+                entity.HasKey(e => e.IdLink)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("link");
+
+                entity.HasIndex(e => e.IdLinkType, "link_FK2_idx");
+
+                entity.HasIndex(e => e.IdProject, "link_FK1_idx");
+
+                entity.Property(e => e.IdLink).HasColumnName("idLink");
+
+                entity.Property(e => e.IdLinkType).HasColumnName("idLinkType");
+
+                entity.Property(e => e.IdProject).HasColumnName("idProject");
+
+                entity.Property(e => e.Label)
+                    .HasMaxLength(200)
+                    .HasColumnName("label");
+
+                entity.Property(e => e.Url).HasColumnName("url");
+
+                entity.HasOne(d => d.IdLinkTypeNavigation)
+                    .WithMany(p => p.Links)
+                    .HasForeignKey(d => d.IdLinkType)
+                    .HasConstraintName("link_FK2");
+
+                entity.HasOne(d => d.IdProjectNavigation)
+                    .WithMany(p => p.Links)
+                    .HasForeignKey(d => d.IdProject)
+                    .HasConstraintName("link_FK1");
+            });
+
+            modelBuilder.Entity<LinkType>(entity =>
+            {
+                entity.HasKey(e => e.IdLinkType)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("linkType");
+
+                entity.Property(e => e.IdLinkType).HasColumnName("idLinkType");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(45)
+                    .HasColumnName("name");
             });
 
             modelBuilder.Entity<Log>(entity =>
@@ -392,82 +516,6 @@ namespace QABBB.Data
                     .HasConstraintName("projectDeveloper_FK1");
             });
 
-            modelBuilder.Entity<ProjectFile>(entity =>
-            {
-                entity.HasKey(e => e.IdProjectFile)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("projectFile");
-
-                entity.HasIndex(e => e.IdProject, "projectFile_FK1_idx");
-
-                entity.Property(e => e.IdProjectFile).HasColumnName("idProjectFile");
-
-                entity.Property(e => e.IdProject).HasColumnName("idProject");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(100)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Url).HasColumnName("url");
-
-                entity.HasOne(d => d.IdProjectNavigation)
-                    .WithMany(p => p.ProjectFiles)
-                    .HasForeignKey(d => d.IdProject)
-                    .HasConstraintName("projectFile_FK1");
-            });
-
-            modelBuilder.Entity<ProjectForm>(entity =>
-            {
-                entity.HasKey(e => e.IdProjectForm)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("projectForm");
-
-                entity.HasIndex(e => e.IdProject, "projectForm_FK1_idx");
-
-                entity.Property(e => e.IdProjectForm).HasColumnName("idProjectForm");
-
-                entity.Property(e => e.IdProject).HasColumnName("idProject");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(100)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Url).HasColumnName("url");
-
-                entity.HasOne(d => d.IdProjectNavigation)
-                    .WithMany(p => p.ProjectForms)
-                    .HasForeignKey(d => d.IdProject)
-                    .HasConstraintName("projectForm_FK1");
-            });
-
-            modelBuilder.Entity<ProjectInterview>(entity =>
-            {
-                entity.HasKey(e => e.IdProjectInterview)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("projectInterview");
-
-                entity.HasIndex(e => e.IdProject, "projectInterview_FK1_idx");
-
-                entity.Property(e => e.IdProjectInterview).HasColumnName("idProjectInterview");
-
-                entity.Property(e => e.IdProject).HasColumnName("idProject");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(100)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Url).HasColumnName("url");
-
-                entity.HasOne(d => d.IdProjectNavigation)
-                    .WithMany(p => p.ProjectInterviews)
-                    .HasForeignKey(d => d.IdProject)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("projectInterview_FK1");
-            });
-
             modelBuilder.Entity<ProjectPlatform>(entity =>
             {
                 entity.HasKey(e => e.IdProjectPlatform)
@@ -526,31 +574,6 @@ namespace QABBB.Data
                     .WithMany(p => p.ProjectPublishers)
                     .HasForeignKey(d => d.IdProject)
                     .HasConstraintName("projectPublisher_FK10");
-            });
-
-            modelBuilder.Entity<ProjectSummaryDoc>(entity =>
-            {
-                entity.HasKey(e => e.IdProjectSummaryDoc)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("projectSummaryDoc");
-
-                entity.HasIndex(e => e.IdProject, "projectSummaryDocs_FK1_idx");
-
-                entity.Property(e => e.IdProjectSummaryDoc).HasColumnName("idProjectSummaryDoc");
-
-                entity.Property(e => e.IdProject).HasColumnName("idProject");
-
-                entity.Property(e => e.Label)
-                    .HasMaxLength(45)
-                    .HasColumnName("label");
-
-                entity.Property(e => e.Url).HasColumnName("url");
-
-                entity.HasOne(d => d.IdProjectNavigation)
-                    .WithMany(p => p.ProjectSummaryDocs)
-                    .HasForeignKey(d => d.IdProject)
-                    .HasConstraintName("projectSummaryDoc_FK1");
             });
 
             modelBuilder.Entity<User>(entity =>
